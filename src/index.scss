@@ -1,3 +1,7 @@
+@import "./assets/iconfont/iconfont.css";
+
+$primaryColor: #ff4d4f;
+
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   line-height: 1.5;
@@ -65,5 +69,186 @@ button:focus-visible {
   }
   button {
     background-color: #f9f9f9;
+  }
+}
+
+.w-250px {
+  width: 250px;
+}
+
+.w-300px {
+  width: 300px;
+}
+
+.w-350px {
+  width: 350px;
+}
+
+.w-400px {
+  width: 200px;
+}
+
+.w-450px {
+  width: 200px;
+}
+
+.w-500px {
+  width: 200px;
+}
+
+.mr-5 {
+  margin-right: 5px;
+}
+
+.ml-5 {
+  margin-left: 5px;
+}
+
+.ml-8 {
+  margin-left: 8px;
+}
+
+.mt-10 {
+  margin-top: 10px;
+}
+
+.ml-15 {
+  margin-left: 15px;
+}
+
+.ml-120 {
+  margin-left: 120px;
+}
+
+.ml-16 {
+  margin-left: 16px;
+}
+
+.mr-16 {
+  margin-right: 16px;
+}
+
+.mb-8 {
+  margin-bottom: 8px;
+}
+
+.mb-10 {
+  margin-bottom: 10px;
+}
+
+.mt-24 {
+  margin-top: 24px;
+}
+
+.mb-24 {
+  margin-bottom: 24px;
+}
+
+.mr-24 {
+  margin-right: 24px;
+}
+
+.mb-28 {
+  margin-bottom: 28px;
+}
+
+.mt-50 {
+  margin-top: 50px;
+}
+
+.mb-50 {
+  margin-bottom: 50px;
+}
+
+.helper-text {
+  height: 24px;
+  font-size: 12px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.45);
+  line-height: 24px;
+}
+
+.float-left {
+  width: 100%;
+  height: auto;
+  float: left;
+}
+
+.d-flex {
+  display: flex;
+  align-items: center;
+}
+
+.j-flex {
+  display: flex;
+  justify-content: center;
+}
+
+.d-j-flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.j-r-flex {
+  display: flex;
+  justify-content: right;
+}
+
+.j-b-flex {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.c-flex {
+  display: flex;
+  flex-direction: column;
+}
+
+.c-a-flex {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.primary {
+  color: $primaryColor;
+}
+
+.c-yellow {
+  color: #e1a500;
+}
+
+.c-success {
+  color: #04c877;
+}
+
+.c-green {
+  color: #00cc66;
+}
+
+.c-red {
+  color: $primaryColor;
+}
+
+.login-box {
+  .ant-btn {
+    font-size: 18px !important;
+    font-weight: 500 !important;
+  }
+
+  .ant-input,
+  .ant-input-password {
+    font-weight: 400;
+    font-size: 18px !important;
+    background-color: #f6f6f6;
+    &::placeholder {
+      color: rgba(0, 0, 0, 0.45);
+    }
   }
 }
