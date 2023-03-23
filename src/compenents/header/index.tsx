@@ -9,6 +9,9 @@ export const Header: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const user = useSelector((state: any) => state.loginUser.value.user);
+  const departments = useSelector(
+    (state: any) => state.loginUser.value.departments
+  );
   const config = useSelector((state: any) => state.systemConfig.value);
 
   const onClick: MenuProps["onClick"] = ({ key }) => {
@@ -59,6 +62,11 @@ export const Header: React.FC = () => {
           </Link>
         </div>
         <div className="d-flex">
+          {departments.length > 0 && (
+            <div className={styles["department-name"]}>
+              {departments[0].name}
+            </div>
+          )}
           <Button.Group className={styles["button-group"]}>
             <Dropdown menu={{ items, onClick }} placement="bottomRight">
               <div className="d-flex">
