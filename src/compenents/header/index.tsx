@@ -20,6 +20,8 @@ export const Header: React.FC = () => {
       navigate("/login");
     } else if (key === "change_password") {
       navigate("/change-password");
+    } else if (key === "user_center") {
+      navigate("/user-center");
     }
   };
 
