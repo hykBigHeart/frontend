@@ -2,11 +2,13 @@ import { createSlice } from "@reduxjs/toolkit";
 
 type UserStoreInterface = {
   user: any;
+  departments: any;
   isLogin: boolean;
 };
 
 let defaultValue: UserStoreInterface = {
   user: null,
+  departments: null,
   isLogin: false,
 };
 
@@ -17,11 +19,14 @@ const loginUserSlice = createSlice({
   },
   reducers: {
     loginAction(stage, e) {
+      console.log(e);
       stage.value.user = e.payload.user;
+      stage.value.departments = e.payload.departments;
       stage.value.isLogin = true;
     },
     logoutAction(stage) {
       stage.value.user = null;
+      stage.value.departments = null;
       stage.value.isLogin = false;
     },
   },

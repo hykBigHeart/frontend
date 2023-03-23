@@ -6,7 +6,7 @@ import LoadingPage from "./pages/loading";
 import { user } from "./api/index";
 import { getToken } from "./utils/index";
 import { useDispatch } from "react-redux";
-import { logoutAction } from "./store/user/loginUserSlice";
+import { loginAction } from "./store/user/loginUserSlice";
 
 function App() {
   const Views = () => useRoutes(routes);
@@ -14,7 +14,7 @@ function App() {
   const getUser = () => {
     user.detail().then((res: any) => {
       const data = res.data;
-      dispatch(logoutAction(data.user));
+      dispatch(loginAction(data));
     });
   };
   if (getToken()) {
