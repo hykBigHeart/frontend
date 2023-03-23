@@ -80,7 +80,7 @@ const LoginPage: React.FC = () => {
   const getUser = () => {
     user.detail().then((res: any) => {
       const data = res.data;
-      dispatch(logoutAction(data.user));
+      dispatch(loginAction(data.user));
       setLoading(false);
       navigate("/");
     });
