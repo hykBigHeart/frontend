@@ -19,7 +19,6 @@ const loginUserSlice = createSlice({
   },
   reducers: {
     loginAction(stage, e) {
-      console.log(e);
       stage.value.user = e.payload.user;
       stage.value.departments = e.payload.departments;
       stage.value.isLogin = true;
