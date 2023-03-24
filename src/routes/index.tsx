@@ -32,7 +32,6 @@ const Init = lazy(async () => {
 // 懒加载
 const LoginPage = lazy(() => import("../pages/login"));
 const IndexPage = lazy(() => import("../pages/index"));
-const ChangePasswordPage = lazy(() => import("../pages/change-password"));
 
 const routes: RouteObject[] = [
   {
@@ -46,10 +45,6 @@ const routes: RouteObject[] = [
       {
         path: "/login",
         element: <LoginPage />,
-      },
-      {
-        path: "/change-password",
-        element: <ChangePasswordPage />,
       },
     ],
   },

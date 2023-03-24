@@ -3,7 +3,7 @@ import { Row, Col, Empty, Spin, Tabs } from "antd";
 import type { TabsProps } from "antd";
 import { user } from "../../api/index";
 import styles from "./index.module.scss";
-import { AnyIfEmpty, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import { CoursesModel } from "./compenents/courses-model";
 import myLesoon from "../../assets/images/commen/icon-mylesoon.png";
 import studyTime from "../../assets/images/commen/icon-studytime.png";

@@ -6,7 +6,7 @@ export function detail() {
 
 // 修改密码
 export function password(oldPassword: string, newPassword: string) {
-  return client.put("/api/v1/user/avatar", {
+  return client.put("/api/v1/user/password", {
     old_password: oldPassword,
     new_password: newPassword,
   });

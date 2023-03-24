@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./index.module.scss";
 import { Button, Dropdown, MenuProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutAction } from "../../store/user/loginUserSlice";
+import { ChangePasswordModel } from "../change-password";
 
 export const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -14,12 +15,15 @@ export const Header: React.FC = () => {
   );
   const config = useSelector((state: any) => state.systemConfig.value);
 
+  const [changePasswordVisiale, setChangePasswordVisiale] =
+    useState<boolean>(false);
+
   const onClick: MenuProps["onClick"] = ({ key }) => {
     if (key === "login_out") {
       dispatch(logoutAction());
       navigate("/login");
     } else if (key === "change_password") {
-      navigate("/change-password");
+      setChangePasswordVisiale(true);
     } else if (key === "user_info") {
       navigate("/user_info");
     }
@@ -82,6 +86,12 @@ export const Header: React.FC = () => {
               </div>
             </Dropdown>
           </Button.Group>
+          <ChangePasswordModel
+            open={changePasswordVisiale}
+            onCancel={() => {
+              setChangePasswordVisiale(false);
+            }}
+          ></ChangePasswordModel>
         </div>
       </div>
     </div>
