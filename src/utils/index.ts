@@ -17,7 +17,7 @@ export function dateFormat(dateStr: string) {
 }
 
 export function studyTimeFormat(dateStr: number) {
-  var d = moment.duration(dateStr, "seconds");
+  var d = moment.duration(dateStr/1000, "seconds");
   let value = [];
   value.push(Math.floor(d.asDays()));
   value.push(d.hours());

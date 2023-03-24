@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Tabs } from "antd";
+import { Row, Col, Empty, Spin, Tabs } from "antd";
 import type { TabsProps } from "antd";
 import { user } from "../../api/index";
 import styles from "./index.module.scss";
@@ -10,6 +10,7 @@ import studyTime from "../../assets/images/commen/icon-studytime.png";
 import { studyTimeFormat } from "../../utils/index";
 
 const IndexPage = () => {
+  const [loading, setLoading] = useState<boolean>(false);
   const [tabKey, setTabKey] = useState(0);
   const [coursesList, setCoursesList] = useState<any>([]);
   const [learnCourseRecords, setLearnCourseRecords] = useState<any>({});
@@ -24,9 +25,11 @@ const IndexPage = () => {
   }, [tabKey]);
 
   const getData = () => {
+    setLoading(true);
     user.courses(departments[0].id).then((res: any) => {
+      const records = res.data.learn_course_records;
       setStats(res.data.stats);
-      setLearnCourseRecords(res.data.learn_course_records);
+      setLearnCourseRecords(records);
       if (tabKey === 0) {
         setCoursesList(res.data.courses);
       } else if (tabKey === 1) {
@@ -45,7 +48,27 @@ const IndexPage = () => {
           }
         });
         setCoursesList(arr);
+      } else if (tabKey === 3) {
+        const arr: any = [];
+        res.data.courses.map((item: any) => {
+          if (records[item.id] && records[item.id].progress === 100) {
+            arr.push(item);
+          }
+        });
+        setCoursesList(arr);
+      } else if (tabKey === 4) {
+        const arr: any = [];
+        res.data.courses.map((item: any) => {
+          if (
+            !records[item.id] ||
+            (records[item.id] && records[item.id].progress !== 100)
+          ) {
+            arr.push(item);
+          }
+        });
+        setCoursesList(arr);
       }
+      setLoading(false);
     });
   };
 
@@ -129,7 +152,10 @@ const IndexPage = () => {
               累计：
               {studyTimeFormat(stats.learn_duration)[0] !== 0 && (
                 <>
-                  <strong> {studyTimeFormat(stats.learn_duration)[0]} </strong>
+                  <strong>
+                    {" "}
+                    {studyTimeFormat(stats.learn_duration || 0)[0]}{" "}
+                  </strong>
                   天
                 </>
               )}
@@ -144,17 +170,38 @@ const IndexPage = () => {
       <div className={styles["tabs"]}>
         <Tabs defaultActiveKey="0" items={items} onChange={onChange} />
       </div>
-      {coursesList.length === 0 && <span>暂无数据</span>}
+      <Row style={{ width: 1200, margin: "0 auto", paddingTop: 14 }}>
+        {loading && (
+          <div className="float-left d-j-flex mt-50">
+            <Spin size="large" />
+          </div>
+        )}
+        {coursesList.length === 0 && (
+          <Col span={24}>
+            <Empty description="暂无课程" />
+          </Col>
+        )}
+      </Row>
       {coursesList.length > 0 && (
         <div className={styles["courses-list"]}>
           {coursesList.map((item: any) => (
             <div key={item.id}>
-              <CoursesModel
-                title={item.title}
-                thumb={item.thumb}
-                isRequired={item.is_required}
-                progress={30}
-              ></CoursesModel>
+              {learnCourseRecords[item.id] && (
+                <CoursesModel
+                  title={item.title}
+                  thumb={item.thumb}
+                  isRequired={item.is_required}
+                  progress={learnCourseRecords[item.id].progress}
+                ></CoursesModel>
+              )}
+              {!learnCourseRecords[item.id] && (
+                <CoursesModel
+                  title={item.title}
+                  thumb={item.thumb}
+                  isRequired={item.is_required}
+                  progress={0}
+                ></CoursesModel>
+              )}
             </div>
           ))}
         </div>
