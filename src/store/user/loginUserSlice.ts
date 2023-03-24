@@ -8,7 +8,7 @@ type UserStoreInterface = {
 
 let defaultValue: UserStoreInterface = {
   user: null,
-  departments: null,
+  departments: [],
   isLogin: false,
 };
 
@@ -25,7 +25,7 @@ const loginUserSlice = createSlice({
     },
     logoutAction(stage) {
       stage.value.user = null;
-      stage.value.departments = null;
+      stage.value.departments = [];
       stage.value.isLogin = false;
     },
   },
