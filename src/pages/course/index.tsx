@@ -92,6 +92,7 @@ const CoursePage = () => {
               <div key={item.id} className={styles["hours-it"]}>
                 <HourCompenent
                   id={item.id}
+                  cid={item.course_id}
                   title={item.title}
                   record={item.rid}
                   duration={item.duration}
@@ -110,6 +111,7 @@ const CoursePage = () => {
                   <div key={it.id} className={styles["hours-it"]}>
                     <HourCompenent
                       id={it.id}
+                      cid={item.course_id}
                       title={it.title}
                       record={it.rid}
                       duration={it.duration}

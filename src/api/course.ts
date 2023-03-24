@@ -7,7 +7,7 @@ export function detail(id: number) {
 
 // 获取播放地址
 export function playUrl(courseId: number, hourId: number) {
-  return client.get(`/api/v1/course/${courseId}/hour/${hourId}`, {});
+  return client.get(`/api/v1/course/${courseId}/hour/${hourId}/play`, {});
 }
 
 // 记录学员观看时长

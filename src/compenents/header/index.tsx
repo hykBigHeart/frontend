@@ -93,12 +93,14 @@ export const Header: React.FC = () => {
             <Dropdown menu={{ items, onClick }} placement="bottomRight">
               <div className="d-flex">
                 {user && user.name && (
-                  <img
-                    style={{ width: 36, height: 36, borderRadius: "50%" }}
-                    src={user.avatar}
-                  />
+                  <>
+                    <img
+                      style={{ width: 36, height: 36, borderRadius: "50%" }}
+                      src={user.avatar}
+                    />
+                    <span className="ml-8 c-admin">{user.name}</span>
+                  </>
                 )}
-                <span className="ml-8 c-admin">{user.name}</span>
               </div>
             </Dropdown>
           </Button.Group>

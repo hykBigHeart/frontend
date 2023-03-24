@@ -5,9 +5,11 @@ import styles from "./hour.module.scss";
 import mediaIcon from "../../../assets/images/commen/icon-medal.png";
 import { Navigate } from "react-router-dom";
 import { durationFormat } from "../../../utils/index";
+import { VideoModel } from "./video";
 
 interface PropInterface {
   id: number;
+  cid: number;
   title: string;
   duration: number;
   record: any;
@@ -16,14 +18,23 @@ interface PropInterface {
 
 export const HourCompenent: React.FC<PropInterface> = ({
   id,
+  cid,
   title,
   duration,
   record,
   progress,
 }) => {
   const navigate = useNavigate();
+  const [visible, setVisible] = useState<boolean>(false);
   return (
     <div className={styles["item"]}>
+      <VideoModel
+        cid={cid}
+        id={id}
+        title={title}
+        open={visible}
+        onCancel={() => setVisible(false)}
+      ></VideoModel>
       <div className={styles["left-item"]}>
         <i className="iconfont icon-icon-video"></i>
         <div className={styles["title"]}>
@@ -37,7 +48,7 @@ export const HourCompenent: React.FC<PropInterface> = ({
               <div
                 className={styles["link"]}
                 onClick={() => {
-                  navigate(`/course/play/${id}`);
+                  setVisible(true);
                 }}
               >
                 开始学习
@@ -51,7 +62,7 @@ export const HourCompenent: React.FC<PropInterface> = ({
                 <div
                   className={styles["link"]}
                   onClick={() => {
-                    navigate(`/course/play/${id}`);
+                    setVisible(true);
                   }}
                 >
                   继续学习
