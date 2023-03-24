@@ -39,6 +39,36 @@
       height: 24px;
       display: flex;
       align-items: center;
+      .info-item {
+        width: 216px;
+        text-align: left;
+        font-size: 16px;
+        font-weight: 600;
+        color: rgba(0, 0, 0, 0.45);
+        line-height: 24px;
+        strong {
+          font-size: 20px;
+          color: rgba(0, 0, 0, 0.88);
+        }
+      }
     }
   }
+}
+.tabs {
+  width: 1200px;
+  height: auto;
+  margin: 0 auto;
+  margin-top: 50px;
+}
+
+.courses-list {
+  width: 1200px;
+  height: auto;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding-top: 14px;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  position: relative;
 }

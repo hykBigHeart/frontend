@@ -20,15 +20,15 @@ export const Header: React.FC = () => {
       navigate("/login");
     } else if (key === "change_password") {
       navigate("/change-password");
-    } else if (key === "user_center") {
-      navigate("/user-center");
+    } else if (key === "user_info") {
+      navigate("/user_info");
     }
   };
 
   const items: MenuProps["items"] = [
     {
-      label: "个人中心",
-      key: "user_center",
+      label: "个人信息",
+      key: "user_info",
       icon: (
         <i className="iconfont icon-icon-12 c-red" style={{ fontSize: 16 }} />
       ),
