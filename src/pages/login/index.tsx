@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { loginAction, logoutAction } from "../../store/user/loginUserSlice";
 import { login, system, user } from "../../api/index";
 import { setToken } from "../../utils/index";
-import { Footer, NoHeader } from "../../compenents";
+import { Footer } from "../../compenents";
 
 const LoginPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -89,7 +89,6 @@ const LoginPage: React.FC = () => {
   return (
     <div className={styles["login-content"]}>
       <div className={styles["top-content"]}>
-        <NoHeader></NoHeader>
         <div className={styles["title"]}>学员登录</div>
         <div className={styles["login-box"]}>
           <div className={styles["left-box"]}>
