@@ -33,9 +33,6 @@ export const HourCompenent: React.FC<PropInterface> = ({
       <div className="d-flex">
         {progress >= 0 && progress < 100 && (
           <>
-            <div className={styles["record"]}>
-              上次学习到{durationFormat(Number(duration))}
-            </div>
             {progress === 0 && (
               <div
                 className={styles["link"]}
@@ -47,14 +44,19 @@ export const HourCompenent: React.FC<PropInterface> = ({
               </div>
             )}
             {progress !== 0 && (
-              <div
-                className={styles["link"]}
-                onClick={() => {
-                  navigate(`/course/play/${id}`);
-                }}
-              >
-                继续学习
-              </div>
+              <>
+                <div className={styles["record"]}>
+                  上次学习到{durationFormat(Number(duration))}
+                </div>
+                <div
+                  className={styles["link"]}
+                  onClick={() => {
+                    navigate(`/course/play/${id}`);
+                  }}
+                >
+                  继续学习
+                </div>
+              </>
             )}
           </>
         )}
