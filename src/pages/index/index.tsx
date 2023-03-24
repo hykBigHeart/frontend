@@ -7,10 +7,13 @@ import { AnyIfEmpty, useSelector } from "react-redux";
 import { CoursesModel } from "./compenents/courses-model";
 import myLesoon from "../../assets/images/commen/icon-mylesoon.png";
 import studyTime from "../../assets/images/commen/icon-studytime.png";
+import { studyTimeFormat } from "../../utils/index";
 
 const IndexPage = () => {
   const [tabKey, setTabKey] = useState(0);
   const [coursesList, setCoursesList] = useState<any>([]);
+  const [learnCourseRecords, setLearnCourseRecords] = useState<any>({});
+  const [stats, setStats] = useState<any>({});
 
   const departments = useSelector(
     (state: any) => state.loginUser.value.departments
@@ -18,12 +21,31 @@ const IndexPage = () => {
 
   useEffect(() => {
     getData();
-  }, [departments]);
+  }, [tabKey]);
 
   const getData = () => {
     user.courses(departments[0].id).then((res: any) => {
-      setCoursesList(res.data.courses);
-      console.log(res.data.courses);
+      setStats(res.data.stats);
+      setLearnCourseRecords(res.data.learn_course_records);
+      if (tabKey === 0) {
+        setCoursesList(res.data.courses);
+      } else if (tabKey === 1) {
+        const arr: any = [];
+        res.data.courses.map((item: any) => {
+          if (item.is_required === 1) {
+            arr.push(item);
+          }
+        });
+        setCoursesList(arr);
+      } else if (tabKey === 2) {
+        const arr: any = [];
+        res.data.courses.map((item: any) => {
+          if (item.is_required === 0) {
+            arr.push(item);
+          }
+        });
+        setCoursesList(arr);
+      }
     });
   };
 
@@ -64,10 +86,14 @@ const IndexPage = () => {
           </div>
           <div className={styles["info"]}>
             <div className={styles["info-item"]}>
-              必修课：已完成 <strong>3 </strong>/ 10
+              <span>必修课：已完成</span>
+              <strong> {stats.required_finished_hour_count} </strong>
+              <span>/ {stats.required_hour_count}</span>
             </div>
             <div className={styles["info-item"]}>
-              选修课：已完成 <strong>3 </strong>/ 10
+              <span>选修课：已完成</span>
+              <strong> {stats.nun_required_finished_hour_count} </strong>
+              <span>/ {stats.nun_required_hour_count}</span>
             </div>
           </div>
         </div>
@@ -78,10 +104,39 @@ const IndexPage = () => {
           </div>
           <div className={styles["info"]}>
             <div className={styles["info-item"]}>
-              今日：<strong>1</strong> 小时 <strong>23</strong> 分钟
+              今日：
+              {studyTimeFormat(stats.today_learn_duration)[0] !== 0 && (
+                <>
+                  <strong>
+                    {" "}
+                    {studyTimeFormat(stats.today_learn_duration)[0]}{" "}
+                  </strong>
+                  天
+                </>
+              )}
+              <strong>
+                {" "}
+                {studyTimeFormat(stats.today_learn_duration)[1]}{" "}
+              </strong>
+              小时
+              <strong>
+                {" "}
+                {studyTimeFormat(stats.today_learn_duration)[2]}{" "}
+              </strong>
+              分钟
             </div>
             <div className={styles["info-item"]}>
-              累计：<strong>24</strong> 小时 <strong>33</strong> 分钟
+              累计：
+              {studyTimeFormat(stats.learn_duration)[0] !== 0 && (
+                <>
+                  <strong> {studyTimeFormat(stats.learn_duration)[0]} </strong>
+                  天
+                </>
+              )}
+              <strong> {studyTimeFormat(stats.learn_duration || 0)[1]} </strong>
+              小时
+              <strong> {studyTimeFormat(stats.learn_duration || 0)[2]} </strong>
+              分钟
             </div>
           </div>
         </div>
@@ -97,7 +152,7 @@ const IndexPage = () => {
               <CoursesModel
                 title={item.title}
                 thumb={item.thumb}
-                isRequired={item.isRequired}
+                isRequired={item.is_required}
                 progress={30}
               ></CoursesModel>
             </div>

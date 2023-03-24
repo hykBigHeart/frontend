@@ -18,17 +18,10 @@ export function dateFormat(dateStr: string) {
 
 export function studyTimeFormat(dateStr: number) {
   var d = moment.duration(dateStr, "seconds");
-  let value =
-    Math.floor(d.asDays()) + "天" + d.hours() + "时" + d.minutes() + "分";
-
-  if (Math.floor(d.asDays()) === 0) {
-    if (d.hours() === 0) {
-      value = d.minutes() + "分";
-    } else {
-      value = d.hours() + "时" + d.minutes() + "分";
-    }
-  }
-
+  let value = [];
+  value.push(Math.floor(d.asDays()));
+  value.push(d.hours());
+  value.push(d.minutes());
   return value;
 }
 

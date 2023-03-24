@@ -56,6 +56,9 @@
         font-weight: 400;
         color: #ff4d4f;
         line-height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
       .active-type {
         width: 52px;
@@ -66,6 +69,9 @@
         font-weight: 400;
         color: #ff9900;
         line-height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
       }
     }
   }
