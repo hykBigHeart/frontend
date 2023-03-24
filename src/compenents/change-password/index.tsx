@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Modal, Select, Form, Input, message } from "antd";
+import { Modal, Form, Input, message } from "antd";
 import styles from "./index.module.less";
 import { user } from "../../api/index";
 

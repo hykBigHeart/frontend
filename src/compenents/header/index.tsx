@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutAction } from "../../store/user/loginUserSlice";
 import { ChangePasswordModel } from "../change-password";
+import { UserInfoModel } from "../user-info";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 const { confirm } = Modal;
 
@@ -16,9 +17,9 @@ export const Header: React.FC = () => {
     (state: any) => state.loginUser.value.departments
   );
   const config = useSelector((state: any) => state.systemConfig.value);
-
   const [changePasswordVisiale, setChangePasswordVisiale] =
     useState<boolean>(false);
+  const [userInfoVisiale, setUserInfoVisiale] = useState<boolean>(false);
 
   const onClick: MenuProps["onClick"] = ({ key }) => {
     if (key === "login_out") {
@@ -40,7 +41,7 @@ export const Header: React.FC = () => {
     } else if (key === "change_password") {
       setChangePasswordVisiale(true);
     } else if (key === "user_info") {
-      navigate("/user_info");
+      setUserInfoVisiale(true);
     }
   };
 
@@ -107,6 +108,12 @@ export const Header: React.FC = () => {
               setChangePasswordVisiale(false);
             }}
           ></ChangePasswordModel>
+          <UserInfoModel
+            open={userInfoVisiale}
+            onCancel={() => {
+              setUserInfoVisiale(false);
+            }}
+          ></UserInfoModel>
         </div>
       </div>
     </div>
