@@ -31,7 +31,7 @@ export const VideoModel: React.FC<PropInterface> = ({
   const getVideoUrl = () => {
     course.playUrl(cid, id).then((res: any) => {
       setPlayUrl(res.data.url);
-      initDPlayer(res.data.url, 1);
+      initDPlayer(res.data.url, 0);
     });
   };
 
