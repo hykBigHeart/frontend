@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import styles from "./index.module.scss";
-import { Button, Dropdown, MenuProps } from "antd";
+import { Modal, Button, Dropdown, MenuProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutAction } from "../../store/user/loginUserSlice";
 import { ChangePasswordModel } from "../change-password";
+import { ExclamationCircleFilled } from "@ant-design/icons";
+const { confirm } = Modal;
 
 export const Header: React.FC = () => {
   const dispatch = useDispatch();
@@ -20,8 +22,21 @@ export const Header: React.FC = () => {
 
   const onClick: MenuProps["onClick"] = ({ key }) => {
     if (key === "login_out") {
-      dispatch(logoutAction());
-      navigate("/login");
+      confirm({
+        title: "操作确认",
+        icon: <ExclamationCircleFilled />,
+        content: "确认退出登录？",
+        centered: true,
+        okText: "确认",
+        cancelText: "取消",
+        onOk() {
+          dispatch(logoutAction());
+          navigate("/login");
+        },
+        onCancel() {
+          console.log("Cancel");
+        },
+      });
     } else if (key === "change_password") {
       setChangePasswordVisiale(true);
     } else if (key === "user_info") {
