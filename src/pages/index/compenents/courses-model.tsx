@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { Image, Progress } from "antd";
+import { useNavigate } from "react-router-dom";
 import styles from "./courses-model.module.scss";
 import mediaIcon from "../../../assets/images/commen/icon-medal.png";
+import { Navigate } from "react-router-dom";
 
 interface PropInterface {
+  id: number;
   title: string;
   thumb: string;
   isRequired: number;
@@ -11,13 +14,20 @@ interface PropInterface {
 }
 
 export const CoursesModel: React.FC<PropInterface> = ({
+  id,
   title,
   thumb,
   isRequired,
   progress,
 }) => {
+  const navigate = useNavigate();
   return (
-    <div className={styles["item"]}>
+    <div
+      className={styles["item"]}
+      onClick={() => {
+        navigate(`/course/${id}`);
+      }}
+    >
       <div className={styles["top-content"]}>
         <Image
           width={120}

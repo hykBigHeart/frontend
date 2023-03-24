@@ -9,6 +9,7 @@ export const Footer: React.FC = () => {
         backgroundColor: "#333333",
         height: 90,
         textAlign: "center",
+        marginTop: 80,
       }}
     >
       <i

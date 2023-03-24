@@ -188,6 +188,7 @@ const IndexPage = () => {
             <div key={item.id}>
               {learnCourseRecords[item.id] && (
                 <CoursesModel
+                  id={item.id}
                   title={item.title}
                   thumb={item.thumb}
                   isRequired={item.is_required}
@@ -196,6 +197,7 @@ const IndexPage = () => {
               )}
               {!learnCourseRecords[item.id] && (
                 <CoursesModel
+                  id={item.id}
                   title={item.title}
                   thumb={item.thumb}
                   isRequired={item.is_required}

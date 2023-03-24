@@ -1,13 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-type UserInterface = {
-  id: number;
-  name: string;
-  email: string;
-  avatar: string;
-};
 type UserStoreInterface = {
-  user: UserInterface | null;
+  user: null;
   departments: string[];
   isLogin: boolean;
 };

@@ -217,6 +217,13 @@ h1 {
   color: $primaryColor;
 }
 
+.container {
+  width: 1200px;
+  min-height: 671px;
+  height: auto;
+  margin: 0 auto;
+}
+
 .login-box {
   .ant-btn {
     font-size: 18px !important;
@@ -247,6 +254,9 @@ h1 {
 
 .ant-progress {
   margin-bottom: 0px;
+  .ant-progress-text {
+    color: #ff4d4f !important;
+  }
 }
 
 .ant-modal-confirm-btns > .ant-btn-default:hover {

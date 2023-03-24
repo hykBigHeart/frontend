@@ -16,8 +16,17 @@ export function dateFormat(dateStr: string) {
   return moment(dateStr).format("YYYY-MM-DD HH:mm");
 }
 
+export function durationFormat(dateStr: number) {
+  var d = moment.duration(dateStr, "seconds");
+  let hour = d.hours() === 0 ? "" : d.hours() + ":";
+  let minute = d.minutes() >= 10 ? d.minutes() + ":" : "0" + d.minutes() + ":";
+  let second = d.seconds() >= 10 ? d.seconds() : "0" + d.seconds();
+
+  return hour + minute + second;
+}
+
 export function studyTimeFormat(dateStr: number) {
-  var d = moment.duration(dateStr/1000, "seconds");
+  var d = moment.duration(dateStr / 1000, "seconds");
   let value = [];
   value.push(Math.floor(d.asDays()));
   value.push(d.hours());
