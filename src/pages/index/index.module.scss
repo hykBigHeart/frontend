@@ -74,3 +74,16 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   position: relative;
 }
+
+.extra {
+  width: 1200px;
+  margin: 0 auto;
+  margin-top: 80px;
+  margin-bottom: 80px;
+  text-align: center;
+  height: 40px;
+  font-size: 16px;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.2);
+  line-height: 40px;
+}

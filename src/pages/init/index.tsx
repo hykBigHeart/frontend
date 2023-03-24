@@ -2,7 +2,7 @@ import { useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
 import styles from "./index.module.scss";
 import { saveConfigAction } from "../../store/system/systemConfigSlice";
-import { Header, NoHeader } from "../../compenents";
+import { Header, NoHeader, Footer } from "../../compenents";
 import { useLocation } from "react-router-dom";
 
 interface Props {
@@ -20,6 +20,7 @@ export const InitPage = (props: Props) => {
         {pathname === "/login" && <NoHeader></NoHeader>}
         {pathname !== "/login" && <Header></Header>}
         <Outlet />
+        {pathname !== "/login" && <Footer></Footer>}
       </div>
     </>
   );

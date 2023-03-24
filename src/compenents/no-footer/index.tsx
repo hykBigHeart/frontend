@@ -1,14 +1,15 @@
 import React from "react";
 import { Layout } from "antd";
 
-export const Footer: React.FC = () => {
+export const NoFooter: React.FC = () => {
   return (
     <Layout.Footer
       style={{
         width: "100%",
-        backgroundColor: "#333333",
-        height: 90,
+        backgroundColor: "#ffffff",
+        height: 130,
         textAlign: "center",
+        paddingBottom: 100,
       }}
     >
       <i

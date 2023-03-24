@@ -206,6 +206,7 @@ const IndexPage = () => {
           ))}
         </div>
       )}
+      <div className={styles["extra"]}>~莫道桑榆晚，为霞尚满天~</div>
     </>
   );
 };

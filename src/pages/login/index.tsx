@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 import { loginAction, logoutAction } from "../../store/user/loginUserSlice";
 import { login, system, user } from "../../api/index";
 import { setToken } from "../../utils/index";
-import { Footer } from "../../compenents";
+import { NoFooter } from "../../compenents";
 
 const LoginPage: React.FC = () => {
   const dispatch = useDispatch();
@@ -156,7 +156,7 @@ const LoginPage: React.FC = () => {
         </div>
       </div>
       <div className={styles["footer"]}>
-        <Footer></Footer>
+        <NoFooter></NoFooter>
       </div>
     </div>
   );
