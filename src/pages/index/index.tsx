@@ -117,11 +117,13 @@ const IndexPage = () => {
               <strong> {stats.required_finished_hour_count} </strong>
               <span>/ {stats.required_hour_count}</span>
             </div>
-            <div className={styles["info-item"]}>
-              <span>选修课：已完成</span>
-              <strong> {stats.nun_required_finished_hour_count} </strong>
-              <span>/ {stats.nun_required_hour_count}</span>
-            </div>
+            {stats.nun_required_hour_count > 0 && (
+              <div className={styles["info-item"]}>
+                <span>选修课：已完成</span>
+                <strong> {stats.nun_required_finished_hour_count} </strong>
+                <span>/ {stats.nun_required_hour_count}</span>
+              </div>
+            )}
           </div>
         </div>
         <div className={styles["top-item"]}>
@@ -220,7 +222,7 @@ const IndexPage = () => {
                   title={item.title}
                   thumb={item.thumb}
                   isRequired={item.is_required}
-                  progress={learnCourseRecords[item.id].progress}
+                  progress={learnCourseRecords[item.id].progress / 100}
                 ></CoursesModel>
               )}
               {!learnCourseRecords[item.id] && (
