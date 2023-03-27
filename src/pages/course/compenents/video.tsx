@@ -66,7 +66,7 @@ export const VideoModel: React.FC<PropInterface> = ({
   };
 
   const playTimeUpdate = (duration: number, isEnd: boolean) => {
-    if (duration >= 10 || isEnd === true) {
+    if (duration - playDuration >= 10 || isEnd === true) {
       setPlayDuration(duration);
       course.record(cid, id, duration).then((res: any) => {});
     }
