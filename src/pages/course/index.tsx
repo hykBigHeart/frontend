@@ -56,7 +56,7 @@ const CoursePage = () => {
                 {course.is_required === 0 && (
                   <div className={styles["active-type"]}>选修课</div>
                 )}
-                {learnRecord.progress / 100 === 100 && (
+                {learnRecord.progress / 100 >= 100 && (
                   <div className={styles["success"]}>
                     <Image
                       width={24}
