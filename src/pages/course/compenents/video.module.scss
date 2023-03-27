@@ -30,12 +30,14 @@
         height: 40px;
         display: flex;
         align-items: center;
-        padding-left: 30px;
         font-size: 14px;
         font-weight: 400;
         color: #ffffff;
         line-height: 24px;
         cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
       }
     }
   }

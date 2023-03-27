@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import styles from "./video.module.scss";
 import { course } from "../../../api/index";
+import { ArrowLeftOutlined } from "@ant-design/icons";
 
 declare const window: any;
 
@@ -85,7 +86,8 @@ export const VideoModel: React.FC<PropInterface> = ({
                   onCancel();
                 }}
               >
-                返回
+                <ArrowLeftOutlined />
+                <span className="ml-14">返回</span>
               </div>
             </div>
           </div>
