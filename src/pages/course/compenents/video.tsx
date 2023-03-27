@@ -74,6 +74,7 @@ export const VideoModel: React.FC<PropInterface> = ({
     if (duration - myRef.current >= 10 || isEnd === true) {
       setPlayDuration(duration);
       course.record(cid, id, duration).then((res: any) => {});
+      course.playPing(cid, id).then((res: any) => {});
     }
   };
 
