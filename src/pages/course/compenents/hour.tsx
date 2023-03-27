@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from "react";
-import { Image, Progress } from "antd";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./hour.module.scss";
-import mediaIcon from "../../../assets/images/commen/icon-medal.png";
-import { Navigate } from "react-router-dom";
 import { durationFormat } from "../../../utils/index";
 import { VideoModel } from "./video";
 
@@ -24,7 +21,7 @@ export const HourCompenent: React.FC<PropInterface> = ({
   record,
   progress,
 }) => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [visible, setVisible] = useState<boolean>(false);
   return (
     <div className={styles["item"]}>
@@ -57,7 +54,7 @@ export const HourCompenent: React.FC<PropInterface> = ({
             {progress !== 0 && (
               <>
                 <div className={styles["record"]}>
-                  上次学习到{durationFormat(Number(duration))}
+                  上次学习到{durationFormat(Number(record.duration || 0))}
                 </div>
                 <div
                   className={styles["link"]}

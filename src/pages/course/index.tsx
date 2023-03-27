@@ -14,7 +14,6 @@ const CoursePage = () => {
   const [hours, setHours] = useState<any>({});
   const [learnRecord, setLearnRecord] = useState<any>({});
   const [learnHourRecord, setLearnHourRecord] = useState<any>({});
-  const [progress, setprogresP] = useState(20);
 
   useEffect(() => {
     getDetail();
@@ -57,7 +56,7 @@ const CoursePage = () => {
                 {course.is_required === 0 && (
                   <div className={styles["active-type"]}>选修课</div>
                 )}
-                {progress === 100 && (
+                {learnRecord.progress === 100 && (
                   <div className={styles["success"]}>
                     <Image
                       width={24}
@@ -77,7 +76,7 @@ const CoursePage = () => {
             trailColor="#F6F6F6"
             size={90}
             strokeWidth={8}
-            percent={progress}
+            percent={learnRecord.progress}
             format={(percent) => `${percent}%`}
           />
         </div>
@@ -97,9 +96,9 @@ const CoursePage = () => {
                   id={item.id}
                   cid={item.course_id}
                   title={item.title}
-                  record={item.rid}
+                  record={learnHourRecord[item.id]}
                   duration={item.duration}
-                  progress={progress}
+                  progress={learnHourRecord[item.id].progress}
                 ></HourCompenent>
               </div>
             ))}
@@ -112,14 +111,26 @@ const CoursePage = () => {
                 <div className={styles["chapter-name"]}>{item.name}</div>
                 {hours[item.id].map((it: any) => (
                   <div key={it.id} className={styles["hours-it"]}>
-                    <HourCompenent
-                      id={it.id}
-                      cid={item.course_id}
-                      title={it.title}
-                      record={it.rid}
-                      duration={it.duration}
-                      progress={0}
-                    ></HourCompenent>
+                    {learnHourRecord[it.id] && (
+                      <HourCompenent
+                        id={it.id}
+                        cid={item.course_id}
+                        title={it.title}
+                        record={learnHourRecord[it.id]}
+                        duration={it.duration}
+                        progress={learnHourRecord[it.id].progress}
+                      ></HourCompenent>
+                    )}
+                    {!learnHourRecord[it.id] && (
+                      <HourCompenent
+                        id={it.id}
+                        cid={item.course_id}
+                        title={it.title}
+                        record={null}
+                        duration={it.duration}
+                        progress={0}
+                      ></HourCompenent>
+                    )}
                   </div>
                 ))}
               </div>
