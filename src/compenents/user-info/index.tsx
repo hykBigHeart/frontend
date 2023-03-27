@@ -107,12 +107,16 @@ export const UserInfoModel: React.FC<PropInterface> = ({ open, onCancel }) => {
                 </div>
               </div>
             </Form.Item>
-            <Form.Item label="学员姓名">
-              <div>{name}</div>
-            </Form.Item>
-            <Form.Item label="身份证号" style={{ marginBottom: 16 }}>
-              <div>{idCard}</div>
-            </Form.Item>
+            {name && (
+              <Form.Item label="学员姓名">
+                <div>{name}</div>
+              </Form.Item>
+            )}
+            {idCard && (
+              <Form.Item label="身份证号" style={{ marginBottom: 16 }}>
+                <div>{idCard}</div>
+              </Form.Item>
+            )}
           </Form>
         </div>
       </Modal>
