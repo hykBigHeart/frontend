@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import styles from "./video.module.scss";
 import { course } from "../../../api/index";
 import { ArrowLeftOutlined } from "@ant-design/icons";
@@ -22,12 +22,17 @@ export const VideoModel: React.FC<PropInterface> = ({
 }) => {
   const [playUrl, setPlayUrl] = useState<string>("");
   const [playDuration, setPlayDuration] = useState(0);
+  const myRef = useRef(0);
 
   useEffect(() => {
     if (open) {
       getVideoUrl();
     }
   }, [open, id, cid]);
+
+  useEffect(() => {
+    myRef.current = playDuration;
+  }, [playDuration]);
 
   const getVideoUrl = () => {
     course.playUrl(cid, id).then((res: any) => {
@@ -41,12 +46,11 @@ export const VideoModel: React.FC<PropInterface> = ({
       container: document.getElementById("meedu-player-container"),
       autoplay: false,
       video: {
-        quality: playUrl,
-        defaultQuality: 0,
+        url: playUrl,
       },
       try: isTrySee === 1,
       bulletSecret: {
-        enabled: true,
+        enabled: false,
         text: "18119604035",
         size: "15px",
         color: "red",
@@ -67,7 +71,7 @@ export const VideoModel: React.FC<PropInterface> = ({
   };
 
   const playTimeUpdate = (duration: number, isEnd: boolean) => {
-    if (duration - playDuration >= 10 || isEnd === true) {
+    if (duration - myRef.current >= 10 || isEnd === true) {
       setPlayDuration(duration);
       course.record(cid, id, duration).then((res: any) => {});
     }
