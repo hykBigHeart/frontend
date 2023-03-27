@@ -3,7 +3,7 @@ import styles from "./index.module.scss";
 import { Modal, Button, Dropdown } from "antd";
 import type { MenuProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   logoutAction,
   saveCurrentDepId,
@@ -16,6 +16,7 @@ const { confirm } = Modal;
 export const Header: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const location = useLocation();
   const user = useSelector((state: any) => state.loginUser.value.user);
   const departments = useSelector(
     (state: any) => state.loginUser.value.departments
@@ -26,6 +27,7 @@ export const Header: React.FC = () => {
   const [userInfoVisiale, setUserInfoVisiale] = useState<boolean>(false);
   const [departmentsMenu, setDepartmentsMenu] = useState<any>([]);
   const [currentDepartment, setCurrentDepartment] = useState<string>("");
+  const [currentNav, serCurrentNav] = useState(location.pathname);
 
   useEffect(() => {
     setCurrentDepartment(departments[0].name);
@@ -126,6 +128,17 @@ export const Header: React.FC = () => {
     });
   };
 
+  const navs = [
+    {
+      key: "/",
+      label: "首页",
+    },
+    {
+      key: "/recent-learn",
+      label: "最近学习",
+    },
+  ];
+
   return (
     <div className={styles["app-header"]}>
       <div className={styles["main-header"]}>
@@ -133,6 +146,24 @@ export const Header: React.FC = () => {
           <Link to="/" className={styles["App-logo"]}>
             <img src={config.systemLogo} />
           </Link>
+          <div className={styles["navs"]}>
+            {navs.map((item: any) => (
+              <div
+                key={item.key}
+                className={
+                  item.key === currentNav
+                    ? styles["nav-active-item"]
+                    : styles["nav-item"]
+                }
+                onClick={() => {
+                  serCurrentNav(item.key);
+                  navigate(item.key);
+                }}
+              >
+                {item.label}
+              </div>
+            ))}
+          </div>
         </div>
         <div className="d-flex">
           {departments.length === 1 && (

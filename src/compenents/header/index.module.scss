@@ -17,11 +17,49 @@
     justify-content: space-between;
     margin: 0 auto;
     .App-logo {
-      width: auto;
+      width: 124px;
       height: 40px;
+      text-align: left;
       img {
         width: auto;
         height: 40px;
+      }
+    }
+    .navs {
+      display: flex;
+      align-items: center;
+      .nav-item {
+        width: 64px;
+        height: 40px;
+        font-size: 16px;
+        font-weight: 400;
+        color: rgba(0, 0, 0, 0.88);
+        line-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-left: 80px;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
+      }
+
+      .nav-active-item {
+        width: 64px;
+        height: 40px;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #ff4d4f;
+        margin-left: 80px;
+        cursor: pointer;
+        &:hover {
+          opacity: 0.8;
+        }
       }
     }
     .department-name {
