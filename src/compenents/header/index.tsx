@@ -1,9 +1,13 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
-import { Modal, Button, Dropdown, MenuProps } from "antd";
+import { Modal, Button, Dropdown } from "antd";
+import type { MenuProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { logoutAction } from "../../store/user/loginUserSlice";
+import {
+  logoutAction,
+  saveCurrentDepId,
+} from "../../store/user/loginUserSlice";
 import { ChangePasswordModel } from "../change-password";
 import { UserInfoModel } from "../user-info";
 import { ExclamationCircleFilled } from "@ant-design/icons";
@@ -20,6 +24,27 @@ export const Header: React.FC = () => {
   const [changePasswordVisiale, setChangePasswordVisiale] =
     useState<boolean>(false);
   const [userInfoVisiale, setUserInfoVisiale] = useState<boolean>(false);
+  const [departmentsMenu, setDepartmentsMenu] = useState<any>([]);
+  const [currentDepartment, setCurrentDepartment] = useState<string>("");
+
+  useEffect(() => {
+    setCurrentDepartment(departments[0].name);
+    const arr: any = [
+      {
+        key: "1",
+        type: "group",
+        label: "部门",
+        children: [],
+      },
+    ];
+    departments.map((item: any) => {
+      arr[0].children.push({
+        key: item.id,
+        label: item.name,
+      });
+    });
+    setDepartmentsMenu(arr);
+  }, [departments]);
 
   const onClick: MenuProps["onClick"] = ({ key }) => {
     if (key === "login_out") {
@@ -75,6 +100,32 @@ export const Header: React.FC = () => {
     },
   ];
 
+  const depItems: MenuProps["items"] = departmentsMenu;
+
+  const onDepClick: MenuProps["onClick"] = ({ key }) => {
+    let name: string = "";
+    departments.map((item: any) => {
+      if (Number(key) === item.id) {
+        name = item.name;
+      }
+    });
+    confirm({
+      title: "操作确认",
+      icon: <ExclamationCircleFilled />,
+      content: "确认切换部门？",
+      centered: true,
+      okText: "确认",
+      cancelText: "取消",
+      onOk() {
+        setCurrentDepartment(name);
+        dispatch(saveCurrentDepId(Number(key)));
+      },
+      onCancel() {
+        console.log("Cancel");
+      },
+    });
+  };
+
   return (
     <div className={styles["app-header"]}>
       <div className={styles["main-header"]}>
@@ -84,10 +135,15 @@ export const Header: React.FC = () => {
           </Link>
         </div>
         <div className="d-flex">
-          {departments.length > 0 && (
-            <div className={styles["department-name"]}>
-              {departments[0].name}
-            </div>
+          {departments.length === 1 && (
+            <div className={styles["department-name"]}>{currentDepartment}</div>
+          )}
+          {departments.length > 1 && (
+            <Dropdown menu={{ items: depItems, onClick: onDepClick }}>
+              <div className={styles["department-name"]}>
+                {currentDepartment}
+              </div>
+            </Dropdown>
           )}
           <Button.Group className={styles["button-group"]}>
             <Dropdown menu={{ items, onClick }} placement="bottomRight">

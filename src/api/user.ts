@@ -18,3 +18,10 @@ export function courses(depId: number) {
     dep_id: depId,
   });
 }
+
+// 修改头像
+export function avatar(file: any) {
+  return client.put("/api/v1/user/avatar", {
+    file: file,
+  });
+}

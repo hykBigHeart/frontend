@@ -19,14 +19,17 @@ const IndexPage = () => {
   const departments = useSelector(
     (state: any) => state.loginUser.value.departments
   );
+  const currentDepId = useSelector(
+    (state: any) => state.loginUser.value.currentDepId
+  );
 
   useEffect(() => {
     getData();
-  }, [tabKey]);
+  }, [tabKey, currentDepId]);
 
   const getData = () => {
     setLoading(true);
-    user.courses(departments[0].id).then((res: any) => {
+    user.courses(currentDepId).then((res: any) => {
       const records = res.data.learn_course_records;
       setStats(res.data.stats);
       setLearnCourseRecords(records);
