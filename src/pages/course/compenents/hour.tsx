@@ -11,6 +11,7 @@ interface PropInterface {
   duration: number;
   record: any;
   progress: number;
+  onChange: () => void;
 }
 
 export const HourCompenent: React.FC<PropInterface> = ({
@@ -20,6 +21,7 @@ export const HourCompenent: React.FC<PropInterface> = ({
   duration,
   record,
   progress,
+  onChange,
 }) => {
   // const navigate = useNavigate();
   const [visible, setVisible] = useState<boolean>(false);
@@ -30,7 +32,10 @@ export const HourCompenent: React.FC<PropInterface> = ({
         id={id}
         title={title}
         open={visible}
-        onCancel={() => setVisible(false)}
+        onCancel={() => {
+          setVisible(false);
+          onChange();
+        }}
       ></VideoModel>
       <div className={styles["left-item"]}>
         <i className="iconfont icon-icon-video"></i>
@@ -54,7 +59,8 @@ export const HourCompenent: React.FC<PropInterface> = ({
             {progress !== 0 && (
               <>
                 <div className={styles["record"]}>
-                  上次学习到{durationFormat(Number(record.duration || 0))}
+                  上次学习到
+                  {durationFormat(Number(record.finished_duration || 0))}
                 </div>
                 <div
                   className={styles["link"]}

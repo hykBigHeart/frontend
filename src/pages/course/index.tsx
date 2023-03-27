@@ -70,15 +70,42 @@ const CoursePage = () => {
               </div>
             </div>
           </div>
-          <Progress
-            type="circle"
-            strokeColor="#FF4D4F"
-            trailColor="#F6F6F6"
-            size={90}
-            strokeWidth={8}
-            percent={learnRecord.progress}
-            format={(percent) => `${percent}%`}
-          />
+          {JSON.stringify(learnRecord) === "{}" &&
+            JSON.stringify(learnHourRecord) === "{}" && (
+              <Progress
+                type="circle"
+                strokeColor="#FF4D4F"
+                trailColor="#F6F6F6"
+                size={90}
+                strokeWidth={8}
+                percent={0}
+                format={(percent) => `${percent}%`}
+              />
+            )}
+          {JSON.stringify(learnRecord) === "{}" &&
+            JSON.stringify(learnHourRecord) !== "{}" && (
+              <Progress
+                type="circle"
+                strokeColor="#FF4D4F"
+                trailColor="#F6F6F6"
+                size={90}
+                strokeWidth={8}
+                percent={1}
+                format={(percent) => `${percent}%`}
+              />
+            )}
+          {JSON.stringify(learnRecord) !== "{}" &&
+            JSON.stringify(learnHourRecord) !== "{}" && (
+              <Progress
+                type="circle"
+                strokeColor="#FF4D4F"
+                trailColor="#F6F6F6"
+                size={90}
+                strokeWidth={8}
+                percent={learnRecord.progress}
+                format={(percent) => `${percent}%`}
+              />
+            )}
         </div>
         {course.short_desc && (
           <div className={styles["desc"]}>{course.short_desc}</div>
@@ -99,7 +126,11 @@ const CoursePage = () => {
                     title={item.title}
                     record={learnHourRecord[item.id]}
                     duration={item.duration}
-                    progress={learnHourRecord[item.id].progress}
+                    progress={
+                      (learnHourRecord[item.id].finished_duration * 100) /
+                      learnHourRecord[item.id].total_duration
+                    }
+                    onChange={() => getDetail()}
                   ></HourCompenent>
                 )}
                 {!learnHourRecord[item.id] && (
@@ -110,6 +141,7 @@ const CoursePage = () => {
                     record={null}
                     duration={item.duration}
                     progress={0}
+                    onChange={() => getDetail()}
                   ></HourCompenent>
                 )}
               </div>
