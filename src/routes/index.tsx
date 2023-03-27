@@ -33,6 +33,7 @@ const Init = lazy(async () => {
 const LoginPage = lazy(() => import("../pages/login"));
 const IndexPage = lazy(() => import("../pages/index"));
 const CoursePage = lazy(() => import("../pages/course"));
+const LatestLearnPage = lazy(() => import("../pages/latest-learn"));
 
 const routes: RouteObject[] = [
   {
@@ -50,6 +51,10 @@ const routes: RouteObject[] = [
       {
         path: "/course/:courseId",
         element: <CoursePage />,
+      },
+      {
+        path: "/latest-learn",
+        element: <LatestLearnPage />,
       },
     ],
   },
