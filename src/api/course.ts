@@ -12,7 +12,7 @@ export function playUrl(courseId: number, hourId: number) {
 
 // 记录学员观看时长
 export function record(courseId: number, hourId: number, duration: number) {
-  return client.get(`/api/v1/course/${courseId}/hour/${hourId}/record`, {
+  return client.post(`/api/v1/course/${courseId}/hour/${hourId}/record`, {
     duration,
   });
 }
