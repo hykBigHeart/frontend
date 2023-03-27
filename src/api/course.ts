@@ -16,3 +16,8 @@ export function record(courseId: number, hourId: number, duration: number) {
     duration,
   });
 }
+
+//最近学习课程
+export function latestLearn() {
+  return client.get(`/api/v1/user/latest-learn`, {});
+}

@@ -74,7 +74,7 @@ export const HourCompenent: React.FC<PropInterface> = ({
             )}
           </>
         )}
-        {progress === 100 && <div className={styles["complete"]}>已学完</div>}
+        {progress >= 100 && <div className={styles["complete"]}>已学完</div>}
       </div>
     </div>
   );
