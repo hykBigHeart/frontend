@@ -114,14 +114,14 @@ const IndexPage = () => {
           <div className={styles["info"]}>
             <div className={styles["info-item"]}>
               <span>必修课：已完成</span>
-              <strong> {stats.required_finished_hour_count} </strong>
-              <span>/ {stats.required_hour_count}</span>
+              <strong> {stats.required_finished_hour_count || 0} </strong>
+              <span>/ {stats.required_hour_count || 0}</span>
             </div>
             {stats.nun_required_hour_count > 0 && (
               <div className={styles["info-item"]}>
                 <span>选修课：已完成</span>
-                <strong> {stats.nun_required_finished_hour_count} </strong>
-                <span>/ {stats.nun_required_hour_count}</span>
+                <strong> {stats.nun_required_finished_hour_count || 0} </strong>
+                <span>/ {stats.nun_required_hour_count || 0}</span>
               </div>
             )}
           </div>
@@ -138,37 +138,61 @@ const IndexPage = () => {
                 <>
                   <strong>
                     {" "}
-                    {studyTimeFormat(stats.today_learn_duration)[0]}{" "}
+                    {studyTimeFormat(stats.today_learn_duration)[0] || 0}{" "}
                   </strong>
                   天
                 </>
               )}
-              <strong>
-                {" "}
-                {studyTimeFormat(stats.today_learn_duration)[1]}{" "}
-              </strong>
-              小时
-              <strong>
-                {" "}
-                {studyTimeFormat(stats.today_learn_duration)[2]}{" "}
-              </strong>
-              分钟
-            </div>
-            <div className={styles["info-item"]}>
-              累计：
-              {studyTimeFormat(stats.learn_duration)[0] !== 0 && (
+              {studyTimeFormat(stats.today_learn_duration)[1] !== 0 && (
                 <>
                   <strong>
                     {" "}
-                    {studyTimeFormat(stats.learn_duration || 0)[0]}{" "}
+                    {studyTimeFormat(stats.today_learn_duration)[1] || 0}{" "}
+                  </strong>
+                  小时
+                </>
+              )}
+              <strong>
+                {" "}
+                {studyTimeFormat(stats.today_learn_duration)[2] || 0}{" "}
+              </strong>
+              分钟
+              <strong>
+                {" "}
+                {studyTimeFormat(stats.today_learn_duration)[3] || 0}{" "}
+              </strong>
+              秒
+            </div>
+            <div className={styles["info-item"]}>
+              累计：
+              {studyTimeFormat(stats.learn_duration || 0)[0] !== 0 && (
+                <>
+                  <strong>
+                    {" "}
+                    {studyTimeFormat(stats.learn_duration || 0)[0] || 0}{" "}
                   </strong>
                   天
                 </>
               )}
-              <strong> {studyTimeFormat(stats.learn_duration || 0)[1]} </strong>
-              小时
-              <strong> {studyTimeFormat(stats.learn_duration || 0)[2]} </strong>
+              {studyTimeFormat(stats.learn_duration || 0)[1] !== 0 && (
+                <>
+                  <strong>
+                    {" "}
+                    {studyTimeFormat(stats.learn_duration || 0)[1] || 0}{" "}
+                  </strong>
+                  小时
+                </>
+              )}
+              <strong>
+                {" "}
+                {studyTimeFormat(stats.learn_duration || 0)[2] || 0}{" "}
+              </strong>
               分钟
+              <strong>
+                {" "}
+                {studyTimeFormat(stats.learn_duration || 0)[3] || 0}{" "}
+              </strong>
+              秒
             </div>
           </div>
         </div>
@@ -200,19 +224,36 @@ const IndexPage = () => {
         ))}
         {/* <Tabs defaultActiveKey="0" items={items} onChange={onChange} /> */}
       </div>
-      <Row style={{ width: 1200, margin: "0 auto", paddingTop: 14 }}>
-        {loading && (
+      {loading && (
+        <Row
+          style={{
+            width: 1200,
+            margin: "0 auto",
+            paddingTop: 14,
+            minHeight: 301,
+          }}
+        >
           <div className="float-left d-j-flex mt-50">
             <Spin size="large" />
           </div>
-        )}
-        {coursesList.length === 0 && (
+        </Row>
+      )}
+
+      {!loading && coursesList.length === 0 && (
+        <Row
+          style={{
+            width: 1200,
+            margin: "0 auto",
+            paddingTop: 14,
+            minHeight: 301,
+          }}
+        >
           <Col span={24}>
             <Empty description="暂无课程" />
           </Col>
-        )}
-      </Row>
-      {coursesList.length > 0 && (
+        </Row>
+      )}
+      {!loading && coursesList.length > 0 && (
         <div className={styles["courses-list"]}>
           {coursesList.map((item: any) => (
             <div key={item.id}>

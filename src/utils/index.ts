@@ -31,6 +31,7 @@ export function studyTimeFormat(dateStr: number) {
   value.push(Math.floor(d.asDays()));
   value.push(d.hours());
   value.push(d.minutes());
+  value.push(d.seconds());
   return value;
 }
 
