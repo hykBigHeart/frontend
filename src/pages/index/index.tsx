@@ -55,7 +55,7 @@ const IndexPage = () => {
       } else if (tabKey === 3) {
         const arr: any = [];
         res.data.courses.map((item: any) => {
-          if (records[item.id] && records[item.id].progress === 100) {
+          if (records[item.id] && records[item.id].progress >= 10000) {
             arr.push(item);
           }
         });
@@ -65,7 +65,7 @@ const IndexPage = () => {
         res.data.courses.map((item: any) => {
           if (
             !records[item.id] ||
-            (records[item.id] && records[item.id].progress !== 100)
+            (records[item.id] && records[item.id].progress < 10000)
           ) {
             arr.push(item);
           }
