@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Row, Col, Empty, Spin, Tabs } from "antd";
+import { Row, Col, Empty, Spin, Image } from "antd";
 import type { TabsProps } from "antd";
 import { user } from "../../api/index";
 import styles from "./index.module.scss";
@@ -7,6 +7,7 @@ import { useSelector } from "react-redux";
 import { CoursesModel } from "./compenents/courses-model";
 import myLesoon from "../../assets/images/commen/icon-mylesoon.png";
 import studyTime from "../../assets/images/commen/icon-studytime.png";
+import iconRoute from "../../assets/images/commen/icon-route.png";
 import { studyTimeFormat } from "../../utils/index";
 
 const IndexPage = () => {
@@ -75,31 +76,31 @@ const IndexPage = () => {
     });
   };
 
-  const items: TabsProps["items"] = [
+  const items = [
     {
-      key: "0",
+      key: 0,
       label: `全部`,
     },
     {
-      key: "1",
+      key: 1,
       label: `必修课`,
     },
     {
-      key: "2",
+      key: 2,
       label: `选修课`,
     },
     {
-      key: "3",
+      key: 3,
       label: `已学完`,
     },
     {
-      key: "4",
+      key: 4,
       label: `未学完`,
     },
   ];
 
-  const onChange = (key: string) => {
-    setTabKey(Number(key));
+  const onChange = (key: number) => {
+    setTabKey(key);
   };
 
   return (
@@ -171,7 +172,31 @@ const IndexPage = () => {
         </div>
       </div>
       <div className={styles["tabs"]}>
-        <Tabs defaultActiveKey="0" items={items} onChange={onChange} />
+        {items.map((item: any) => (
+          <div
+            key={item.key}
+            className={
+              item.key === tabKey
+                ? styles["tab-active-item"]
+                : styles["tab-item"]
+            }
+            onClick={() => {
+              onChange(item.key);
+            }}
+          >
+            <div className={styles["tit"]}>{item.label}</div>
+            {item.key === tabKey && (
+              <Image
+                width={40}
+                height={8}
+                preview={false}
+                src={iconRoute}
+                style={{ marginTop: -16 }}
+              />
+            )}
+          </div>
+        ))}
+        {/* <Tabs defaultActiveKey="0" items={items} onChange={onChange} /> */}
       </div>
       <Row style={{ width: 1200, margin: "0 auto", paddingTop: 14 }}>
         {loading && (
