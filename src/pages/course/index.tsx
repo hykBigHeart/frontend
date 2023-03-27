@@ -162,7 +162,10 @@ const CoursePage = () => {
                         title={it.title}
                         record={learnHourRecord[it.id]}
                         duration={it.duration}
-                        progress={learnHourRecord[it.id].progress}
+                        progress={
+                          (learnHourRecord[it.id].finished_duration * 100) /
+                          learnHourRecord[it.id].total_duration
+                        }
                         onChange={() => getDetail()}
                       ></HourCompenent>
                     )}

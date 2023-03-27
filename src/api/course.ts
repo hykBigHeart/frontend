@@ -19,7 +19,7 @@ export function record(courseId: number, hourId: number, duration: number) {
 
 //观看ping
 export function playPing(courseId: number, hourId: number) {
-  return client.get(`/api/v1/course/${courseId}/hour/${hourId}/ping`, {});
+  return client.post(`/api/v1/course/${courseId}/hour/${hourId}/ping`, {});
 }
 
 //最近学习课程

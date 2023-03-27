@@ -6,6 +6,7 @@ import { Row, Col, Empty, Spin, Image } from "antd";
 const LatestLearnPage = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [courses, setCourses] = useState<any>([]);
+  
 
   useEffect(() => {
     getCourses();
@@ -14,7 +15,10 @@ const LatestLearnPage = () => {
   const getCourses = () => {
     setLoading(true);
     course.latestLearn().then((res: any) => {
-      setCourses(res.data);
+    
+        setCourses(res.data);
+        
+    
       setLoading(false);
     });
   };
