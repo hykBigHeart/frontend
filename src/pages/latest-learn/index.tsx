@@ -65,10 +65,11 @@ const LatestLearnPage = () => {
                 </div>
                 {item.record && (
                   <>
-                    <div className={styles["record"]}>
-                      上次学到：{item.record.finished_count}/
-                      {item.record.hour_count}课时
-                    </div>
+                    {item.last_learn_hour && (
+                      <div className={styles["record"]}>
+                        上次学到：{item.last_learn_hour.title}
+                      </div>
+                    )}
                     <div className={styles["progress"]}>
                       {item.record.progress < 10000 && (
                         <Progress
