@@ -44,7 +44,10 @@ export const UserInfoModel: React.FC<PropInterface> = ({ open, onCancel }) => {
       authorization: "Bearer " + getToken(),
     },
     beforeUpload: (file) => {
-      const isPNG = file.type === ("image/png" || "image/jpg");
+      const isPNG =
+        file.type === "image/png" ||
+        file.type === "image/jpg" ||
+        file.type === "image/jpeg";
       if (!isPNG) {
         message.error(`${file.name}不是图片文件`);
       }
