@@ -3,7 +3,6 @@ import { Image, Progress } from "antd";
 import { useNavigate } from "react-router-dom";
 import styles from "./courses-model.module.scss";
 import mediaIcon from "../../../assets/images/commen/icon-medal.png";
-import { Navigate } from "react-router-dom";
 
 interface PropInterface {
   id: number;
