@@ -32,6 +32,7 @@ const loginUserSlice = createSlice({
       stage.value.user = null;
       stage.value.departments = [];
       stage.value.isLogin = false;
+      stage.value.currentDepId = 0;
     },
     saveCurrentDepId(stage, e) {
       stage.value.currentDepId = e.payload;
