@@ -86,6 +86,9 @@ const CoursePage = () => {
         )}
       </div>
       <div className={styles["chapters-hours-cont"]}>
+        {chapters.length === 0 && JSON.stringify(hours) === "{}" && (
+          <div>暂无课时</div>
+        )}
         {chapters.length === 0 && JSON.stringify(hours) !== "{}" && (
           <div className={styles["hours-list-box"]}>
             {hours[0].map((item: any) => (
