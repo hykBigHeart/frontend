@@ -134,7 +134,7 @@ export const Header: React.FC = () => {
       label: "首页",
     },
     {
-      key: "/recent-learn",
+      key: "/latest-learn",
       label: "最近学习",
     },
   ];

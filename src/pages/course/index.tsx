@@ -163,6 +163,7 @@ const CoursePage = () => {
                         record={learnHourRecord[it.id]}
                         duration={it.duration}
                         progress={learnHourRecord[it.id].progress}
+                        onChange={() => getDetail()}
                       ></HourCompenent>
                     )}
                     {!learnHourRecord[it.id] && (
@@ -173,6 +174,7 @@ const CoursePage = () => {
                         record={null}
                         duration={it.duration}
                         progress={0}
+                        onChange={() => getDetail()}
                       ></HourCompenent>
                     )}
                   </div>
