@@ -92,14 +92,26 @@ const CoursePage = () => {
           <div className={styles["hours-list-box"]}>
             {hours[0].map((item: any) => (
               <div key={item.id} className={styles["hours-it"]}>
-                <HourCompenent
-                  id={item.id}
-                  cid={item.course_id}
-                  title={item.title}
-                  record={learnHourRecord[item.id]}
-                  duration={item.duration}
-                  progress={learnHourRecord[item.id].progress}
-                ></HourCompenent>
+                {learnHourRecord[item.id] && (
+                  <HourCompenent
+                    id={item.id}
+                    cid={item.course_id}
+                    title={item.title}
+                    record={learnHourRecord[item.id]}
+                    duration={item.duration}
+                    progress={learnHourRecord[item.id].progress}
+                  ></HourCompenent>
+                )}
+                {!learnHourRecord[item.id] && (
+                  <HourCompenent
+                    id={item.id}
+                    cid={item.course_id}
+                    title={item.title}
+                    record={null}
+                    duration={item.duration}
+                    progress={0}
+                  ></HourCompenent>
+                )}
               </div>
             ))}
           </div>
