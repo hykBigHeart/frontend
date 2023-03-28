@@ -5,9 +5,11 @@ import { Row, Col, Spin, Image, Progress } from "antd";
 import { Empty } from "../../compenents";
 import mediaIcon from "../../assets/images/commen/icon-medal.png";
 import { useNavigate } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const LatestLearnPage = () => {
   const navigate = useNavigate();
+  const systemConfig = useSelector((state: any) => state.systemConfig.value);
   const [loading, setLoading] = useState<boolean>(false);
   const [courses, setCourses] = useState<any>([]);
 
@@ -114,7 +116,7 @@ const LatestLearnPage = () => {
             </div>
           ))}
       </div>
-      <div className={styles["extra"]}>~莫道桑榆晚，为霞尚满天~</div>
+      <div className={styles["extra"]}>{systemConfig.pcIndexFooterMsg}</div>
     </div>
   );
 };
