@@ -8,7 +8,7 @@ type SystemConfigStoreInterface = {
   systemName: string;
   pcIndexFooterMsg: string;
   playerPoster: string;
-  playerIsEnabledBulletSecret: string;
+  playerIsEnabledBulletSecret: boolean;
   playerBulletSecretText: string;
   playerBulletSecretColor: string;
   playerBulletSecretOpacity: string;
@@ -22,7 +22,7 @@ let defaultValue: SystemConfigStoreInterface = {
   systemName: "",
   pcIndexFooterMsg: "",
   playerPoster: "",
-  playerIsEnabledBulletSecret: "",
+  playerIsEnabledBulletSecret: false,
   playerBulletSecretText: "",
   playerBulletSecretColor: "",
   playerBulletSecretOpacity: "",
