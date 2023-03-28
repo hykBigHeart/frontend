@@ -32,7 +32,7 @@ const Init = lazy(async () => {
       config.systemLogo = res.data["system-logo"];
       config.systemName = res.data["system-name"];
       config.systemPcUrl = res.data["system-pc-url"];
-      config.pcIndexFooterMsg = res.data["pc-index-footer-msg"];
+      config.pcIndexFooterMsg = res.data["system-pc-index-footer-msg"];
 
       //播放器配置
       config.playerPoster = res.data["player-poster"];

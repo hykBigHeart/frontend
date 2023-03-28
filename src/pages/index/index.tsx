@@ -12,6 +12,7 @@ import iconRoute from "../../assets/images/commen/icon-route.png";
 import { studyTimeFormat } from "../../utils/index";
 
 const IndexPage = () => {
+  const systemConfig = useSelector((state: any) => state.systemConfig.value);
   const [loading, setLoading] = useState<boolean>(false);
   const [tabKey, setTabKey] = useState(0);
   const [coursesList, setCoursesList] = useState<any>([]);
@@ -280,7 +281,7 @@ const IndexPage = () => {
           ))}
         </div>
       )}
-      <div className={styles["extra"]}>~莫道桑榆晚，为霞尚满天~</div>
+      <div className={styles["extra"]}>{systemConfig.pcIndexFooterMsg}</div>
     </>
   );
 };
