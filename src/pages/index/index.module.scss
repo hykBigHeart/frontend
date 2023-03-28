@@ -67,6 +67,8 @@
     width: 64px;
     height: 48px;
     margin-right: 50px;
+    transition: all 0.2s;
+    position: relative;
     cursor: pointer;
     &:hover {
       opacity: 0.8;
@@ -86,8 +88,10 @@
   .tab-active-item {
     width: 64px;
     height: 48px;
-    margin-right: 50px;
     cursor: pointer;
+    margin-right: 50px;
+    transition: all 0.2s;
+
     &:hover {
       opacity: 0.8;
     }
@@ -99,6 +103,22 @@
       color: #ff4d4f;
       line-height: 40px;
     }
+    .banner {
+      animation: scaleTransX 0.3s;
+    }
+  }
+}
+@keyframes scaleTransX {
+  0% {
+    transform: translateX(0px);
+  }
+
+  50% {
+    transform: translateX(6px);
+  }
+
+  100% {
+    transform: translateX(0px);
   }
 }
 

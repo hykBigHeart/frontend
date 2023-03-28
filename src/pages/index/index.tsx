@@ -213,6 +213,7 @@ const IndexPage = () => {
             <div className={styles["tit"]}>{item.label}</div>
             {item.key === tabKey && (
               <Image
+                className={styles["banner"]}
                 width={40}
                 height={8}
                 preview={false}
@@ -222,7 +223,6 @@ const IndexPage = () => {
             )}
           </div>
         ))}
-        {/* <Tabs defaultActiveKey="0" items={items} onChange={onChange} /> */}
       </div>
       {loading && (
         <Row
