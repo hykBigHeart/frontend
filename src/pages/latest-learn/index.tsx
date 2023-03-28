@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 import { course } from "../../api/index";
-import { Row, Col, Empty, Spin, Image, Progress } from "antd";
+import { Row, Col, Spin, Image, Progress } from "antd";
+import { Empty } from "../../compenents";
 import mediaIcon from "../../assets/images/commen/icon-medal.png";
 import { useNavigate } from "react-router-dom";
 
@@ -25,19 +26,22 @@ const LatestLearnPage = () => {
   return (
     <div>
       <div className={styles["content"]}>
-        <Row style={{ width: 1200 }}>
-          {loading && (
+        {loading && (
+          <Row style={{ width: 1200 }}>
             <div className="float-left d-j-flex mt-50">
               <Spin size="large" />
             </div>
-          )}
-          {courses.length === 0 && (
+          </Row>
+        )}
+        {!loading && courses.length === 0 && (
+          <Row style={{ width: 1200 }}>
             <Col span={24}>
-              <Empty description="暂无记录" />
+              <Empty />
             </Col>
-          )}
-        </Row>
-        {courses.length > 0 &&
+          </Row>
+        )}
+        {!loading &&
+          courses.length > 0 &&
           courses.map((item: any) => (
             <div
               key={item.course.id}

@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
-import { Row, Col, Empty, Spin, Image } from "antd";
+import { Row, Col, Spin, Image } from "antd";
 import type { TabsProps } from "antd";
 import { user } from "../../api/index";
 import styles from "./index.module.scss";
 import { useSelector } from "react-redux";
 import { CoursesModel } from "./compenents/courses-model";
+import { Empty } from "../../compenents";
 import myLesoon from "../../assets/images/commen/icon-mylesoon.png";
 import studyTime from "../../assets/images/commen/icon-studytime.png";
 import iconRoute from "../../assets/images/commen/icon-route.png";
@@ -249,7 +250,7 @@ const IndexPage = () => {
           }}
         >
           <Col span={24}>
-            <Empty description="暂无课程" />
+            <Empty />
           </Col>
         </Row>
       )}
