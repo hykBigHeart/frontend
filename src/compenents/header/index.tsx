@@ -43,6 +43,7 @@ export const Header: React.FC = () => {
       arr[0].children.push({
         key: item.id,
         label: item.name,
+        disabled: item.name === currentDepartment,
       });
     });
     setDepartmentsMenu(arr);
@@ -121,6 +122,23 @@ export const Header: React.FC = () => {
       onOk() {
         setCurrentDepartment(name);
         dispatch(saveCurrentDepId(Number(key)));
+        const box = [...departments];
+        const arr: any = [
+          {
+            key: "1",
+            type: "group",
+            label: "部门",
+            children: [],
+          },
+        ];
+        box.map((item: any) => {
+          arr[0].children.push({
+            key: item.id,
+            label: item.name,
+            disabled: item.name === name,
+          });
+        });
+        setDepartmentsMenu(arr);
       },
       onCancel() {
         console.log("Cancel");
@@ -171,7 +189,10 @@ export const Header: React.FC = () => {
           )}
           {departments.length > 1 && (
             <Dropdown menu={{ items: depItems, onClick: onDepClick }}>
-              <div className={styles["department-name"]}>
+              <div
+                className={styles["department-name"]}
+                style={{ cursor: "pointer" }}
+              >
                 {currentDepartment}
               </div>
             </Dropdown>
