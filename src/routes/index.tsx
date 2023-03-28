@@ -11,6 +11,12 @@ let config: SystemConfigStoreInterface = {
   systemH5Url: "",
   systemLogo: "",
   systemName: "",
+  pcIndexFooterMsg: "",
+  playerPoster: "",
+  playerIsEnabledBulletSecret: "",
+  playerBulletSecretText: "",
+  playerBulletSecretColor: "",
+  playerBulletSecretOpacity: "",
 };
 
 const Init = lazy(async () => {
