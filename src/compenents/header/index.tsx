@@ -178,7 +178,7 @@ export const Header: React.FC = () => {
           )}
           <Button.Group className={styles["button-group"]}>
             <Dropdown menu={{ items, onClick }} placement="bottomRight">
-              <div className="d-flex">
+              <div className="d-flex" style={{ cursor: "pointer" }}>
                 {user && user.name && (
                   <>
                     <img
