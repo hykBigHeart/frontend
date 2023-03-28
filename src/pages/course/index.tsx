@@ -15,6 +15,7 @@ const CoursePage = () => {
   const [hours, setHours] = useState<any>({});
   const [learnRecord, setLearnRecord] = useState<any>({});
   const [learnHourRecord, setLearnHourRecord] = useState<any>({});
+  const [totalHours, setTotalHours] = useState<any>([]);
 
   useEffect(() => {
     getDetail();
@@ -31,6 +32,15 @@ const CoursePage = () => {
       }
       if (res.data.learn_hour_records) {
         setLearnHourRecord(res.data.learn_hour_records);
+      }
+      if (res.data.chapters.length === 0) {
+        setTotalHours(res.data.hours[0]);
+      } else if (res.data.chapters.length > 0) {
+        const arr: any = [];
+        chapters.map((item: any) => {
+          arr.concat(res.data.hours[item.id]);
+        });
+        setTotalHours(arr);
       }
       setLoading(false);
     });
@@ -116,7 +126,7 @@ const CoursePage = () => {
         {chapters.length === 0 && JSON.stringify(hours) === "{}" && <Empty />}
         {chapters.length === 0 && JSON.stringify(hours) !== "{}" && (
           <div className={styles["hours-list-box"]}>
-            {hours[0].map((item: any) => (
+            {hours[0].map((item: any, index: number) => (
               <div key={item.id} className={styles["hours-it"]}>
                 {learnHourRecord[item.id] && (
                   <HourCompenent
@@ -129,6 +139,7 @@ const CoursePage = () => {
                       (learnHourRecord[item.id].finished_duration * 100) /
                       learnHourRecord[item.id].total_duration
                     }
+                    totalHours={totalHours}
                     onChange={() => getDetail()}
                   ></HourCompenent>
                 )}
@@ -140,6 +151,7 @@ const CoursePage = () => {
                     record={null}
                     duration={item.duration}
                     progress={0}
+                    totalHours={totalHours}
                     onChange={() => getDetail()}
                   ></HourCompenent>
                 )}
@@ -149,10 +161,10 @@ const CoursePage = () => {
         )}
         {chapters.length > 0 && JSON.stringify(hours) !== "{}" && (
           <div className={styles["hours-list-box"]}>
-            {chapters.map((item: any) => (
+            {chapters.map((item: any, index: number) => (
               <div key={item.id} className={styles["chapter-it"]}>
                 <div className={styles["chapter-name"]}>{item.name}</div>
-                {hours[item.id].map((it: any) => (
+                {hours[item.id].map((it: any, int: number) => (
                   <div key={it.id} className={styles["hours-it"]}>
                     {learnHourRecord[it.id] && (
                       <HourCompenent
@@ -166,6 +178,7 @@ const CoursePage = () => {
                           learnHourRecord[it.id].total_duration
                         }
                         onChange={() => getDetail()}
+                        totalHours={totalHours}
                       ></HourCompenent>
                     )}
                     {!learnHourRecord[it.id] && (
@@ -176,6 +189,7 @@ const CoursePage = () => {
                         record={null}
                         duration={it.duration}
                         progress={0}
+                        totalHours={totalHours}
                         onChange={() => getDetail()}
                       ></HourCompenent>
                     )}

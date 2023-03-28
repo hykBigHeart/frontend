@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./hour.module.scss";
 import { durationFormat } from "../../../utils/index";
@@ -11,6 +11,7 @@ interface PropInterface {
   duration: number;
   record: any;
   progress: number;
+  totalHours: any;
   onChange: () => void;
 }
 
@@ -21,20 +22,55 @@ export const HourCompenent: React.FC<PropInterface> = ({
   duration,
   record,
   progress,
+  totalHours,
   onChange,
 }) => {
   // const navigate = useNavigate();
   const [visible, setVisible] = useState<boolean>(false);
+  const [currentId, setCurrentId] = useState(id);
+  const [currentTitle, setCurrentTitle] = useState(title);
+  const [isLastpage, setIsLastpage] = useState<boolean>(false);
+
+  useEffect(() => {
+    getData();
+  }, [totalHours]);
+
+  const getData = () => {
+    const index = totalHours.findIndex((i: any) => i.id === id);
+    if (index === totalHours.length - 1) {
+      setIsLastpage(true);
+    }
+  };
+
+  const goNextVideo = () => {
+    const index = totalHours.findIndex((i: any) => i.id === id);
+    if (index === totalHours.length - 1) {
+      setIsLastpage(true);
+    } else if (index < totalHours.length - 1) {
+      setCurrentId(totalHours[index + 1].id);
+      setCurrentTitle(totalHours[index + 1].title);
+      if (index + 1 === totalHours.length - 1) {
+        setIsLastpage(true);
+      }
+    }
+    setVisible(true);
+  };
+
   return (
     <div className={styles["item"]}>
       <VideoModel
         cid={cid}
-        id={id}
-        title={title}
+        id={currentId}
+        title={currentTitle}
         open={visible}
+        isLastpage={isLastpage}
         onCancel={() => {
           setVisible(false);
           onChange();
+        }}
+        goNextVideo={() => {
+          setVisible(false);
+          goNextVideo();
         }}
       ></VideoModel>
       <div className={styles["left-item"]}>

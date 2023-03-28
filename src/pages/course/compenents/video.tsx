@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from "react";
 import styles from "./video.module.scss";
 import { course } from "../../../api/index";
 import { ArrowLeftOutlined } from "@ant-design/icons";
+import { useSelector } from "react-redux";
 
 declare const window: any;
 
@@ -10,7 +11,9 @@ interface PropInterface {
   cid: number;
   title: string;
   open: boolean;
+  isLastpage: boolean;
   onCancel: () => void;
+  goNextVideo: () => void;
 }
 
 export const VideoModel: React.FC<PropInterface> = ({
@@ -18,11 +21,14 @@ export const VideoModel: React.FC<PropInterface> = ({
   cid,
   title,
   open,
+  isLastpage,
   onCancel,
+  goNextVideo,
 }) => {
+  const systemConfig = useSelector((state: any) => state.systemConfig.value);
   const [playUrl, setPlayUrl] = useState<string>("");
   const [playDuration, setPlayDuration] = useState(0);
-  const [playendedStatus,setPlayendedStatus]= useState<Boolean>(false);
+  const [playendedStatus, setPlayendedStatus] = useState<Boolean>(false);
   const myRef = useRef(0);
 
   useEffect(() => {
@@ -48,14 +54,15 @@ export const VideoModel: React.FC<PropInterface> = ({
       autoplay: false,
       video: {
         url: playUrl,
+        pic: systemConfig.playerPoster,
       },
       try: isTrySee === 1,
       bulletSecret: {
-        enabled: false,
-        text: "18119604035",
+        enabled: systemConfig.playerIsEnabledBulletSecret,
+        text: systemConfig.playerBulletSecretText,
         size: "15px",
-        color: "red",
-        opacity: 0.8,
+        color: systemConfig.playerBulletSecretColor || "red",
+        opacity: Number(systemConfig.playerBulletSecretOpacity),
       },
       ban_drag: false,
       last_see_pos: 0,
@@ -66,8 +73,9 @@ export const VideoModel: React.FC<PropInterface> = ({
       playTimeUpdate(parseInt(window.player.video.currentTime), false);
     });
     window.player.on("ended", () => {
+      setPlayendedStatus(true);
       playTimeUpdate(parseInt(window.player.video.currentTime), true);
-      window.player.destroy();
+      window.player && window.player.destroy();
     });
   };
 
@@ -101,6 +109,25 @@ export const VideoModel: React.FC<PropInterface> = ({
             <div className={styles["video-title"]}>{title}</div>
             <div className={styles["video-box"]}>
               <div className="play-box" id="meedu-player-container"></div>
+              {playendedStatus && (
+                <div className={styles["alert-message"]}>
+                  {isLastpage && (
+                    <div className={styles["alert-button"]}>
+                      恭喜你学完最后一节
+                    </div>
+                  )}
+                  {!isLastpage && (
+                    <div
+                      className={styles["alert-button"]}
+                      onClick={() => {
+                        setPlayendedStatus(false);
+                        goNextVideo()}}
+                    >
+                      播放下一节
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         </div>
