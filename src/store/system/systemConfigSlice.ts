@@ -6,6 +6,12 @@ type SystemConfigStoreInterface = {
   systemH5Url: string;
   systemLogo: string;
   systemName: string;
+  pcIndexFooterMsg: string;
+  playerPoster: string;
+  playerIsEnabledBulletSecret: string;
+  playerBulletSecretText: string;
+  playerBulletSecretColor: string;
+  playerBulletSecretOpacity: string;
 };
 
 let defaultValue: SystemConfigStoreInterface = {
@@ -14,6 +20,12 @@ let defaultValue: SystemConfigStoreInterface = {
   systemH5Url: "",
   systemLogo: "",
   systemName: "",
+  pcIndexFooterMsg: "",
+  playerPoster: "",
+  playerIsEnabledBulletSecret: "",
+  playerBulletSecretText: "",
+  playerBulletSecretColor: "",
+  playerBulletSecretOpacity: "",
 };
 
 const systemConfigSlice = createSlice({
