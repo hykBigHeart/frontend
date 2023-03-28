@@ -22,6 +22,7 @@ export const VideoModel: React.FC<PropInterface> = ({
 }) => {
   const [playUrl, setPlayUrl] = useState<string>("");
   const [playDuration, setPlayDuration] = useState(0);
+  const [playendedStatus,setPlayendedStatus]= useState<Boolean>(false);
   const myRef = useRef(0);
 
   useEffect(() => {

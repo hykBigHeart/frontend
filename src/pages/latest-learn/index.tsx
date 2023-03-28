@@ -102,7 +102,11 @@ const LatestLearnPage = () => {
                 )}
                 {!item.record && (
                   <>
-                    <div className={styles["record"]}></div>
+                    {item.last_learn_hour && (
+                      <div className={styles["record"]}>
+                        上次学到：{item.last_learn_hour.title}
+                      </div>
+                    )}
                     <div className={styles["progress"]}>
                       <Progress
                         percent={1}

@@ -5,6 +5,7 @@ import { useParams } from "react-router-dom";
 import { course as Course } from "../../api/index";
 import mediaIcon from "../../assets/images/commen/icon-medal.png";
 import { HourCompenent } from "./compenents/hour";
+import { Empty } from "../../compenents";
 
 const CoursePage = () => {
   const params = useParams();
@@ -112,9 +113,7 @@ const CoursePage = () => {
         )}
       </div>
       <div className={styles["chapters-hours-cont"]}>
-        {chapters.length === 0 && JSON.stringify(hours) === "{}" && (
-          <div>暂无课时</div>
-        )}
+        {chapters.length === 0 && JSON.stringify(hours) === "{}" && <Empty />}
         {chapters.length === 0 && JSON.stringify(hours) !== "{}" && (
           <div className={styles["hours-list-box"]}>
             {hours[0].map((item: any) => (
