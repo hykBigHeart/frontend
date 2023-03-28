@@ -57,7 +57,6 @@ export const UserInfoModel: React.FC<PropInterface> = ({ open, onCancel }) => {
       const { status, response } = info.file;
       if (status === "done") {
         if (response.code === 0) {
-          message.success(`${info.file.name} 上传成功`);
           getUser();
         } else {
           message.error(response.msg);

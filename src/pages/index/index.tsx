@@ -111,17 +111,17 @@ const IndexPage = () => {
         <div className={styles["top-item"]}>
           <div className={styles["title"]}>
             <img className={styles["icon"]} src={myLesoon} />
-            <span>我的课程</span>
+            <span>课程进度</span>
           </div>
           <div className={styles["info"]}>
             <div className={styles["info-item"]}>
-              <span>必修课：已完成</span>
+              <span>必修课：已完成课时</span>
               <strong> {stats.required_finished_hour_count || 0} </strong>
               <span>/ {stats.required_hour_count || 0}</span>
             </div>
             {stats.nun_required_hour_count > 0 && (
               <div className={styles["info-item"]}>
-                <span>选修课：已完成</span>
+                <span>选修课：已完成课时</span>
                 <strong> {stats.nun_required_finished_hour_count || 0} </strong>
                 <span>/ {stats.nun_required_hour_count || 0}</span>
               </div>
