@@ -11,6 +11,14 @@
   cursor: pointer;
   &:hover {
     background: rgba(255, 77, 79, 0.05);
+    .left-item {
+      i {
+        color: #ff4d4f;
+      }
+      .title {
+        color: #ff4d4f;
+      }
+    }
   }
 
   .left-item {

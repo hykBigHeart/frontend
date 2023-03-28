@@ -57,7 +57,7 @@ export const HourCompenent: React.FC<PropInterface> = ({
   };
 
   return (
-    <div className={styles["item"]}>
+    <>
       <VideoModel
         cid={cid}
         id={currentId}
@@ -73,54 +73,36 @@ export const HourCompenent: React.FC<PropInterface> = ({
           goNextVideo();
         }}
       ></VideoModel>
-      <div className={styles["left-item"]}>
-        <i className="iconfont icon-icon-video"></i>
-        <div className={styles["title"]}>
-          {title}({durationFormat(Number(duration))})
+      <div
+        className={styles["item"]}
+        onClick={() => {
+          setVisible(true);
+        }}
+      >
+        <div className={styles["left-item"]}>
+          <i className="iconfont icon-icon-video"></i>
+          <div className={styles["title"]}>
+            {title}({durationFormat(Number(duration))})
+          </div>
+        </div>
+        <div className="d-flex">
+          {progress >= 0 && progress < 100 && (
+            <>
+              {progress === 0 && <div className={styles["link"]}>开始学习</div>}
+              {progress !== 0 && (
+                <>
+                  <div className={styles["record"]}>
+                    上次学习到
+                    {durationFormat(Number(record.finished_duration || 0))}
+                  </div>
+                  <div className={styles["link"]}>继续学习</div>
+                </>
+              )}
+            </>
+          )}
+          {progress >= 100 && <div className={styles["complete"]}>已学完</div>}
         </div>
       </div>
-      <div className="d-flex">
-        {progress >= 0 && progress < 100 && (
-          <>
-            {progress === 0 && (
-              <div
-                className={styles["link"]}
-                onClick={() => {
-                  setVisible(true);
-                }}
-              >
-                开始学习
-              </div>
-            )}
-            {progress !== 0 && (
-              <>
-                <div className={styles["record"]}>
-                  上次学习到
-                  {durationFormat(Number(record.finished_duration || 0))}
-                </div>
-                <div
-                  className={styles["link"]}
-                  onClick={() => {
-                    setVisible(true);
-                  }}
-                >
-                  继续学习
-                </div>
-              </>
-            )}
-          </>
-        )}
-        {progress >= 100 && (
-          <div
-            className={styles["complete"]}
-            onClick={() => {
-              setVisible(true);
-            }}
-          >
-            已学完
-          </div>
-        )}
-      </div>
-    </div>
+    </>
   );
 };
