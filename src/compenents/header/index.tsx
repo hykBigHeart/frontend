@@ -30,23 +30,25 @@ export const Header: React.FC = () => {
   const [currentNav, serCurrentNav] = useState(location.pathname);
 
   useEffect(() => {
-    setCurrentDepartment(departments[0].name);
-    const arr: any = [
-      {
-        key: "1",
-        type: "group",
-        label: "部门",
-        children: [],
-      },
-    ];
-    departments.map((item: any) => {
-      arr[0].children.push({
-        key: item.id,
-        label: item.name,
-        disabled: item.name === currentDepartment,
+    if (departments.length > 0) {
+      setCurrentDepartment(departments[0].name);
+      const arr: any = [
+        {
+          key: "1",
+          type: "group",
+          label: "部门",
+          children: [],
+        },
+      ];
+      departments.map((item: any) => {
+        arr[0].children.push({
+          key: item.id,
+          label: item.name,
+          disabled: item.name === currentDepartment,
+        });
       });
-    });
-    setDepartmentsMenu(arr);
+      setDepartmentsMenu(arr);
+    }
   }, [departments]);
 
   const onClick: MenuProps["onClick"] = ({ key }) => {
