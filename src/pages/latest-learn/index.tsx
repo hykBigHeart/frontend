@@ -45,79 +45,83 @@ const LatestLearnPage = () => {
         {!loading &&
           courses.length > 0 &&
           courses.map((item: any) => (
-            <div
-              key={item.course.id}
-              className={styles["item"]}
-              onClick={() => {
-                navigate(`/course/${item.course.id}`);
-              }}
-            >
-              <Image
-                src={item.course.thumb}
-                width={120}
-                height={90}
-                style={{ borderRadius: 10 }}
-                preview={false}
-              />
-              <div className={styles["item-info"]}>
-                <div className={styles["top"]}>
-                  {item.course.is_required === 1 && (
-                    <div className={styles["type"]}>必修课</div>
-                  )}
-                  {item.course.is_required === 0 && (
-                    <div className={styles["active-type"]}>选修课</div>
-                  )}
-                  <div className={styles["title"]}>{item.course.title}</div>
-                </div>
-                {item.record && (
-                  <>
-                    {item.last_learn_hour && (
-                      <div className={styles["record"]}>
-                        上次学到：{item.last_learn_hour.title}
-                      </div>
-                    )}
-                    <div className={styles["progress"]}>
-                      {item.record.progress < 10000 && (
-                        <Progress
-                          percent={item.record.progress / 100}
-                          strokeColor="#FF4D4F"
-                          trailColor="#F6F6F6"
-                        />
+            <>
+              {item.course && (
+                <div
+                  key={item.course.id}
+                  className={styles["item"]}
+                  onClick={() => {
+                    navigate(`/course/${item.course.id}`);
+                  }}
+                >
+                  <Image
+                    src={item.course.thumb}
+                    width={120}
+                    height={90}
+                    style={{ borderRadius: 10 }}
+                    preview={false}
+                  />
+                  <div className={styles["item-info"]}>
+                    <div className={styles["top"]}>
+                      {item.course.is_required === 1 && (
+                        <div className={styles["type"]}>必修课</div>
                       )}
-                      {item.record.progress >= 10000 && (
-                        <>
-                          <Image
-                            width={24}
-                            height={24}
-                            src={mediaIcon}
-                            preview={false}
+                      {item.course.is_required === 0 && (
+                        <div className={styles["active-type"]}>选修课</div>
+                      )}
+                      <div className={styles["title"]}>{item.course.title}</div>
+                    </div>
+                    {item.record && (
+                      <>
+                        {item.last_learn_hour && (
+                          <div className={styles["record"]}>
+                            上次学到：{item.last_learn_hour.title}
+                          </div>
+                        )}
+                        <div className={styles["progress"]}>
+                          {item.record.progress < 10000 && (
+                            <Progress
+                              percent={item.record.progress / 100}
+                              strokeColor="#FF4D4F"
+                              trailColor="#F6F6F6"
+                            />
+                          )}
+                          {item.record.progress >= 10000 && (
+                            <>
+                              <Image
+                                width={24}
+                                height={24}
+                                src={mediaIcon}
+                                preview={false}
+                              />
+                              <span className={styles["tip"]}>
+                                恭喜你学完此套课程!
+                              </span>
+                            </>
+                          )}
+                        </div>
+                      </>
+                    )}
+                    {!item.record && (
+                      <>
+                        {item.last_learn_hour && (
+                          <div className={styles["record"]}>
+                            上次学到：{item.last_learn_hour.title}
+                          </div>
+                        )}
+                        <div className={styles["progress"]}>
+                          <Progress
+                            percent={1}
+                            strokeColor="#FF4D4F"
+                            trailColor="#F6F6F6"
                           />
-                          <span className={styles["tip"]}>
-                            恭喜你学完此套课程!
-                          </span>
-                        </>
-                      )}
-                    </div>
-                  </>
-                )}
-                {!item.record && (
-                  <>
-                    {item.last_learn_hour && (
-                      <div className={styles["record"]}>
-                        上次学到：{item.last_learn_hour.title}
-                      </div>
+                        </div>
+                      </>
                     )}
-                    <div className={styles["progress"]}>
-                      <Progress
-                        percent={1}
-                        strokeColor="#FF4D4F"
-                        trailColor="#F6F6F6"
-                      />
-                    </div>
-                  </>
-                )}
-              </div>
-            </div>
+                  </div>
+                </div>
+              )}
+            </>
           ))}
       </div>
       <div className={styles["extra"]}>{systemConfig.pcIndexFooterMsg}</div>

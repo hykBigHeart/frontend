@@ -223,7 +223,7 @@ h1 {
 
 .container {
   width: 1200px;
-  min-height: 671px;
+  min-height: calc(100vh - 260px);
   height: auto;
   margin: 0 auto;
 }

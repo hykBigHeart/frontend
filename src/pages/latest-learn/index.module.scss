@@ -1,6 +1,6 @@
 .content {
   width: 1200px;
-  min-height: 581px;
+  min-height: calc(100vh - 350px);
   height: auto;
   margin: 0 auto;
   box-sizing: border-box;
