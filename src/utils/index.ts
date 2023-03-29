@@ -1,15 +1,15 @@
 import moment from "moment";
 
 export function getToken(): string {
-  return window.localStorage.getItem("playedu-backend-token") || "";
+  return window.localStorage.getItem("playedu-frontend-token") || "";
 }
 
 export function setToken(token: string) {
-  window.localStorage.setItem("playedu-backend-token", token);
+  window.localStorage.setItem("playedu-frontend-token", token);
 }
 
 export function clearToken() {
-  window.localStorage.removeItem("playedu-backend-token");
+  window.localStorage.removeItem("playedu-frontend-token");
 }
 
 export function dateFormat(dateStr: string) {
