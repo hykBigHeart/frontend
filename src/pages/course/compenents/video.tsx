@@ -33,6 +33,7 @@ export const VideoModel: React.FC<PropInterface> = ({
 
   useEffect(() => {
     if (open) {
+      setPlayendedStatus(false);
       getVideoUrl();
     }
   }, [open, id, cid]);
@@ -60,7 +61,7 @@ export const VideoModel: React.FC<PropInterface> = ({
       bulletSecret: {
         enabled: systemConfig.playerIsEnabledBulletSecret,
         text: systemConfig.playerBulletSecretText,
-        size: "15px",
+        size: "14px",
         color: systemConfig.playerBulletSecretColor || "red",
         opacity: Number(systemConfig.playerBulletSecretOpacity),
       },
@@ -121,7 +122,8 @@ export const VideoModel: React.FC<PropInterface> = ({
                       className={styles["alert-button"]}
                       onClick={() => {
                         setPlayendedStatus(false);
-                        goNextVideo()}}
+                        goNextVideo();
+                      }}
                     >
                       播放下一节
                     </div>
