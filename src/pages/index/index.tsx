@@ -17,6 +17,7 @@ const IndexPage = () => {
   const [tabKey, setTabKey] = useState(0);
   const [coursesList, setCoursesList] = useState<any>([]);
   const [learnCourseRecords, setLearnCourseRecords] = useState<any>({});
+  const [learnCourseHourCount, setLearnCourseHourCount] = useState<any>({});
   const [stats, setStats] = useState<any>({});
 
   const departments = useSelector(
@@ -36,6 +37,7 @@ const IndexPage = () => {
       const records = res.data.learn_course_records;
       setStats(res.data.stats);
       setLearnCourseRecords(records);
+      setLearnCourseHourCount(res.data.user_course_hour_count);
       if (tabKey === 0) {
         setCoursesList(res.data.courses);
       } else if (tabKey === 1) {
@@ -271,15 +273,28 @@ const IndexPage = () => {
                   progress={learnCourseRecords[item.id].progress / 100}
                 ></CoursesModel>
               )}
-              {!learnCourseRecords[item.id] && (
-                <CoursesModel
-                  id={item.id}
-                  title={item.title}
-                  thumb={item.thumb}
-                  isRequired={item.is_required}
-                  progress={0}
-                ></CoursesModel>
-              )}
+
+              {!learnCourseRecords[item.id] &&
+                learnCourseHourCount[item.id] &&
+                learnCourseHourCount[item.id] > 0 && (
+                  <CoursesModel
+                    id={item.id}
+                    title={item.title}
+                    thumb={item.thumb}
+                    isRequired={item.is_required}
+                    progress={1}
+                  ></CoursesModel>
+                )}
+              {!learnCourseRecords[item.id] &&
+                !learnCourseHourCount[item.id] && (
+                  <CoursesModel
+                    id={item.id}
+                    title={item.title}
+                    thumb={item.thumb}
+                    isRequired={item.is_required}
+                    progress={0}
+                  ></CoursesModel>
+                )}
             </div>
           ))}
         </div>
