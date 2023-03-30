@@ -108,199 +108,201 @@ const IndexPage = () => {
   };
 
   return (
-    <>
-      <div className={styles["top-cont"]}>
-        <div className={styles["top-item"]}>
-          <div className={styles["title"]}>
-            <img className={styles["icon"]} src={myLesoon} />
-            <span>课程进度</span>
-          </div>
-          <div className={styles["info"]}>
-            <div className={styles["info-item"]}>
-              <span>必修课：已完成课时</span>
-              <strong> {stats.required_finished_course_count || 0} </strong>
-              <span>/ {stats.required_course_count || 0}</span>
+    <div className="main-body">
+      <div className="content">
+        <div className={styles["top-cont"]}>
+          <div className={styles["top-item"]}>
+            <div className={styles["title"]}>
+              <img className={styles["icon"]} src={myLesoon} />
+              <span>课程进度</span>
             </div>
-            {stats.nun_required_hour_count > 0 && (
+            <div className={styles["info"]}>
               <div className={styles["info-item"]}>
-                <span>选修课：已完成课时</span>
+                <span>必修课：已完成课时</span>
+                <strong> {stats.required_finished_course_count || 0} </strong>
+                <span>/ {stats.required_course_count || 0}</span>
+              </div>
+              {stats.nun_required_hour_count > 0 && (
+                <div className={styles["info-item"]}>
+                  <span>选修课：已完成课时</span>
+                  <strong>
+                    {" "}
+                    {stats.nun_required_finished_course_count || 0}{" "}
+                  </strong>
+                  <span>/ {stats.required_finished_course_count || 0}</span>
+                </div>
+              )}
+            </div>
+          </div>
+          <div className={styles["top-item"]}>
+            <div className={styles["title"]}>
+              <img className={styles["icon"]} src={studyTime} />
+              <span>学习时长</span>
+            </div>
+            <div className={styles["info"]}>
+              <div className={styles["info-item"]}>
+                今日：
+                {studyTimeFormat(stats.today_learn_duration)[0] !== 0 && (
+                  <>
+                    <strong>
+                      {" "}
+                      {studyTimeFormat(stats.today_learn_duration)[0] || 0}{" "}
+                    </strong>
+                    天
+                  </>
+                )}
+                {studyTimeFormat(stats.today_learn_duration)[1] !== 0 && (
+                  <>
+                    <strong>
+                      {" "}
+                      {studyTimeFormat(stats.today_learn_duration)[1] || 0}{" "}
+                    </strong>
+                    小时
+                  </>
+                )}
                 <strong>
                   {" "}
-                  {stats.nun_required_finished_course_count || 0}{" "}
+                  {studyTimeFormat(stats.today_learn_duration)[2] || 0}{" "}
                 </strong>
-                <span>/ {stats.required_finished_course_count || 0}</span>
+                分钟
+                <strong>
+                  {" "}
+                  {studyTimeFormat(stats.today_learn_duration)[3] || 0}{" "}
+                </strong>
+                秒
               </div>
-            )}
-          </div>
-        </div>
-        <div className={styles["top-item"]}>
-          <div className={styles["title"]}>
-            <img className={styles["icon"]} src={studyTime} />
-            <span>学习时长</span>
-          </div>
-          <div className={styles["info"]}>
-            <div className={styles["info-item"]}>
-              今日：
-              {studyTimeFormat(stats.today_learn_duration)[0] !== 0 && (
-                <>
-                  <strong>
-                    {" "}
-                    {studyTimeFormat(stats.today_learn_duration)[0] || 0}{" "}
-                  </strong>
-                  天
-                </>
-              )}
-              {studyTimeFormat(stats.today_learn_duration)[1] !== 0 && (
-                <>
-                  <strong>
-                    {" "}
-                    {studyTimeFormat(stats.today_learn_duration)[1] || 0}{" "}
-                  </strong>
-                  小时
-                </>
-              )}
-              <strong>
-                {" "}
-                {studyTimeFormat(stats.today_learn_duration)[2] || 0}{" "}
-              </strong>
-              分钟
-              <strong>
-                {" "}
-                {studyTimeFormat(stats.today_learn_duration)[3] || 0}{" "}
-              </strong>
-              秒
-            </div>
-            <div className={styles["info-item"]}>
-              累计：
-              {studyTimeFormat(stats.learn_duration || 0)[0] !== 0 && (
-                <>
-                  <strong>
-                    {" "}
-                    {studyTimeFormat(stats.learn_duration || 0)[0] || 0}{" "}
-                  </strong>
-                  天
-                </>
-              )}
-              {studyTimeFormat(stats.learn_duration || 0)[1] !== 0 && (
-                <>
-                  <strong>
-                    {" "}
-                    {studyTimeFormat(stats.learn_duration || 0)[1] || 0}{" "}
-                  </strong>
-                  小时
-                </>
-              )}
-              <strong>
-                {" "}
-                {studyTimeFormat(stats.learn_duration || 0)[2] || 0}{" "}
-              </strong>
-              分钟
-              <strong>
-                {" "}
-                {studyTimeFormat(stats.learn_duration || 0)[3] || 0}{" "}
-              </strong>
-              秒
+              <div className={styles["info-item"]}>
+                累计：
+                {studyTimeFormat(stats.learn_duration || 0)[0] !== 0 && (
+                  <>
+                    <strong>
+                      {" "}
+                      {studyTimeFormat(stats.learn_duration || 0)[0] || 0}{" "}
+                    </strong>
+                    天
+                  </>
+                )}
+                {studyTimeFormat(stats.learn_duration || 0)[1] !== 0 && (
+                  <>
+                    <strong>
+                      {" "}
+                      {studyTimeFormat(stats.learn_duration || 0)[1] || 0}{" "}
+                    </strong>
+                    小时
+                  </>
+                )}
+                <strong>
+                  {" "}
+                  {studyTimeFormat(stats.learn_duration || 0)[2] || 0}{" "}
+                </strong>
+                分钟
+                <strong>
+                  {" "}
+                  {studyTimeFormat(stats.learn_duration || 0)[3] || 0}{" "}
+                </strong>
+                秒
+              </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className={styles["tabs"]}>
-        {items.map((item: any) => (
-          <div
-            key={item.key}
-            className={
-              item.key === tabKey
-                ? styles["tab-active-item"]
-                : styles["tab-item"]
-            }
-            onClick={() => {
-              onChange(item.key);
-            }}
-          >
-            <div className={styles["tit"]}>{item.label}</div>
-            {item.key === tabKey && (
-              <Image
-                className={styles["banner"]}
-                width={40}
-                height={8}
-                preview={false}
-                src={iconRoute}
-                style={{ marginTop: -16 }}
-              />
-            )}
-          </div>
-        ))}
-      </div>
-      {loading && (
-        <Row
-          style={{
-            width: 1200,
-            margin: "0 auto",
-            paddingTop: 14,
-            minHeight: 301,
-          }}
-        >
-          <div className="float-left d-j-flex mt-50">
-            <Spin size="large" />
-          </div>
-        </Row>
-      )}
-
-      {!loading && coursesList.length === 0 && (
-        <Row
-          style={{
-            width: 1200,
-            margin: "0 auto",
-            paddingTop: 14,
-            minHeight: 301,
-          }}
-        >
-          <Col span={24}>
-            <Empty />
-          </Col>
-        </Row>
-      )}
-      {!loading && coursesList.length > 0 && (
-        <div className={styles["courses-list"]}>
-          {coursesList.map((item: any) => (
-            <div key={item.id}>
-              {learnCourseRecords[item.id] && (
-                <CoursesModel
-                  id={item.id}
-                  title={item.title}
-                  thumb={item.thumb}
-                  isRequired={item.is_required}
-                  progress={learnCourseRecords[item.id].progress / 100}
-                ></CoursesModel>
+        <div className={styles["tabs"]}>
+          {items.map((item: any) => (
+            <div
+              key={item.key}
+              className={
+                item.key === tabKey
+                  ? styles["tab-active-item"]
+                  : styles["tab-item"]
+              }
+              onClick={() => {
+                onChange(item.key);
+              }}
+            >
+              <div className={styles["tit"]}>{item.label}</div>
+              {item.key === tabKey && (
+                <Image
+                  className={styles["banner"]}
+                  width={40}
+                  height={8}
+                  preview={false}
+                  src={iconRoute}
+                  style={{ marginTop: -16 }}
+                />
               )}
-
-              {!learnCourseRecords[item.id] &&
-                learnCourseHourCount[item.id] &&
-                learnCourseHourCount[item.id] > 0 && (
-                  <CoursesModel
-                    id={item.id}
-                    title={item.title}
-                    thumb={item.thumb}
-                    isRequired={item.is_required}
-                    progress={1}
-                  ></CoursesModel>
-                )}
-              {!learnCourseRecords[item.id] &&
-                !learnCourseHourCount[item.id] && (
-                  <CoursesModel
-                    id={item.id}
-                    title={item.title}
-                    thumb={item.thumb}
-                    isRequired={item.is_required}
-                    progress={0}
-                  ></CoursesModel>
-                )}
             </div>
           ))}
         </div>
-      )}
+        {loading && (
+          <Row
+            style={{
+              width: 1200,
+              margin: "0 auto",
+              paddingTop: 14,
+              minHeight: 301,
+            }}
+          >
+            <div className="float-left d-j-flex mt-50">
+              <Spin size="large" />
+            </div>
+          </Row>
+        )}
+
+        {!loading && coursesList.length === 0 && (
+          <Row
+            style={{
+              width: 1200,
+              margin: "0 auto",
+              paddingTop: 14,
+              minHeight: 301,
+            }}
+          >
+            <Col span={24}>
+              <Empty />
+            </Col>
+          </Row>
+        )}
+        {!loading && coursesList.length > 0 && (
+          <div className={styles["courses-list"]}>
+            {coursesList.map((item: any) => (
+              <div key={item.id}>
+                {learnCourseRecords[item.id] && (
+                  <CoursesModel
+                    id={item.id}
+                    title={item.title}
+                    thumb={item.thumb}
+                    isRequired={item.is_required}
+                    progress={learnCourseRecords[item.id].progress / 100}
+                  ></CoursesModel>
+                )}
+
+                {!learnCourseRecords[item.id] &&
+                  learnCourseHourCount[item.id] &&
+                  learnCourseHourCount[item.id] > 0 && (
+                    <CoursesModel
+                      id={item.id}
+                      title={item.title}
+                      thumb={item.thumb}
+                      isRequired={item.is_required}
+                      progress={1}
+                    ></CoursesModel>
+                  )}
+                {!learnCourseRecords[item.id] &&
+                  !learnCourseHourCount[item.id] && (
+                    <CoursesModel
+                      id={item.id}
+                      title={item.title}
+                      thumb={item.thumb}
+                      isRequired={item.is_required}
+                      progress={0}
+                    ></CoursesModel>
+                  )}
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
       <div className={styles["extra"]}>{systemConfig.pcIndexFooterMsg}</div>
-    </>
+    </div>
   );
 };
 

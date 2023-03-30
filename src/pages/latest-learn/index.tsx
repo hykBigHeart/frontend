@@ -26,7 +26,7 @@ const LatestLearnPage = () => {
   };
 
   return (
-    <div>
+    <div className="main-body">
       <div className={styles["content"]}>
         {loading && (
           <Row style={{ width: 1200 }}>
