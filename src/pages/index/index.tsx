@@ -122,14 +122,14 @@ const IndexPage = () => {
                 <strong> {stats.required_finished_course_count || 0} </strong>
                 <span>/ {stats.required_course_count || 0}</span>
               </div>
-              {stats.nun_required_hour_count > 0 && (
+              {stats.nun_required_course_count > 0 && (
                 <div className={styles["info-item"]}>
                   <span>选修课：已完成课程</span>
                   <strong>
                     {" "}
                     {stats.nun_required_finished_course_count || 0}{" "}
                   </strong>
-                  <span>/ {stats.required_finished_course_count || 0}</span>
+                  <span>/ {stats.nun_required_course_count || 0}</span>
                 </div>
               )}
             </div>
