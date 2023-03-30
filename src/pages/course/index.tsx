@@ -37,9 +37,11 @@ const CoursePage = () => {
         setTotalHours(res.data.hours[0]);
       } else if (res.data.chapters.length > 0) {
         const arr: any = [];
-        chapters.map((item: any) => {
-          arr.concat(res.data.hours[item.id]);
-        });
+        for (let key in res.data.hours) {
+          res.data.hours[key].map((item: any) => {
+            arr.push(item);
+          });
+        }
         setTotalHours(arr);
       }
       setLoading(false);
