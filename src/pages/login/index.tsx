@@ -46,6 +46,10 @@ const LoginPage: React.FC = () => {
       message.error("请输入图形验证码");
       return;
     }
+    if (captchaVal.length < 4) {
+      message.error("图形验证码错误");
+      return;
+    }
     if (loading) {
       return;
     }
