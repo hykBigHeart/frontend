@@ -12,6 +12,7 @@ interface PropInterface {
   record: any;
   progress: number;
   totalHours: any;
+  records: any;
   onChange: () => void;
 }
 
@@ -23,6 +24,7 @@ export const HourCompenent: React.FC<PropInterface> = ({
   record,
   progress,
   totalHours,
+  records,
   onChange,
 }) => {
   // const navigate = useNavigate();
@@ -30,6 +32,7 @@ export const HourCompenent: React.FC<PropInterface> = ({
   const [currentId, setCurrentId] = useState(id);
   const [currentTitle, setCurrentTitle] = useState(title);
   const [isLastpage, setIsLastpage] = useState<boolean>(false);
+  const [lastSeeDuration, setLastSeeDuration] = useState(0);
 
   useEffect(() => {
     getData();
@@ -39,6 +42,9 @@ export const HourCompenent: React.FC<PropInterface> = ({
     const index = totalHours.findIndex((i: any) => i.id === id);
     if (index === totalHours.length - 1) {
       setIsLastpage(true);
+    }
+    if (records[totalHours[index].id]) {
+      setLastSeeDuration(records[totalHours[index].id].finished_duration);
     }
   };
 
@@ -52,6 +58,9 @@ export const HourCompenent: React.FC<PropInterface> = ({
       if (index + 1 === totalHours.length - 1) {
         setIsLastpage(true);
       }
+      if (records[totalHours[index + 1].id]) {
+        setLastSeeDuration(records[totalHours[index + 1].id].finished_duration);
+      }
     }
     setVisible(true);
   };
@@ -64,6 +73,7 @@ export const HourCompenent: React.FC<PropInterface> = ({
         title={currentTitle}
         open={visible}
         isLastpage={isLastpage}
+        lastSeeDuration={lastSeeDuration}
         onCancel={() => {
           setVisible(false);
           onChange();

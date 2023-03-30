@@ -12,6 +12,7 @@ interface PropInterface {
   title: string;
   open: boolean;
   isLastpage: boolean;
+  lastSeeDuration: number;
   onCancel: () => void;
   goNextVideo: () => void;
 }
@@ -22,6 +23,7 @@ export const VideoModel: React.FC<PropInterface> = ({
   title,
   open,
   isLastpage,
+  lastSeeDuration,
   onCancel,
   goNextVideo,
 }) => {
@@ -29,27 +31,36 @@ export const VideoModel: React.FC<PropInterface> = ({
   const [playUrl, setPlayUrl] = useState<string>("");
   const [playDuration, setPlayDuration] = useState(0);
   const [playendedStatus, setPlayendedStatus] = useState<Boolean>(false);
+  const [lastSeeValue, setLastSeeValue] = useState({});
   const myRef = useRef(0);
 
   useEffect(() => {
+    let params = null;
     if (open) {
+      if (lastSeeDuration > 0) {
+        params = {
+          time: 5,
+          pos: lastSeeDuration,
+        };
+        setLastSeeValue(params);
+      }
       setPlayendedStatus(false);
-      getVideoUrl();
+      getVideoUrl(params);
     }
-  }, [open, id, cid]);
+  }, [open, id, cid, lastSeeDuration]);
 
   useEffect(() => {
     myRef.current = playDuration;
   }, [playDuration]);
 
-  const getVideoUrl = () => {
+  const getVideoUrl = (params: any) => {
     course.playUrl(cid, id).then((res: any) => {
       setPlayUrl(res.data.url);
-      initDPlayer(res.data.url, 0);
+      initDPlayer(res.data.url, 0, params);
     });
   };
 
-  const initDPlayer = (playUrl: string, isTrySee: number) => {
+  const initDPlayer = (playUrl: string, isTrySee: number, params: any) => {
     window.player = new window.DPlayer({
       container: document.getElementById("meedu-player-container"),
       autoplay: false,
@@ -66,9 +77,8 @@ export const VideoModel: React.FC<PropInterface> = ({
         opacity: Number(systemConfig.playerBulletSecretOpacity),
       },
       ban_drag: false,
-      last_see_pos: 0,
+      last_see_pos: params,
     });
-
     // 监听播放进度更新evt
     window.player.on("timeupdate", () => {
       playTimeUpdate(parseInt(window.player.video.currentTime), false);
@@ -121,6 +131,7 @@ export const VideoModel: React.FC<PropInterface> = ({
                     <div
                       className={styles["alert-button"]}
                       onClick={() => {
+                        setLastSeeValue({});
                         setPlayendedStatus(false);
                         goNextVideo();
                       }}

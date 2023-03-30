@@ -136,6 +136,7 @@ const CoursePage = () => {
                     cid={item.course_id}
                     title={item.title}
                     record={learnHourRecord[item.id]}
+                    records={learnHourRecord}
                     duration={item.duration}
                     progress={
                       (learnHourRecord[item.id].finished_duration * 100) /
@@ -151,6 +152,7 @@ const CoursePage = () => {
                     cid={item.course_id}
                     title={item.title}
                     record={null}
+                    records={learnHourRecord}
                     duration={item.duration}
                     progress={0}
                     totalHours={totalHours}
@@ -174,6 +176,7 @@ const CoursePage = () => {
                         cid={item.course_id}
                         title={it.title}
                         record={learnHourRecord[it.id]}
+                        records={learnHourRecord}
                         duration={it.duration}
                         progress={
                           (learnHourRecord[it.id].finished_duration * 100) /
@@ -189,6 +192,7 @@ const CoursePage = () => {
                         cid={item.course_id}
                         title={it.title}
                         record={null}
+                        records={learnHourRecord}
                         duration={it.duration}
                         progress={0}
                         totalHours={totalHours}
