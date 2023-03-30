@@ -123,7 +123,13 @@ export const VideoModel: React.FC<PropInterface> = ({
               {playendedStatus && (
                 <div className={styles["alert-message"]}>
                   {isLastpage && (
-                    <div className={styles["alert-button"]}>
+                    <div
+                      className={styles["alert-button"]}
+                      onClick={() => {
+                        window.player && window.player.destroy();
+                        onCancel();
+                      }}
+                    >
                       恭喜你学完最后一节
                     </div>
                   )}
