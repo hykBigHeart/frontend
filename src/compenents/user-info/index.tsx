@@ -63,6 +63,8 @@ export const UserInfoModel: React.FC<PropInterface> = ({ open, onCancel }) => {
         }
       } else if (status === "error") {
         message.error(`${info.file.name} 上传失败`);
+      } else {
+        message.error("上传失败");
       }
     },
   };
