@@ -77,7 +77,7 @@ const CoursePage = () => {
                       src={mediaIcon}
                       preview={false}
                     />
-                    <span className="ml-8">恭喜你学完此套课程!</span>
+                    <span className="ml-8">恭喜你学完此课程!</span>
                   </div>
                 )}
               </div>

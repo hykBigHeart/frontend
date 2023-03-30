@@ -66,7 +66,7 @@ export const CoursesModel: React.FC<PropInterface> = ({
         {progress === 100 && (
           <div className={styles["success"]}>
             <Image width={24} height={24} src={mediaIcon} preview={false} />
-            <span className="ml-8">恭喜你学完此套课程!</span>
+            <span className="ml-8">恭喜你学完此课程!</span>
           </div>
         )}
       </div>

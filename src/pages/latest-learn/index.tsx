@@ -95,7 +95,7 @@ const LatestLearnPage = () => {
                                 preview={false}
                               />
                               <span className={styles["tip"]}>
-                                恭喜你学完此套课程!
+                                恭喜你学完此课程!
                               </span>
                             </>
                           )}
