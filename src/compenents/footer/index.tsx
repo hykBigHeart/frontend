@@ -13,7 +13,7 @@ export const Footer: React.FC = () => {
         marginTop: 80,
       }}
     >
-      <Link to="/">
+      <Link to="https://playedu.xyz/" target="_blank">
         <i
           style={{ fontSize: 30, color: "#cccccc" }}
           className="iconfont icon-waterprint"
