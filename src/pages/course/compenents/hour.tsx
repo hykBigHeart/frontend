@@ -49,7 +49,7 @@ export const HourCompenent: React.FC<PropInterface> = ({
   };
 
   const goNextVideo = () => {
-    const index = totalHours.findIndex((i: any) => i.id === id);
+    const index = totalHours.findIndex((i: any) => i.id === currentId);
     if (index === totalHours.length - 1) {
       setIsLastpage(true);
     } else if (index < totalHours.length - 1) {

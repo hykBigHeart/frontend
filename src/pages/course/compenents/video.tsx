@@ -35,6 +35,7 @@ export const VideoModel: React.FC<PropInterface> = ({
   const [playDuration, setPlayDuration] = useState(0);
   const [playendedStatus, setPlayendedStatus] = useState<Boolean>(false);
   const [lastSeeValue, setLastSeeValue] = useState({});
+  const [loading, setLoading] = useState<Boolean>(false);
   const myRef = useRef(0);
 
   useEffect(() => {
@@ -94,6 +95,7 @@ export const VideoModel: React.FC<PropInterface> = ({
       playTimeUpdate(parseInt(window.player.video.currentTime), true);
       window.player && window.player.destroy();
     });
+    setLoading(false);
   };
 
   const playTimeUpdate = (duration: number, isEnd: boolean) => {
@@ -143,6 +145,10 @@ export const VideoModel: React.FC<PropInterface> = ({
                     <div
                       className={styles["alert-button"]}
                       onClick={() => {
+                        if (loading) {
+                          return;
+                        }
+                        setLoading(true);
                         setLastSeeValue({});
                         setPlayendedStatus(false);
                         goNextVideo();
