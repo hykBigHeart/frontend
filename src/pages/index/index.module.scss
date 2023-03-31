@@ -45,8 +45,9 @@
         font-weight: 600;
         color: rgba(0, 0, 0, 0.45);
         line-height: 24px;
+        margin-right: 50px;
         &:last-child {
-          margin-left: 50px;
+          margin-right: 0px;
         }
         strong {
           font-size: 20px;
