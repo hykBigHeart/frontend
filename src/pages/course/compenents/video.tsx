@@ -28,6 +28,7 @@ export const VideoModel: React.FC<PropInterface> = ({
   goNextVideo,
 }) => {
   const systemConfig = useSelector((state: any) => state.systemConfig.value);
+  const user = useSelector((state: any) => state.loginUser.value.user);
   const [playUrl, setPlayUrl] = useState<string>("");
   const [playDuration, setPlayDuration] = useState(0);
   const [playendedStatus, setPlayendedStatus] = useState<Boolean>(false);
@@ -71,7 +72,10 @@ export const VideoModel: React.FC<PropInterface> = ({
       try: isTrySee === 1,
       bulletSecret: {
         enabled: systemConfig.playerIsEnabledBulletSecret,
-        text: systemConfig.playerBulletSecretText,
+        text: systemConfig.playerBulletSecretText
+          .replace("{name}", user.name)
+          .replace("{email}", user.email)
+          .replace("{idCard}", user.id_card),
         size: "14px",
         color: systemConfig.playerBulletSecretColor || "red",
         opacity: Number(systemConfig.playerBulletSecretOpacity),
