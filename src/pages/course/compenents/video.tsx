@@ -13,6 +13,7 @@ interface PropInterface {
   open: boolean;
   isLastpage: boolean;
   lastSeeDuration: number;
+  progress: number;
   onCancel: () => void;
   goNextVideo: () => void;
 }
@@ -24,6 +25,7 @@ export const VideoModel: React.FC<PropInterface> = ({
   open,
   isLastpage,
   lastSeeDuration,
+  progress,
   onCancel,
   goNextVideo,
 }) => {
@@ -38,7 +40,7 @@ export const VideoModel: React.FC<PropInterface> = ({
   useEffect(() => {
     let params = null;
     if (open) {
-      if (lastSeeDuration > 0) {
+      if (lastSeeDuration > 0 && progress < 100) {
         params = {
           time: 5,
           pos: lastSeeDuration,

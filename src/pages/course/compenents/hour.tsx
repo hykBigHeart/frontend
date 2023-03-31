@@ -72,6 +72,7 @@ export const HourCompenent: React.FC<PropInterface> = ({
         id={currentId}
         title={currentTitle}
         open={visible}
+        progress={progress}
         isLastpage={isLastpage}
         lastSeeDuration={lastSeeDuration}
         onCancel={() => {
