@@ -87,6 +87,8 @@ export const HourCompenent: React.FC<PropInterface> = ({
       <div
         className={styles["item"]}
         onClick={() => {
+          setCurrentId(id);
+          setCurrentTitle(title);
           setVisible(true);
         }}
       >

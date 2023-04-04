@@ -148,6 +148,7 @@ export const VideoModel: React.FC<PropInterface> = ({
                         if (loading) {
                           return;
                         }
+                        window.player && window.player.destroy();
                         setLoading(true);
                         setLastSeeValue({});
                         setPlayendedStatus(false);
