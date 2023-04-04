@@ -25,6 +25,7 @@ const CoursePage = () => {
     setLoading(true);
     Course.detail(Number(params.courseId))
       .then((res: any) => {
+        document.title = res.data.course.title;
         setCourse(res.data.course);
         setChapters(res.data.chapters);
         setHours(res.data.hours);

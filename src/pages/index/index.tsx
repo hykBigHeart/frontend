@@ -31,6 +31,10 @@ const IndexPage = () => {
     getData();
   }, [tabKey, currentDepId]);
 
+  useEffect(() => {
+    document.title = systemConfig.systemName;
+  }, [systemConfig]);
+
   const getData = () => {
     setLoading(true);
     user.courses(currentDepId).then((res: any) => {
