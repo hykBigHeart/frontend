@@ -51,6 +51,10 @@ export const Header: React.FC = () => {
     }
   }, [departments]);
 
+  useEffect(() => {
+    serCurrentNav(location.pathname);
+  }, [location.pathname]);
+
   const onClick: MenuProps["onClick"] = ({ key }) => {
     if (key === "login_out") {
       confirm({
