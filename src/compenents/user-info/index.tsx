@@ -38,7 +38,7 @@ export const UserInfoModel: React.FC<PropInterface> = ({ open, onCancel }) => {
     name: "file",
     multiple: false,
     method: "PUT",
-    action: config.app_url + "/api/v1/user/avatar",
+    action: config.app_url + "api/v1/user/avatar",
     headers: {
       Accept: "application/json",
       authorization: "Bearer " + getToken(),
@@ -63,8 +63,6 @@ export const UserInfoModel: React.FC<PropInterface> = ({ open, onCancel }) => {
         }
       } else if (status === "error") {
         message.error(`${info.file.name} 上传失败`);
-      } else {
-        message.error("上传失败");
       }
     },
   };
