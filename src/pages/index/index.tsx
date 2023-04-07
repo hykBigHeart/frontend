@@ -28,6 +28,9 @@ const IndexPage = () => {
   );
 
   useEffect(() => {
+    if (currentDepId === 0) {
+      return;
+    }
     getData();
   }, [tabKey, currentDepId]);
 
@@ -36,9 +39,6 @@ const IndexPage = () => {
   }, [systemConfig]);
 
   const getData = () => {
-    if (currentDepId === 0) {
-      return;
-    }
     setLoading(true);
     user.courses(currentDepId).then((res: any) => {
       const records = res.data.learn_course_records;
