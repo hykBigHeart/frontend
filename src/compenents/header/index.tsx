@@ -11,6 +11,7 @@ import {
 import { ChangePasswordModel } from "../change-password";
 import { UserInfoModel } from "../user-info";
 import { ExclamationCircleFilled } from "@ant-design/icons";
+import logo from "../../assets/logo.png";
 const { confirm } = Modal;
 
 export const Header: React.FC = () => {
@@ -168,7 +169,7 @@ export const Header: React.FC = () => {
       <div className={styles["main-header"]}>
         <div className="d-flex">
           <Link to="/" className={styles["App-logo"]}>
-            <img src={config.systemLogo} />
+            <img src={config.systemLogo || logo} />
           </Link>
           <div className={styles["navs"]}>
             {navs.map((item: any) => (
