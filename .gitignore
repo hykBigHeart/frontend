@@ -32,3 +32,4 @@ yarn.lock
 
 deploy-test.sh
 deploy-prod.sh
+deploy-demo.sh
