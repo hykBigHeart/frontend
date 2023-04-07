@@ -51,7 +51,11 @@ export const UserInfoModel: React.FC<PropInterface> = ({ open, onCancel }) => {
       if (!isPNG) {
         message.error(`${file.name}不是图片文件`);
       }
-      return isPNG || Upload.LIST_IGNORE;
+      const isLt2M = file.size / 1024 / 1024 < 2;
+      if (!isLt2M) {
+        message.error("超过2M限制，不允许上传");
+      }
+      return (isPNG && isLt2M) || Upload.LIST_IGNORE;
     },
     onChange(info: any) {
       const { status, response } = info.file;
