@@ -22,7 +22,9 @@ export const UserInfoModel: React.FC<PropInterface> = ({ open, onCancel }) => {
   const [idCard, setIdCard] = useState<string>("");
 
   useEffect(() => {
-    getUser();
+    if (open) {
+      getUser();
+    }
   }, [form, open]);
 
   const getUser = () => {
