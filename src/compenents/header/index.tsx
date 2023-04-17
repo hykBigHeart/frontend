@@ -8,6 +8,7 @@ import {
   logoutAction,
   saveCurrentDepId,
 } from "../../store/user/loginUserSlice";
+import { setDepKey, setDepName, getDepName } from "../../utils/index";
 import { ChangePasswordModel } from "../change-password";
 import { UserInfoModel } from "../user-info";
 import { ExclamationCircleFilled } from "@ant-design/icons";
@@ -32,7 +33,7 @@ export const Header: React.FC = () => {
 
   useEffect(() => {
     if (departments.length > 0) {
-      setCurrentDepartment(departments[0].name);
+      setCurrentDepartment(getDepName() || departments[0].name);
       const arr: any = [
         {
           key: "1",
@@ -129,6 +130,8 @@ export const Header: React.FC = () => {
       onOk() {
         setCurrentDepartment(name);
         dispatch(saveCurrentDepId(Number(key)));
+        setDepKey(key);
+        setDepName(name);
         const box = [...departments];
         const arr: any = [
           {

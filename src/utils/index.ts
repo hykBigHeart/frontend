@@ -72,3 +72,26 @@ export function inStrArray(array: string[], value: string): boolean {
   }
   return false;
 }
+
+export function getDepKey(): string {
+  return window.localStorage.getItem("playedu-frontend-depatmentKey") || "";
+}
+
+export function setDepKey(token: string) {
+  window.localStorage.setItem("playedu-frontend-depatmentKey", token);
+}
+
+export function clearDepKey() {
+  window.localStorage.removeItem("playedu-frontend-depatmentKey");
+}
+export function getDepName(): string {
+  return window.localStorage.getItem("playedu-frontend-depatmentName") || "";
+}
+
+export function setDepName(token: string) {
+  window.localStorage.setItem("playedu-frontend-depatmentName", token);
+}
+
+export function clearDepName() {
+  window.localStorage.removeItem("playedu-frontend-depatmentName");
+}
