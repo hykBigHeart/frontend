@@ -8,7 +8,12 @@ import {
   logoutAction,
   saveCurrentDepId,
 } from "../../store/user/loginUserSlice";
-import { setDepKey, setDepName, getDepName } from "../../utils/index";
+import {
+  setDepKey,
+  setDepName,
+  getDepName,
+  clearToken,
+} from "../../utils/index";
 import { ChangePasswordModel } from "../change-password";
 import { UserInfoModel } from "../user-info";
 import { ExclamationCircleFilled } from "@ant-design/icons";
@@ -68,6 +73,7 @@ export const Header: React.FC = () => {
         cancelText: "取消",
         onOk() {
           dispatch(logoutAction());
+          clearToken();
           navigate("/login");
         },
         onCancel() {
