@@ -1,57 +1,38 @@
 import { lazy } from "react";
 import { RouteObject } from "react-router-dom";
-import { system } from "../api";
+import { system, user } from "../api";
 import { SystemConfigStoreInterface } from "../store/system/systemConfigSlice";
 
+import { getToken } from "../utils";
 import { InitPage } from "../pages/init";
 import CoursePage from "../pages/course";
 import IndexPage from "../pages/index";
 import LatestLearnPage from "../pages/latest-learn";
 import LoginPage from "../pages/login";
 
-let config: SystemConfigStoreInterface = {
-  systemApiUrl: "",
-  systemPcUrl: "",
-  systemH5Url: "",
-  systemLogo: "",
-  systemName: "",
-  pcIndexFooterMsg: "",
-  playerPoster: "",
-  playerIsEnabledBulletSecret: false,
-  playerBulletSecretText: "",
-  playerBulletSecretColor: "",
-  playerBulletSecretOpacity: "",
-};
-
-const Init = lazy(async () => {
-  return new Promise<any>((resolve) => {
-    system.config().then((res: any) => {
-      //系统配置
-      config.systemApiUrl = res.data["system-api-url"];
-      config.systemH5Url = res.data["system-h5-url"];
-      config.systemLogo = res.data["system-logo"];
-      config.systemName = res.data["system-name"];
-      config.systemPcUrl = res.data["system-pc-url"];
-      config.pcIndexFooterMsg = res.data["system-pc-index-footer-msg"];
-
-      //播放器配置
-      config.playerPoster = res.data["player-poster"];
-      config.playerIsEnabledBulletSecret =
-        res.data["player-is-enabled-bullet-secret"] &&
-        res.data["player-is-enabled-bullet-secret"] === "1"
-          ? true
-          : false;
-      config.playerBulletSecretText = res.data["player-bullet-secret-text"];
-      config.playerBulletSecretColor = res.data["player-bullet-secret-color"];
-      config.playerBulletSecretOpacity =
-        res.data["player-bullet-secret-opacity"];
-
-      resolve({
-        default: InitPage,
-      });
+let RootPage: any = null;
+if (getToken()) {
+  RootPage = lazy(async () => {
+    return new Promise<any>(async (resolve) => {
+      try {
+        let configRes: any = await system.config();
+        let userRes: any = await user.detail();
+        resolve({
+          default: (
+            <InitPage configData={configRes.data} loginData={userRes.data} />
+          ),
+        });
+      } catch (e) {
+        console.error("系统初始化失败", e);
+      }
     });
   });
-});
+} else {
+  if (window.location.pathname !== "/login") {
+    window.location.href = "/login";
+  }
+  RootPage = <InitPage />;
+}
 
 // 懒加载
 // const LoginPage = lazy(() => import("../pages/login"));
@@ -62,7 +43,7 @@ const Init = lazy(async () => {
 const routes: RouteObject[] = [
   {
     path: "/",
-    element: <Init config={config} />,
+    element: RootPage,
     children: [
       {
         path: "/",

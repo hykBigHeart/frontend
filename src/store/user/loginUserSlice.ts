@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { getDepKey } from "../../utils/index";
 
 type UserStoreInterface = {
   user: null;
@@ -10,7 +11,7 @@ type UserStoreInterface = {
 let defaultValue: UserStoreInterface = {
   user: null,
   departments: [],
-  currentDepId: 0,
+  currentDepId: Number(getDepKey()) || 0,
   isLogin: false,
 };
 
