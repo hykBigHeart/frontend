@@ -1,8 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./hour.module.scss";
 import { durationFormat } from "../../../utils/index";
-import { VideoModel } from "./video";
 
 interface PropInterface {
   id: number;
@@ -11,9 +10,6 @@ interface PropInterface {
   duration: number;
   record: any;
   progress: number;
-  totalHours: any;
-  records: any;
-  onChange: () => void;
 }
 
 export const HourCompenent: React.FC<PropInterface> = ({
@@ -23,73 +19,14 @@ export const HourCompenent: React.FC<PropInterface> = ({
   duration,
   record,
   progress,
-  totalHours,
-  records,
-  onChange,
 }) => {
-  // const navigate = useNavigate();
-  const [visible, setVisible] = useState<boolean>(false);
-  const [currentId, setCurrentId] = useState(id);
-  const [currentTitle, setCurrentTitle] = useState(title);
-  const [isLastpage, setIsLastpage] = useState<boolean>(false);
-  const [lastSeeDuration, setLastSeeDuration] = useState(0);
-
-  useEffect(() => {
-    getData();
-  }, [totalHours]);
-
-  const getData = () => {
-    const index = totalHours.findIndex((i: any) => i.id === id);
-    if (index === totalHours.length - 1) {
-      setIsLastpage(true);
-    }
-    if (records[totalHours[index].id]) {
-      setLastSeeDuration(records[totalHours[index].id].finished_duration);
-    }
-  };
-
-  const goNextVideo = () => {
-    const index = totalHours.findIndex((i: any) => i.id === currentId);
-    if (index === totalHours.length - 1) {
-      setIsLastpage(true);
-    } else if (index < totalHours.length - 1) {
-      setCurrentId(totalHours[index + 1].id);
-      setCurrentTitle(totalHours[index + 1].title);
-      if (index + 1 === totalHours.length - 1) {
-        setIsLastpage(true);
-      }
-      if (records[totalHours[index + 1].id]) {
-        setLastSeeDuration(records[totalHours[index + 1].id].finished_duration);
-      }
-    }
-    setVisible(true);
-  };
-
+  const navigate = useNavigate();
   return (
     <>
-      <VideoModel
-        cid={cid}
-        id={currentId}
-        title={currentTitle}
-        open={visible}
-        progress={progress}
-        isLastpage={isLastpage}
-        lastSeeDuration={lastSeeDuration}
-        onCancel={() => {
-          setVisible(false);
-          onChange();
-        }}
-        goNextVideo={() => {
-          setVisible(false);
-          goNextVideo();
-        }}
-      ></VideoModel>
       <div
         className={styles["item"]}
         onClick={() => {
-          setCurrentId(id);
-          setCurrentTitle(title);
-          setVisible(true);
+          navigate(`/course/${cid}/hour/${id}`);
         }}
       >
         <div className={styles["left-item"]}>

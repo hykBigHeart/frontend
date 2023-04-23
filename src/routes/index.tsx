@@ -5,7 +5,8 @@ import { SystemConfigStoreInterface } from "../store/system/systemConfigSlice";
 
 import { getToken } from "../utils";
 import { InitPage } from "../pages/init";
-import CoursePage from "../pages/course";
+import CoursePage from "../pages/course/index";
+import CoursePlayPage from "../pages/course/video";
 import IndexPage from "../pages/index";
 import LatestLearnPage from "../pages/latest-learn";
 import LoginPage from "../pages/login";
@@ -56,6 +57,10 @@ const routes: RouteObject[] = [
       {
         path: "/course/:courseId",
         element: <CoursePage />,
+      },
+      {
+        path: "/course/:courseId/hour/:hourId",
+        element: <CoursePlayPage />,
       },
       {
         path: "/latest-learn",

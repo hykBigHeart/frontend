@@ -45,8 +45,8 @@ const LatestLearnPage = () => {
         )}
         {!loading &&
           courses.length > 0 &&
-          courses.map((item: any) => (
-            <div key={item.course.id}>
+          courses.map((item: any, index: number) => (
+            <div key={index}>
               {item.course && (
                 <div
                   className={styles["item"]}

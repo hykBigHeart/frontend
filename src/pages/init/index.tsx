@@ -7,7 +7,7 @@ import {
 } from "../../store/system/systemConfigSlice";
 import { loginAction } from "../../store/user/loginUserSlice";
 import { Header, NoHeader, Footer } from "../../compenents";
-import { useLocation } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 interface Props {
   loginData?: any;
@@ -44,14 +44,15 @@ export const InitPage = (props: Props) => {
   }
 
   const pathname = useLocation().pathname;
+  const params = useParams();
 
   return (
     <>
       <div>
         {pathname === "/login" && <NoHeader></NoHeader>}
-        {pathname !== "/login" && <Header></Header>}
+        {pathname !== "/login" && !params.hourId && <Header></Header>}
         <Outlet />
-        {pathname !== "/login" && <Footer></Footer>}
+        {pathname !== "/login" && !params.hourId && <Footer></Footer>}
       </div>
     </>
   );
