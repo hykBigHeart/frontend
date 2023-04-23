@@ -6,7 +6,7 @@ import { useDispatch } from "react-redux";
 import { loginAction } from "../../store/user/loginUserSlice";
 import type { UploadProps } from "antd";
 import config from "../../js/config";
-import { getToken } from "../../utils/index";
+import { getToken, changeAppUrl } from "../../utils/index";
 
 interface PropInterface {
   open: boolean;
@@ -40,7 +40,7 @@ export const UserInfoModel: React.FC<PropInterface> = ({ open, onCancel }) => {
     name: "file",
     multiple: false,
     method: "PUT",
-    action: config.app_url + "api/v1/user/avatar",
+    action: changeAppUrl(config.app_url) + "api/v1/user/avatar",
     headers: {
       Accept: "application/json",
       authorization: "Bearer " + getToken(),
