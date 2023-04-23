@@ -46,10 +46,9 @@ const LatestLearnPage = () => {
         {!loading &&
           courses.length > 0 &&
           courses.map((item: any) => (
-            <>
+            <div key={item.course.id}>
               {item.course && (
                 <div
-                  key={item.course.id}
                   className={styles["item"]}
                   onClick={() => {
                     navigate(`/course/${item.course.id}`);
@@ -124,7 +123,7 @@ const LatestLearnPage = () => {
                   </div>
                 </div>
               )}
-            </>
+            </div>
           ))}
       </div>
       <div className={styles["extra"]}>{systemConfig.pcIndexFooterMsg}</div>
