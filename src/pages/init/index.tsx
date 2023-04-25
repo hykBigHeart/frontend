@@ -1,3 +1,4 @@
+import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
 // import styles from "./index.module.scss";
@@ -18,6 +19,9 @@ export const InitPage = (props: Props) => {
   const pathname = useLocation().pathname;
   const params = useParams();
   const dispatch = useDispatch();
+  const [showHeader, setShowHeader] = useState<boolean>(true);
+  const [showNoHeader, setShowNoHeader] = useState<boolean>(false);
+  const [showFooter, setShowFooter] = useState<boolean>(true);
   if (props.loginData) {
     dispatch(loginAction(props.loginData));
   }
@@ -45,13 +49,32 @@ export const InitPage = (props: Props) => {
     dispatch(saveConfigAction(config));
   }
 
+  useEffect(() => {
+    setShowHeader(true);
+    setShowNoHeader(false);
+    setShowFooter(true);
+    if (pathname === "/login") {
+      setShowNoHeader(true);
+      setShowHeader(false);
+      setShowFooter(false);
+    } else if (!params.hourId) {
+      setShowNoHeader(false);
+      setShowHeader(true);
+      setShowFooter(true);
+    } else {
+      setShowNoHeader(false);
+      setShowHeader(false);
+      setShowFooter(false);
+    }
+  }, [pathname, params]);
+
   return (
     <>
       <div>
-        {pathname === "/login" && <NoHeader></NoHeader>}
-        {pathname !== "/login" && !params.hourId && <Header></Header>}
+        {showNoHeader && <NoHeader></NoHeader>}
+        {showHeader && <Header></Header>}
         <Outlet />
-        {pathname !== "/login" && !params.hourId && <Footer></Footer>}
+        {showFooter && <Footer></Footer>}
       </div>
     </>
   );
