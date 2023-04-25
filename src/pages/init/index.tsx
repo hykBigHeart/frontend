@@ -15,6 +15,8 @@ interface Props {
 }
 
 export const InitPage = (props: Props) => {
+  const pathname = useLocation().pathname;
+  const params = useParams();
   const dispatch = useDispatch();
   if (props.loginData) {
     dispatch(loginAction(props.loginData));
@@ -42,9 +44,6 @@ export const InitPage = (props: Props) => {
     };
     dispatch(saveConfigAction(config));
   }
-
-  const pathname = useLocation().pathname;
-  const params = useParams();
 
   return (
     <>
