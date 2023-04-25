@@ -180,7 +180,12 @@ const CoursePalyPage = () => {
           {playendedStatus && (
             <div className={styles["alert-message"]}>
               {isLastpage && (
-                <div className={styles["alert-button"]}>恭喜你学完最后一节</div>
+                <div
+                  className={styles["alert-button"]}
+                  onClick={() => navigate(`/course/${params.courseId}`)}
+                >
+                  恭喜你学完最后一节
+                </div>
               )}
               {!isLastpage && (
                 <div
