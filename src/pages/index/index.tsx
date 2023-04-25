@@ -12,7 +12,6 @@ import iconRoute from "../../assets/images/commen/icon-route.png";
 import { studyTimeFormat } from "../../utils/index";
 
 const IndexPage = () => {
-  document.title = "首页";
   const systemConfig = useSelector((state: any) => state.systemConfig.value);
   const [loading, setLoading] = useState<boolean>(false);
   const [tabKey, setTabKey] = useState(0);
@@ -36,7 +35,7 @@ const IndexPage = () => {
   }, [tabKey, currentDepId]);
 
   useEffect(() => {
-    document.title = systemConfig.systemName;
+    document.title = systemConfig.systemName || "首页";
   }, [systemConfig]);
 
   const getData = () => {
