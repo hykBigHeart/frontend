@@ -73,7 +73,7 @@ export const Header: React.FC = () => {
         cancelText: "取消",
         onOk() {
           dispatch(logoutAction());
-          navigate("/login", { replace: true });
+          window.location.href = "/login";
         },
         onCancel() {
           console.log("Cancel");
