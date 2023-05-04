@@ -45,23 +45,24 @@ const LatestLearnPage = () => {
         )}
         {!loading &&
           courses.length > 0 &&
-          courses.map((item: any) => (
-            <>
+          courses.map((item: any, index: number) => (
+            <div key={index}>
               {item.course && (
                 <div
-                  key={item.course.id}
                   className={styles["item"]}
                   onClick={() => {
                     navigate(`/course/${item.course.id}`);
                   }}
                 >
-                  <Image
-                    src={item.course.thumb}
-                    width={120}
-                    height={90}
-                    style={{ borderRadius: 10 }}
-                    preview={false}
-                  />
+                  <div style={{ width: 120 }}>
+                    <Image
+                      src={item.course.thumb}
+                      width={120}
+                      height={90}
+                      style={{ borderRadius: 10 }}
+                      preview={false}
+                    />
+                  </div>
                   <div className={styles["item-info"]}>
                     <div className={styles["top"]}>
                       {item.course.is_required === 1 && (
@@ -122,7 +123,7 @@ const LatestLearnPage = () => {
                   </div>
                 </div>
               )}
-            </>
+            </div>
           ))}
       </div>
       <div className={styles["extra"]}>{systemConfig.pcIndexFooterMsg}</div>

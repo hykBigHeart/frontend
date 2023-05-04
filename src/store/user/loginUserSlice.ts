@@ -1,5 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { getDepKey } from "../../utils/index";
+import {
+  getDepKey,
+  clearDepKey,
+  clearDepName,
+  setDepName,
+  clearToken,
+} from "../../utils/index";
 
 type UserStoreInterface = {
   user: null;
@@ -27,6 +33,7 @@ const loginUserSlice = createSlice({
       stage.value.isLogin = true;
       if (e.payload.departments.length > 0 && stage.value.currentDepId === 0) {
         stage.value.currentDepId = e.payload.departments[0].id;
+        setDepName(e.payload.departments[0].name);
       }
     },
     logoutAction(stage) {
@@ -34,6 +41,9 @@ const loginUserSlice = createSlice({
       stage.value.departments = [];
       stage.value.isLogin = false;
       stage.value.currentDepId = 0;
+      clearToken();
+      clearDepKey();
+      clearDepName();
     },
     saveCurrentDepId(stage, e) {
       stage.value.currentDepId = e.payload;

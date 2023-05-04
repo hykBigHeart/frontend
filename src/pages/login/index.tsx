@@ -86,7 +86,7 @@ const LoginPage: React.FC = () => {
       const data = res.data;
       dispatch(loginAction(data));
       setLoading(false);
-      navigate("/");
+      navigate("/", { replace: true });
     });
   };
 

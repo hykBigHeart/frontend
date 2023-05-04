@@ -15,7 +15,6 @@ const CoursePage = () => {
   const [hours, setHours] = useState<any>({});
   const [learnRecord, setLearnRecord] = useState<any>({});
   const [learnHourRecord, setLearnHourRecord] = useState<any>({});
-  const [totalHours, setTotalHours] = useState<any>([]);
 
   useEffect(() => {
     getDetail();
@@ -34,17 +33,6 @@ const CoursePage = () => {
         }
         if (res.data.learn_hour_records) {
           setLearnHourRecord(res.data.learn_hour_records);
-        }
-        if (res.data.chapters.length === 0) {
-          setTotalHours(res.data.hours[0]);
-        } else if (res.data.chapters.length > 0) {
-          const arr: any = [];
-          for (let key in res.data.hours) {
-            res.data.hours[key].map((item: any) => {
-              arr.push(item);
-            });
-          }
-          setTotalHours(arr);
         }
         setLoading(false);
       })
@@ -159,14 +147,11 @@ const CoursePage = () => {
                         cid={item.course_id}
                         title={item.title}
                         record={learnHourRecord[item.id]}
-                        records={learnHourRecord}
                         duration={item.duration}
                         progress={
                           (learnHourRecord[item.id].finished_duration * 100) /
                           learnHourRecord[item.id].total_duration
                         }
-                        totalHours={totalHours}
-                        onChange={() => getDetail()}
                       ></HourCompenent>
                     )}
                     {!learnHourRecord[item.id] && (
@@ -175,11 +160,8 @@ const CoursePage = () => {
                         cid={item.course_id}
                         title={item.title}
                         record={null}
-                        records={learnHourRecord}
                         duration={item.duration}
                         progress={0}
-                        totalHours={totalHours}
-                        onChange={() => getDetail()}
                       ></HourCompenent>
                     )}
                   </div>
@@ -199,14 +181,11 @@ const CoursePage = () => {
                             cid={item.course_id}
                             title={it.title}
                             record={learnHourRecord[it.id]}
-                            records={learnHourRecord}
                             duration={it.duration}
                             progress={
                               (learnHourRecord[it.id].finished_duration * 100) /
                               learnHourRecord[it.id].total_duration
                             }
-                            onChange={() => getDetail()}
-                            totalHours={totalHours}
                           ></HourCompenent>
                         )}
                         {!learnHourRecord[it.id] && (
@@ -215,11 +194,8 @@ const CoursePage = () => {
                             cid={item.course_id}
                             title={it.title}
                             record={null}
-                            records={learnHourRecord}
                             duration={it.duration}
                             progress={0}
-                            totalHours={totalHours}
-                            onChange={() => getDetail()}
                           ></HourCompenent>
                         )}
                       </div>

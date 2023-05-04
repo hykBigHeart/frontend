@@ -1,15 +1,10 @@
 .video-mask {
   width: 100%;
   height: 100%;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  position: fixed;
+  min-height: 100vh;
   background-color: #0e0e1e;
   display: flex;
   justify-content: center;
-  z-index: 100;
   .top-cont {
     position: fixed;
     top: 0;
@@ -18,9 +13,8 @@
     width: 100%;
     height: 60px;
     background: rgba(255, 255, 255, 0.1);
-
     .box {
-      width: 1200px;
+      width: 62.5%;
       height: 60px;
       display: flex;
       align-items: center;
@@ -42,16 +36,15 @@
     }
   }
   .video-body {
-    width: 1200px;
+    width: 62.5%;
     height: auto;
     display: flex;
     flex-direction: column;
     box-sizing: border-box;
     padding-top: 30px;
     margin-top: 60px;
-    animation: scaleBig 0.3s;
     .video-title {
-      width: 1200px;
+      width: 100%;
       height: 36px;
       font-size: 20px;
       font-weight: 600;
@@ -62,11 +55,10 @@
     }
 
     .video-box {
-      width: 1200px;
-      height: 675px;
+      width: 100%;
+      padding-bottom: calc(9 / 16 * 100%);
       margin: 0 auto;
       border-radius: 8px;
-      overflow: hidden;
       position: relative;
       .alert-message {
         position: absolute;

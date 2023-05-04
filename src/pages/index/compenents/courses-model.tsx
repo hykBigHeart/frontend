@@ -63,7 +63,7 @@ export const CoursesModel: React.FC<PropInterface> = ({
             trailColor="#F6F6F6"
           />
         )}
-        {progress === 100 && (
+        {progress >= 100 && (
           <div className={styles["success"]}>
             <Image width={24} height={24} src={mediaIcon} preview={false} />
             <span className="ml-8">恭喜你学完此课程!</span>

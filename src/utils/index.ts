@@ -95,3 +95,12 @@ export function setDepName(token: string) {
 export function clearDepName() {
   window.localStorage.removeItem("playedu-frontend-depatmentName");
 }
+
+export function changeAppUrl(str: string) {
+  let key = str.slice(str.length - 1);
+  if (key === "/") {
+    return str;
+  } else {
+    return str + "/";
+  }
+}
