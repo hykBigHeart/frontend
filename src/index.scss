@@ -301,16 +301,17 @@ h1 {
 }
 
 .ant-tree-treenode {
+  min-width: 200px;
   width: 100% !important;
   height: 40px !important;
   padding: 0 !important;
-  margin-bottom: 8px !important;
   display: flex;
   align-items: center !important;
   &.ant-tree-treenode-selected {
     background-color: #fff2f0 !important;
     border-radius: 0px !important;
     overflow: hidden;
+    font-weight: 600;
     .ant-tree-node-content-wrapper {
       background-color: transparent !important;
     }
@@ -351,6 +352,7 @@ h1 {
 
 .ant-tree-title {
   flex: 1;
+
   padding-left: 20px;
   box-sizing: border-box;
   display: flex;
