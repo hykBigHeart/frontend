@@ -183,6 +183,8 @@ const IndexPage = () => {
         overflowX: "hidden",
         overflowY: "auto",
       }}
+      onMouseOut={() => setOpen(false)}
+      onMouseOver={() => setOpen(true)}
     >
       <Tree
         switcherIcon={null}
@@ -319,14 +321,16 @@ const IndexPage = () => {
             </div>
           ))}
           <Popover
-            className={styles["dropButton"]}
             content={dropItem}
             placement="bottomRight"
             open={open}
             trigger="click"
             onOpenChange={handleOpenChange}
           >
-            <Space>
+            <Space
+              className={styles["dropButton"]}
+              onMouseOver={() => setOpen(true)}
+            >
               {categoryText}
               <i
                 className="iconfont icon-icon-xiala"
