@@ -13,9 +13,13 @@ export function password(oldPassword: string, newPassword: string) {
 }
 
 // 学员课程
-export function courses(depId: number) {
+export function coursesCategories() {
+  return client.get("/api/v1/category/all", {});
+}
+export function courses(depId: number, categoryId: number) {
   return client.get("/api/v1/user/courses", {
     dep_id: depId,
+    category_id: categoryId,
   });
 }
 
