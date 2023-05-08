@@ -19,6 +19,7 @@ interface Option {
 
 const IndexPage = () => {
   const systemConfig = useSelector((state: any) => state.systemConfig.value);
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [tabKey, setTabKey] = useState(0);
   const [coursesList, setCoursesList] = useState<any>([]);
@@ -50,6 +51,10 @@ const IndexPage = () => {
   useEffect(() => {
     document.title = systemConfig.systemName || "首页";
   }, [systemConfig]);
+
+  const hide = () => {
+    setOpen(false);
+  };
 
   const getData = () => {
     setLoading(true);
@@ -164,6 +169,11 @@ const IndexPage = () => {
   const onSelect = (selectedKeys: any, info: any) => {
     setCategoryId(selectedKeys[0]);
     setCategoryText(info.node.title);
+    hide();
+  };
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
   };
 
   const dropItem = (
@@ -308,8 +318,15 @@ const IndexPage = () => {
               )}
             </div>
           ))}
-          <Popover content={dropItem} placement="bottomRight">
-            <Space className={styles["dropButton"]}>
+          <Popover
+            className={styles["dropButton"]}
+            content={dropItem}
+            placement="bottomRight"
+            open={open}
+            trigger="click"
+            onOpenChange={handleOpenChange}
+          >
+            <Space>
               {categoryText}
               <i
                 className="iconfont icon-icon-xiala"
