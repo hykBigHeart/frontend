@@ -176,7 +176,11 @@ const CoursePalyPage = () => {
       <div className={styles["video-body"]}>
         <div className={styles["video-title"]}>{hour.title}</div>
         <div className={styles["video-box"]}>
-          <div className="play-box" id="meedu-player-container"></div>
+          <div
+            className="play-box"
+            id="meedu-player-container"
+            style={{ borderRadius: 8 }}
+          ></div>
           {playendedStatus && (
             <div className={styles["alert-message"]}>
               {isLastpage && (
