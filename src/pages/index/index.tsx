@@ -20,6 +20,7 @@ const IndexPage = () => {
   const [categories, setCategories] = useState<any>([]);
   const [categoryId, setCategoryId] = useState<number>(0);
   const [categoryText, setCategoryText] = useState<string>("所有分类");
+  const [selectKey, setSelectKey] = useState<any>([0]);
   const [learnCourseRecords, setLearnCourseRecords] = useState<any>({});
   const [learnCourseHourCount, setLearnCourseHourCount] = useState<any>({});
   const [stats, setStats] = useState<any>({});
@@ -167,6 +168,7 @@ const IndexPage = () => {
   const onSelect = (selectedKeys: any, info: any) => {
     setCategoryId(selectedKeys[0]);
     setCategoryText(info.node.title);
+    setSelectKey(selectedKeys);
     hide();
   };
 
@@ -185,7 +187,7 @@ const IndexPage = () => {
       onMouseOver={() => setOpen(true)}
     >
       <Tree
-        selectedKeys={[0]}
+        selectedKeys={selectKey}
         switcherIcon={null}
         onSelect={onSelect}
         treeData={categories}
