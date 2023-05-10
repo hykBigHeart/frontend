@@ -167,7 +167,11 @@ const IndexPage = () => {
 
   const onSelect = (selectedKeys: any, info: any) => {
     setCategoryId(selectedKeys[0]);
-    setCategoryText(info.node.title);
+    if (info.node.key === 0) {
+      setCategoryText(info.node.title);
+    } else {
+      setCategoryText(info.node.title.props.children);
+    }
     setSelectKey(selectedKeys);
     hide();
   };
