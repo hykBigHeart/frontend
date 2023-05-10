@@ -11,12 +11,6 @@ import studyTime from "../../assets/images/commen/icon-studytime.png";
 import iconRoute from "../../assets/images/commen/icon-route.png";
 import { studyTimeFormat } from "../../utils/index";
 
-interface Option {
-  key: string | number;
-  title: any;
-  children?: Option[];
-}
-
 const IndexPage = () => {
   const systemConfig = useSelector((state: any) => state.systemConfig.value);
   const [open, setOpen] = useState(false);
@@ -109,7 +103,7 @@ const IndexPage = () => {
     user.coursesCategories().then((res: any) => {
       const categories = res.data.categories;
       if (JSON.stringify(categories) !== "{}") {
-        const new_arr: Option[] = checkArr(categories, 0);
+        const new_arr: any[] = checkArr(categories, 0);
         new_arr.unshift({
           key: 0,
           title: "所有分类",
@@ -124,13 +118,17 @@ const IndexPage = () => {
     for (let i = 0; i < categories[id].length; i++) {
       if (!categories[categories[id][i].id]) {
         arr.push({
-          title: categories[id][i].name,
+          title: (
+            <span style={{ marginRight: 20 }}>{categories[id][i].name}</span>
+          ),
           key: categories[id][i].id,
         });
       } else {
-        const new_arr: Option[] = checkArr(categories, categories[id][i].id);
+        const new_arr: any[] = checkArr(categories, categories[id][i].id);
         arr.push({
-          title: categories[id][i].name,
+          title: (
+            <span style={{ marginRight: 20 }}>{categories[id][i].name}</span>
+          ),
           key: categories[id][i].id,
           children: new_arr,
         });
