@@ -186,6 +186,7 @@ const IndexPage = () => {
       onMouseOver={() => setOpen(true)}
     >
       <Tree
+        selectedKeys={[0]}
         switcherIcon={null}
         onSelect={onSelect}
         treeData={categories}
