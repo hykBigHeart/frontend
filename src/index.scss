@@ -300,6 +300,12 @@ h1 {
   display: none !important;
 }
 
+.ant-tree-node-selected {
+  .ant-tree-title {
+    color: #ff4d4f;
+  }
+}
+
 .ant-tree-treenode {
   min-width: 200px;
   width: 100% !important;
@@ -311,7 +317,6 @@ h1 {
     background-color: #fff2f0 !important;
     border-radius: 0px !important;
     overflow: hidden;
-    font-weight: 600;
     .ant-tree-node-content-wrapper {
       background-color: transparent !important;
     }
@@ -367,6 +372,6 @@ h1 {
   }
 }
 
-.ant-popover-inner{
+.ant-popover-inner {
   padding: 8px 0px !important;
 }
