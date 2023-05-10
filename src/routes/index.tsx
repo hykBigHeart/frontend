@@ -10,6 +10,7 @@ import CoursePlayPage from "../pages/course/video";
 import IndexPage from "../pages/index";
 import LatestLearnPage from "../pages/latest-learn";
 import LoginPage from "../pages/login";
+import PrivateRoute from "../compenents/private-route";
 
 let RootPage: any = null;
 if (getToken()) {
@@ -29,9 +30,6 @@ if (getToken()) {
     });
   });
 } else {
-  if (window.location.pathname !== "/login") {
-    window.location.href = "/login";
-  }
   RootPage = <InitPage />;
 }
 
@@ -48,7 +46,7 @@ const routes: RouteObject[] = [
     children: [
       {
         path: "/",
-        element: <IndexPage />,
+        element: <PrivateRoute Component={<IndexPage />} />,
       },
       {
         path: "/login",
@@ -56,15 +54,15 @@ const routes: RouteObject[] = [
       },
       {
         path: "/course/:courseId",
-        element: <CoursePage />,
+        element: <PrivateRoute Component={<CoursePage />} />,
       },
       {
         path: "/course/:courseId/hour/:hourId",
-        element: <CoursePlayPage />,
+        element: <PrivateRoute Component={<CoursePlayPage />} />,
       },
       {
         path: "/latest-learn",
-        element: <LatestLearnPage />,
+        element: <PrivateRoute Component={<LatestLearnPage />} />,
       },
     ],
   },

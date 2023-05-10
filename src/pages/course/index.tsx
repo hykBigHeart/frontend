@@ -124,7 +124,7 @@ const CoursePage = () => {
                     trailColor="#F6F6F6"
                     size={90}
                     strokeWidth={8}
-                    percent={learnRecord.progress / 100}
+                    percent={Math.floor(learnRecord.progress / 100)}
                     format={(percent) => `${percent}%`}
                   />
                 )}

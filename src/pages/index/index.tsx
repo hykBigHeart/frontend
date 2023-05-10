@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { Row, Col, Spin, Image } from "antd";
-import type { TabsProps } from "antd";
+import { Row, Col, Spin, Tree, Popover, Space, Image } from "antd";
+import type { MenuProps } from "antd";
 import { user } from "../../api/index";
 import styles from "./index.module.scss";
 import { useSelector } from "react-redux";
@@ -13,9 +13,14 @@ import { studyTimeFormat } from "../../utils/index";
 
 const IndexPage = () => {
   const systemConfig = useSelector((state: any) => state.systemConfig.value);
+  const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [tabKey, setTabKey] = useState(0);
   const [coursesList, setCoursesList] = useState<any>([]);
+  const [categories, setCategories] = useState<any>([]);
+  const [categoryId, setCategoryId] = useState<number>(0);
+  const [categoryText, setCategoryText] = useState<string>("所有分类");
+  const [selectKey, setSelectKey] = useState<any>([0]);
   const [learnCourseRecords, setLearnCourseRecords] = useState<any>({});
   const [learnCourseHourCount, setLearnCourseHourCount] = useState<any>({});
   const [stats, setStats] = useState<any>({});
@@ -28,19 +33,27 @@ const IndexPage = () => {
   );
 
   useEffect(() => {
+    getParams();
+  }, []);
+
+  useEffect(() => {
     if (currentDepId === 0) {
       return;
     }
     getData();
-  }, [tabKey, currentDepId]);
+  }, [tabKey, currentDepId, categoryId]);
 
   useEffect(() => {
     document.title = systemConfig.systemName || "首页";
   }, [systemConfig]);
 
+  const hide = () => {
+    setOpen(false);
+  };
+
   const getData = () => {
     setLoading(true);
-    user.courses(currentDepId).then((res: any) => {
+    user.courses(currentDepId, categoryId).then((res: any) => {
       const records = res.data.learn_course_records;
       setStats(res.data.stats);
       setLearnCourseRecords(records);
@@ -87,6 +100,44 @@ const IndexPage = () => {
     });
   };
 
+  const getParams = () => {
+    user.coursesCategories().then((res: any) => {
+      const categories = res.data.categories;
+      if (JSON.stringify(categories) !== "{}") {
+        const new_arr: any[] = checkArr(categories, 0);
+        new_arr.unshift({
+          key: 0,
+          title: "所有分类",
+        });
+        setCategories(new_arr);
+      }
+    });
+  };
+
+  const checkArr = (categories: any[], id: number) => {
+    const arr = [];
+    for (let i = 0; i < categories[id].length; i++) {
+      if (!categories[categories[id][i].id]) {
+        arr.push({
+          title: (
+            <span style={{ marginRight: 20 }}>{categories[id][i].name}</span>
+          ),
+          key: categories[id][i].id,
+        });
+      } else {
+        const new_arr: any[] = checkArr(categories, categories[id][i].id);
+        arr.push({
+          title: (
+            <span style={{ marginRight: 20 }}>{categories[id][i].name}</span>
+          ),
+          key: categories[id][i].id,
+          children: new_arr,
+        });
+      }
+    }
+    return arr;
+  };
+
   const items = [
     {
       key: 0,
@@ -113,6 +164,42 @@ const IndexPage = () => {
   const onChange = (key: number) => {
     setTabKey(key);
   };
+
+  const onSelect = (selectedKeys: any, info: any) => {
+    setCategoryId(selectedKeys[0]);
+    if (info.node.key === 0) {
+      setCategoryText(info.node.title);
+    } else {
+      setCategoryText(info.node.title.props.children);
+    }
+    setSelectKey(selectedKeys);
+    hide();
+  };
+
+  const handleOpenChange = (newOpen: boolean) => {
+    setOpen(newOpen);
+  };
+
+  const dropItem = (
+    <div
+      style={{
+        maxHeight: 600,
+        overflowX: "hidden",
+        overflowY: "auto",
+      }}
+      onMouseOut={() => setOpen(false)}
+      onMouseOver={() => setOpen(true)}
+    >
+      <Tree
+        selectedKeys={selectKey}
+        switcherIcon={null}
+        onSelect={onSelect}
+        treeData={categories}
+        blockNode
+        defaultExpandAll={true}
+      />
+    </div>
+  );
 
   return (
     <div className="main-body">
@@ -238,6 +325,24 @@ const IndexPage = () => {
               )}
             </div>
           ))}
+          <Popover
+            content={dropItem}
+            placement="bottomRight"
+            open={open}
+            trigger="click"
+            onOpenChange={handleOpenChange}
+          >
+            <Space
+              className={styles["dropButton"]}
+              onMouseOver={() => setOpen(true)}
+            >
+              {categoryText}
+              <i
+                className="iconfont icon-icon-xiala"
+                style={{ fontSize: 16 }}
+              />
+            </Space>
+          </Popover>
         </div>
         {loading && (
           <Row
@@ -278,7 +383,9 @@ const IndexPage = () => {
                     title={item.title}
                     thumb={item.thumb}
                     isRequired={item.is_required}
-                    progress={learnCourseRecords[item.id].progress / 100}
+                    progress={Math.floor(
+                      learnCourseRecords[item.id].progress / 100
+                    )}
                   ></CoursesModel>
                 )}
 

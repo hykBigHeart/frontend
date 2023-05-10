@@ -295,3 +295,83 @@ h1 {
   height: auto;
   position: relative;
 }
+
+.ant-tree-switcher {
+  display: none !important;
+}
+
+.ant-tree-node-selected {
+  .ant-tree-title {
+    color: #ff4d4f;
+  }
+}
+
+.ant-tree-treenode {
+  min-width: 150px;
+  width: 100% !important;
+  height: 40px !important;
+  padding: 0 !important;
+  display: flex;
+  align-items: center !important;
+  &.ant-tree-treenode-selected {
+    background-color: #fff2f0 !important;
+    border-radius: 0px !important;
+    overflow: hidden;
+    .ant-tree-node-content-wrapper {
+      background-color: transparent !important;
+    }
+    .ant-tree-node-content-wrapper-normal {
+      background-color: transparent !important;
+    }
+  }
+  .ant-tree-node-content-wrapper {
+    width: 100% !important;
+    height: 40px !important;
+    display: flex;
+    align-items: center;
+  }
+  &:hover {
+    background-color: #fff2f0 !important;
+    border-radius: 0px !important;
+    overflow: hidden;
+    .ant-tree-node-content-wrapper {
+      background-color: transparent !important;
+    }
+    .ant-tree-node-content-wrapper-normal {
+      background-color: transparent !important;
+    }
+  }
+  .ant-tree-node-content-wrapper-normal {
+    width: 100% !important;
+    height: 40px !important;
+    display: flex;
+    align-items: center;
+  }
+
+  .ant-tree-switcher {
+    height: 40px !important;
+    display: flex;
+    align-items: center;
+  }
+}
+
+.ant-tree-title {
+  flex: 1;
+
+  padding-left: 20px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  .iconfont {
+    color: rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+.ant-popover-inner {
+  padding: 8px 0px !important;
+}

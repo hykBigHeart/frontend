@@ -83,7 +83,7 @@ const LatestLearnPage = () => {
                         <div className={styles["progress"]}>
                           {item.record.progress < 10000 && (
                             <Progress
-                              percent={item.record.progress / 100}
+                              percent={Math.floor(item.record.progress / 100)}
                               strokeColor="#FF4D4F"
                               trailColor="#F6F6F6"
                             />
