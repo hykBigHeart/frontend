@@ -177,7 +177,6 @@ const IndexPage = () => {
   const dropItem = (
     <div
       style={{
-        minWidth: 150,
         maxHeight: 600,
         overflowX: "hidden",
         overflowY: "auto",
