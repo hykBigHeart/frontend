@@ -129,7 +129,9 @@ const CoursePalyPage = () => {
 
   const initDPlayer = (playUrl: string, isTrySee: number, params: any) => {
     let banDrag =
-      systemConfig.playerIsDisabledDrag && watchRef.current < totalRef.current;
+      systemConfig.playerIsDisabledDrag &&
+      watchRef.current < totalRef.current &&
+      watchRef.current === 0;
     window.player = new window.DPlayer({
       container: document.getElementById("meedu-player-container"),
       autoplay: false,
@@ -155,7 +157,8 @@ const CoursePalyPage = () => {
     window.player.on("timeupdate", () => {
       let currentTime = parseInt(window.player.video.currentTime);
       if (
-        banDrag &&
+        systemConfig.playerIsDisabledDrag &&
+        watchRef.current < totalRef.current &&
         currentTime - playRef.current >= 2 &&
         currentTime > watchRef.current
       ) {
@@ -166,7 +169,11 @@ const CoursePalyPage = () => {
       }
     });
     window.player.on("ended", () => {
-      if (banDrag && window.player.video.duration - playRef.current >= 2) {
+      if (
+        systemConfig.playerIsDisabledDrag &&
+        watchRef.current < totalRef.current &&
+        window.player.video.duration - playRef.current >= 2
+      ) {
         window.player.seek(playRef.current);
         return;
       }
