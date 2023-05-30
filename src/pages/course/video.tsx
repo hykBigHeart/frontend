@@ -130,8 +130,6 @@ const CoursePalyPage = () => {
   const initDPlayer = (playUrl: string, isTrySee: number, params: any) => {
     let banDrag =
       systemConfig.playerIsDisabledDrag && watchRef.current < totalRef.current;
-    console.log(watchRef.current);
-    console.log(totalRef.current);
     window.player = new window.DPlayer({
       container: document.getElementById("meedu-player-container"),
       autoplay: false,
