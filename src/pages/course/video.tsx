@@ -27,6 +27,7 @@ const CoursePalyPage = () => {
   const myRef = useRef(0);
   const playRef = useRef(0);
   const watchRef = useRef(0);
+  const totalRef = useRef(0);
 
   useEffect(() => {
     getCourse();
@@ -56,6 +57,10 @@ const CoursePalyPage = () => {
   useEffect(() => {
     watchRef.current = watchedSeconds;
   }, [watchedSeconds]);
+
+  useEffect(() => {
+    totalRef.current = hour.duration;
+  }, [hour]);
 
   const getCourse = () => {
     Course.detail(Number(params.courseId)).then((res: any) => {
@@ -102,6 +107,8 @@ const CoursePalyPage = () => {
           setLastSeeValue(params);
           setLastSeeValue(params);
           setWatchedSeconds(record.finished_duration);
+        } else {
+          setWatchedSeconds(res.data.hour.duration);
         }
         getVideoUrl(params);
         setLoading(false);
@@ -121,6 +128,10 @@ const CoursePalyPage = () => {
   };
 
   const initDPlayer = (playUrl: string, isTrySee: number, params: any) => {
+    let banDrag =
+      systemConfig.playerIsDisabledDrag && watchRef.current < totalRef.current;
+    console.log(watchRef.current);
+    console.log(totalRef.current);
     window.player = new window.DPlayer({
       container: document.getElementById("meedu-player-container"),
       autoplay: false,
@@ -139,14 +150,14 @@ const CoursePalyPage = () => {
         color: systemConfig.playerBulletSecretColor || "red",
         opacity: Number(systemConfig.playerBulletSecretOpacity),
       },
-      ban_drag: systemConfig.playerIsDisabledDrag,
+      ban_drag: banDrag,
       last_see_pos: params,
     });
     // 监听播放进度更新evt
     window.player.on("timeupdate", () => {
       let currentTime = parseInt(window.player.video.currentTime);
       if (
-        systemConfig.playerIsDisabledDrag &&
+        banDrag &&
         currentTime - playRef.current >= 2 &&
         currentTime > watchRef.current
       ) {
@@ -157,10 +168,7 @@ const CoursePalyPage = () => {
       }
     });
     window.player.on("ended", () => {
-      if (
-        systemConfig.playerIsDisabledDrag &&
-        window.player.video.duration - playRef.current >= 2
-      ) {
+      if (banDrag && window.player.video.duration - playRef.current >= 2) {
         window.player.seek(playRef.current);
         return;
       }
