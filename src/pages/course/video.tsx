@@ -32,6 +32,13 @@ const CoursePalyPage = () => {
       e = e || window.event;
       return false;
     };
+    return () => {
+      document.oncontextmenu = function (e) {
+        /*恢复浏览器默认右键事件*/
+        e = e || window.event;
+        return true;
+      };
+    };
   }, [params.courseId, params.hourId]);
 
   useEffect(() => {
@@ -170,6 +177,11 @@ const CoursePalyPage = () => {
             className={styles["close-btn"]}
             onClick={() => {
               window.player && window.player.destroy();
+              document.oncontextmenu = function (e) {
+                /*恢复浏览器默认右键事件*/
+                e = e || window.event;
+                return true;
+              };
               navigate(-1);
             }}
           >
