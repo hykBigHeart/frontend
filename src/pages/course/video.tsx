@@ -107,7 +107,7 @@ const CoursePalyPage = () => {
           setLastSeeValue(params);
           setLastSeeValue(params);
           setWatchedSeconds(record.finished_duration);
-        } else {
+        } else if (record && record.is_finished === 1) {
           setWatchedSeconds(res.data.hour.duration);
         }
         getVideoUrl(params);
