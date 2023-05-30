@@ -22,7 +22,11 @@ const CoursePalyPage = () => {
   const [loading, setLoading] = useState<Boolean>(false);
   const [isLastpage, setIsLastpage] = useState<Boolean>(false);
   const [totalHours, setTotalHours] = useState<any>([]);
+  const [playingTime, setPlayingTime] = useState(0);
+  const [watchedSeconds, setWatchedSeconds] = useState(0);
   const myRef = useRef(0);
+  const playRef = useRef(0);
+  const watchRef = useRef(0);
 
   useEffect(() => {
     getCourse();
@@ -44,6 +48,14 @@ const CoursePalyPage = () => {
   useEffect(() => {
     myRef.current = playDuration;
   }, [playDuration]);
+
+  useEffect(() => {
+    playRef.current = playingTime;
+  }, [playingTime]);
+
+  useEffect(() => {
+    watchRef.current = watchedSeconds;
+  }, [watchedSeconds]);
 
   const getCourse = () => {
     Course.detail(Number(params.courseId)).then((res: any) => {
@@ -89,6 +101,7 @@ const CoursePalyPage = () => {
           };
           setLastSeeValue(params);
           setLastSeeValue(params);
+          setWatchedSeconds(record.finished_duration);
         }
         getVideoUrl(params);
         setLoading(false);
@@ -126,14 +139,32 @@ const CoursePalyPage = () => {
         color: systemConfig.playerBulletSecretColor || "red",
         opacity: Number(systemConfig.playerBulletSecretOpacity),
       },
-      ban_drag: false,
+      ban_drag: systemConfig.playerIsDisabledDrag,
       last_see_pos: params,
     });
     // 监听播放进度更新evt
     window.player.on("timeupdate", () => {
-      playTimeUpdate(parseInt(window.player.video.currentTime), false);
+      let currentTime = parseInt(window.player.video.currentTime);
+      if (
+        systemConfig.playerIsDisabledDrag &&
+        currentTime - playRef.current >= 2 &&
+        currentTime > watchRef.current
+      ) {
+        window.player.seek(playRef.current);
+      } else {
+        setPlayingTime(currentTime);
+        playTimeUpdate(parseInt(window.player.video.currentTime), false);
+      }
     });
     window.player.on("ended", () => {
+      if (
+        systemConfig.playerIsDisabledDrag &&
+        window.player.video.duration - playRef.current >= 2
+      ) {
+        window.player.seek(playRef.current);
+        return;
+      }
+      setPlayingTime(0);
       setPlayendedStatus(true);
       playTimeUpdate(parseInt(window.player.video.currentTime), true);
       window.player && window.player.destroy();
