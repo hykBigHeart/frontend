@@ -27,6 +27,11 @@ const CoursePalyPage = () => {
   useEffect(() => {
     getCourse();
     getDetail();
+    document.oncontextmenu = function (e) {
+      /*屏蔽浏览器默认右键事件*/
+      e = e || window.event;
+      return false;
+    };
   }, [params.courseId, params.hourId]);
 
   useEffect(() => {
