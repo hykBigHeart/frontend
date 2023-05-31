@@ -162,7 +162,8 @@ const CoursePalyPage = () => {
         currentTime - playRef.current >= 2 &&
         currentTime > watchRef.current
       ) {
-        window.player.seek(playRef.current);
+        message.warning("首次学习禁止快进");
+        window.player.seek(watchRef.current);
       } else {
         setPlayingTime(currentTime);
         playTimeUpdate(parseInt(window.player.video.currentTime), false);
