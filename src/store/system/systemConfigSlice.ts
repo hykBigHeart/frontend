@@ -9,6 +9,7 @@ type SystemConfigStoreInterface = {
   pcIndexFooterMsg: string;
   playerPoster: string;
   playerIsEnabledBulletSecret: boolean;
+  playerIsDisabledDrag: boolean;
   playerBulletSecretText: string;
   playerBulletSecretColor: string;
   playerBulletSecretOpacity: string;
@@ -23,6 +24,7 @@ let defaultValue: SystemConfigStoreInterface = {
   pcIndexFooterMsg: "",
   playerPoster: "",
   playerIsEnabledBulletSecret: false,
+  playerIsDisabledDrag: false,
   playerBulletSecretText: "",
   playerBulletSecretColor: "",
   playerBulletSecretOpacity: "",

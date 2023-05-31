@@ -41,6 +41,11 @@ export const InitPage = (props: Props) => {
         props.configData["player-is-enabled-bullet-secret"] === "1"
           ? true
           : false,
+      playerIsDisabledDrag:
+        props.configData["player-disabled-drag"] &&
+        props.configData["player-disabled-drag"] === "1"
+          ? true
+          : false,
       playerBulletSecretText: props.configData["player-bullet-secret-text"],
       playerBulletSecretColor: props.configData["player-bullet-secret-color"],
       playerBulletSecretOpacity:

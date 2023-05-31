@@ -291,9 +291,13 @@ h1 {
 }
 
 #meedu-player-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
   width: 100%;
-  height: auto;
-  position: relative;
+  height: 100%;
 }
 
 .ant-tree-switcher {
@@ -374,4 +378,8 @@ h1 {
 
 .ant-popover-inner {
   padding: 8px 0px !important;
+}
+
+.dplayer-notice {
+  opacity: 0 !important;
 }

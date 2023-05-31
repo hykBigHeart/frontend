@@ -187,8 +187,6 @@ const IndexPage = () => {
         overflowX: "hidden",
         overflowY: "auto",
       }}
-      onMouseOut={() => setOpen(false)}
-      onMouseOver={() => setOpen(true)}
     >
       <Tree
         selectedKeys={selectKey}
@@ -332,10 +330,7 @@ const IndexPage = () => {
             trigger="click"
             onOpenChange={handleOpenChange}
           >
-            <Space
-              className={styles["dropButton"]}
-              onMouseOver={() => setOpen(true)}
-            >
+            <Space className={styles["dropButton"]}>
               {categoryText}
               <i
                 className="iconfont icon-icon-xiala"
