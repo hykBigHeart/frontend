@@ -29,6 +29,7 @@ export const CoursesModel: React.FC<PropInterface> = ({
     >
       <div className={styles["top-content"]}>
         <Image
+          loading="lazy"
           width={120}
           height={90}
           style={{ borderRadius: 10 }}
@@ -65,7 +66,13 @@ export const CoursesModel: React.FC<PropInterface> = ({
         )}
         {progress >= 100 && (
           <div className={styles["success"]}>
-            <Image width={24} height={24} src={mediaIcon} preview={false} />
+            <Image
+              loading="lazy"
+              width={24}
+              height={24}
+              src={mediaIcon}
+              preview={false}
+            />
             <span className="ml-8">恭喜你学完此课程!</span>
           </div>
         )}

@@ -181,6 +181,7 @@ const CoursePalyPage = () => {
       setPlayingTime(0);
       setPlayendedStatus(true);
       playTimeUpdate(parseInt(window.player.video.currentTime), true);
+      exitFullscreen();
       window.player && window.player.destroy();
     });
     setLoading(false);
@@ -211,6 +212,18 @@ const CoursePalyPage = () => {
       navigate(`/course/${params.courseId}/hour/${totalHours[index + 1].id}`, {
         replace: true,
       });
+    }
+  };
+
+  const exitFullscreen = () => {
+    let de: any;
+    de = document;
+    if (de.fullscreenElement !== null) {
+      de.exitFullscreen();
+    } else if (de.mozCancelFullScreen) {
+      de.mozCancelFullScreen();
+    } else if (de.webkitCancelFullScreen) {
+      de.webkitCancelFullScreen();
     }
   };
 

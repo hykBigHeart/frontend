@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
-import { Modal, Button, Dropdown } from "antd";
+import { Modal, Button, Dropdown, Image } from "antd";
 import type { MenuProps } from "antd";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useLocation } from "react-router-dom";
@@ -217,9 +217,11 @@ export const Header: React.FC = () => {
               <div className="d-flex" style={{ cursor: "pointer" }}>
                 {user && user.name && (
                   <>
-                    <img
+                    <Image
+                      loading="lazy"
                       style={{ width: 36, height: 36, borderRadius: "50%" }}
                       src={user.avatar}
+                      preview={false}
                     />
                     <span className="ml-8 c-admin">{user.name}</span>
                   </>

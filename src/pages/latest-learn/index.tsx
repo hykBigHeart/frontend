@@ -56,6 +56,7 @@ const LatestLearnPage = () => {
                 >
                   <div style={{ width: 120 }}>
                     <Image
+                      loading="lazy"
                       src={item.course.thumb}
                       width={120}
                       height={90}
@@ -91,6 +92,7 @@ const LatestLearnPage = () => {
                           {item.record.progress >= 10000 && (
                             <>
                               <Image
+                                loading="lazy"
                                 width={24}
                                 height={24}
                                 src={mediaIcon}

@@ -101,6 +101,7 @@ export const UserInfoModel: React.FC<PropInterface> = ({ open, onCancel }) => {
               <div className="d-flex">
                 {avatar && (
                   <Image
+                    loading="lazy"
                     width={60}
                     height={60}
                     style={{ borderRadius: "50%" }}
