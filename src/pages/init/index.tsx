@@ -39,13 +39,6 @@ export const InitPage = (props: Props) => {
         setShowFooter(false);
       }
     }
-
-    return () => {
-      // 组件卸载时，清除定时器
-      setShowNoHeader(false);
-      setShowHeader(true);
-      setShowFooter(true);
-    };
   }, [pathname, params]);
 
   useEffect(() => {
