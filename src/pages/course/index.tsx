@@ -173,33 +173,35 @@ const CoursePage = () => {
                 {chapters.map((item: any, index: number) => (
                   <div key={item.id} className={styles["chapter-it"]}>
                     <div className={styles["chapter-name"]}>{item.name}</div>
-                    {hours[item.id].map((it: any, int: number) => (
-                      <div key={it.id} className={styles["hours-it"]}>
-                        {learnHourRecord[it.id] && (
-                          <HourCompenent
-                            id={it.id}
-                            cid={item.course_id}
-                            title={it.title}
-                            record={learnHourRecord[it.id]}
-                            duration={it.duration}
-                            progress={
-                              (learnHourRecord[it.id].finished_duration * 100) /
-                              learnHourRecord[it.id].total_duration
-                            }
-                          ></HourCompenent>
-                        )}
-                        {!learnHourRecord[it.id] && (
-                          <HourCompenent
-                            id={it.id}
-                            cid={item.course_id}
-                            title={it.title}
-                            record={null}
-                            duration={it.duration}
-                            progress={0}
-                          ></HourCompenent>
-                        )}
-                      </div>
-                    ))}
+                    {hours[item.id] &&
+                      hours[item.id].map((it: any, int: number) => (
+                        <div key={it.id} className={styles["hours-it"]}>
+                          {learnHourRecord[it.id] && (
+                            <HourCompenent
+                              id={it.id}
+                              cid={item.course_id}
+                              title={it.title}
+                              record={learnHourRecord[it.id]}
+                              duration={it.duration}
+                              progress={
+                                (learnHourRecord[it.id].finished_duration *
+                                  100) /
+                                learnHourRecord[it.id].total_duration
+                              }
+                            ></HourCompenent>
+                          )}
+                          {!learnHourRecord[it.id] && (
+                            <HourCompenent
+                              id={it.id}
+                              cid={item.course_id}
+                              title={it.title}
+                              record={null}
+                              duration={it.duration}
+                              progress={0}
+                            ></HourCompenent>
+                          )}
+                        </div>
+                      ))}
                   </div>
                 ))}
               </div>
