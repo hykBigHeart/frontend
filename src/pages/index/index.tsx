@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { Row, Col, Spin, Tree, Popover, Space, Image } from "antd";
-import type { MenuProps } from "antd";
+import { useNavigate, useLocation } from "react-router-dom";
 import { user } from "../../api/index";
 import styles from "./index.module.scss";
 import { useSelector } from "react-redux";
@@ -12,14 +12,20 @@ import iconRoute from "../../assets/images/commen/icon-route.png";
 import { studyTimeFormat } from "../../utils/index";
 
 const IndexPage = () => {
+  const navigate = useNavigate();
+  const result = new URLSearchParams(useLocation().search);
   const systemConfig = useSelector((state: any) => state.systemConfig.value);
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
-  const [tabKey, setTabKey] = useState(0);
+  const [tabKey, setTabKey] = useState(Number(result.get("tab") || 0));
   const [coursesList, setCoursesList] = useState<any>([]);
   const [categories, setCategories] = useState<any>([]);
-  const [categoryId, setCategoryId] = useState<number>(0);
-  const [categoryText, setCategoryText] = useState<string>("所有分类");
+  const [categoryId, setCategoryId] = useState<number>(
+    Number(result.get("cid") || 0)
+  );
+  const [categoryText, setCategoryText] = useState<string>(
+    String(result.get("catName") || "所有分类")
+  );
   const [selectKey, setSelectKey] = useState<any>([0]);
   const [learnCourseRecords, setLearnCourseRecords] = useState<any>({});
   const [learnCourseHourCount, setLearnCourseHourCount] = useState<any>({});
@@ -35,6 +41,12 @@ const IndexPage = () => {
   useEffect(() => {
     getParams();
   }, []);
+
+  useEffect(() => {
+    let arr = [];
+    arr.push(Number(result.get("cid") || 0));
+    setSelectKey(arr);
+  }, [result.get("cid")]);
 
   useEffect(() => {
     if (currentDepId === 0) {
@@ -163,17 +175,38 @@ const IndexPage = () => {
 
   const onChange = (key: number) => {
     setTabKey(key);
+    navigate(
+      "/?cid=" + categoryId + "&catName=" + categoryText + "&tab=" + key
+    );
   };
 
   const onSelect = (selectedKeys: any, info: any) => {
     setCategoryId(selectedKeys[0]);
     if (info.node.key === 0) {
       setCategoryText(info.node.title);
+      setSelectKey(selectedKeys);
+      hide();
+      navigate(
+        "/?cid=" +
+          selectedKeys[0] +
+          "&catName=" +
+          info.node.title +
+          "&tab=" +
+          tabKey
+      );
     } else {
       setCategoryText(info.node.title.props.children);
+      setSelectKey(selectedKeys);
+      hide();
+      navigate(
+        "/?cid=" +
+          selectedKeys[0] +
+          "&catName=" +
+          info.node.title.props.children +
+          "&tab=" +
+          tabKey
+      );
     }
-    setSelectKey(selectedKeys);
-    hide();
   };
 
   const handleOpenChange = (newOpen: boolean) => {
