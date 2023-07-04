@@ -9,6 +9,7 @@ import {
 import { loginAction } from "../../store/user/loginUserSlice";
 import { Header, NoHeader, Footer } from "../../compenents";
 import { useParams, useLocation } from "react-router-dom";
+import { isMobile } from "../../utils/index";
 
 interface Props {
   loginData?: any;
@@ -72,6 +73,10 @@ export const InitPage = (props: Props) => {
           props.configData["player-bullet-secret-opacity"],
       };
       dispatch(saveConfigAction(config));
+      if (isMobile() && props.configData["system-h5-url"] !== "") {
+        let url = props.configData["system-h5-url"];
+        window.location.href = url;
+      }
     }
     setInit(true);
   }, [props]);

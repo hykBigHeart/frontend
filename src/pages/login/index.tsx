@@ -1,11 +1,11 @@
-import { Spin, Input, Button, message } from "antd";
+import { Input, Button, message } from "antd";
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
 import banner from "../../assets/images/login/banner.png";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { loginAction, logoutAction } from "../../store/user/loginUserSlice";
-import { login, system, user } from "../../api/index";
+import { loginAction } from "../../store/user/loginUserSlice";
+import { login, user } from "../../api/index";
 import { setToken } from "../../utils/index";
 import { NoFooter } from "../../compenents";
 
@@ -13,25 +13,8 @@ const LoginPage: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const [loading, setLoading] = useState<boolean>(false);
-  const [image, setImage] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
-  const [captchaVal, setCaptchaVal] = useState<string>("");
-  const [captchaKey, setCaptchaKey] = useState<string>("");
-  const [captchaLoading, setCaptchaLoading] = useState(true);
-
-  useEffect(() => {
-    fetchImageCaptcha();
-  }, []);
-
-  const fetchImageCaptcha = () => {
-    setCaptchaLoading(true);
-    system.imageCaptcha().then((res: any) => {
-      setImage(res.data.image);
-      setCaptchaKey(res.data.key);
-      setCaptchaLoading(false);
-    });
-  };
 
   const loginSubmit = (e: any) => {
     if (!email) {
@@ -40,14 +23,6 @@ const LoginPage: React.FC = () => {
     }
     if (!password) {
       message.error("请输入密码");
-      return;
-    }
-    if (!captchaVal) {
-      message.error("请输入图形验证码");
-      return;
-    }
-    if (captchaVal.length < 4) {
-      message.error("图形验证码错误");
       return;
     }
     if (loading) {
@@ -68,7 +43,7 @@ const LoginPage: React.FC = () => {
     }
     setLoading(true);
     login
-      .login(email, password, captchaKey, captchaVal)
+      .login(email, password)
       .then((res: any) => {
         const token = res.data.token;
         setToken(token);
@@ -76,8 +51,6 @@ const LoginPage: React.FC = () => {
       })
       .catch((e) => {
         setLoading(false);
-        setCaptchaVal("");
-        fetchImageCaptcha();
       });
   };
 
@@ -119,32 +92,6 @@ const LoginPage: React.FC = () => {
                 style={{ width: 400, height: 54 }}
                 placeholder="请输入密码"
               />
-            </div>
-            <div className="login-box d-flex mt-50">
-              <Input
-                value={captchaVal}
-                style={{ width: 260, height: 54 }}
-                placeholder="请输入图形验证码"
-                onChange={(e) => {
-                  setCaptchaVal(e.target.value);
-                }}
-                onKeyUp={(e) => keyUp(e)}
-              />
-              <div className={styles["captcha-box"]}>
-                {captchaLoading && (
-                  <div className={styles["catpcha-loading-box"]}>
-                    <Spin size="small" />
-                  </div>
-                )}
-
-                {!captchaLoading && (
-                  <img
-                    className={styles["captcha"]}
-                    onClick={fetchImageCaptcha}
-                    src={image}
-                  />
-                )}
-              </div>
             </div>
             <div className="login-box d-flex mt-50">
               <Button
