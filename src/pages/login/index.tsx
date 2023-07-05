@@ -91,6 +91,7 @@ const LoginPage: React.FC = () => {
                 }}
                 style={{ width: 400, height: 54 }}
                 placeholder="请输入密码"
+                onKeyUp={(e) => keyUp(e)}
               />
             </div>
             <div className="login-box d-flex mt-50">
