@@ -11,7 +11,7 @@ if (G_ID) {
 }
 
 const App = () => {
-  const Views = () => useRoutes(routes);
+  const views = useRoutes(routes);
 
   const location = useLocation();
   useEffect(() => {
@@ -23,7 +23,7 @@ const App = () => {
 
   return (
     <Suspense fallback={<LoadingPage />}>
-      <Views />
+      {views}
     </Suspense>
   );
 };
