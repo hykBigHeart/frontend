@@ -1,15 +1,18 @@
 import { lazy } from "react";
 import { RouteObject } from "react-router-dom";
 import { system, user } from "../api";
-import { SystemConfigStoreInterface } from "../store/system/systemConfigSlice";
-
 import { getToken } from "../utils";
+// 页面加载
 import { InitPage } from "../pages/init";
-import CoursePage from "../pages/course/index";
-import CoursePlayPage from "../pages/course/video";
-import IndexPage from "../pages/index";
-import LatestLearnPage from "../pages/latest-learn";
 import LoginPage from "../pages/login";
+//主页
+const IndexPage = lazy(() => import("../pages/index"));
+//课程相关
+const CoursePage = lazy(() => import("../pages/course/index"));
+const CoursePlayPage = lazy(() => import("../pages/course/video"));
+//最近学习
+const LatestLearnPage = lazy(() => import("../pages/latest-learn"));
+
 import PrivateRoute from "../compenents/private-route";
 
 let RootPage: any = null;
