@@ -1,14 +1,11 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
-// import styles from "./index.module.scss";
 import {
   SystemConfigStoreInterface,
   saveConfigAction,
 } from "../../store/system/systemConfigSlice";
 import { loginAction } from "../../store/user/loginUserSlice";
-import { Header, NoHeader, Footer } from "../../compenents";
-import { useParams, useLocation } from "react-router-dom";
 import { isMobile } from "../../utils/index";
 
 interface Props {
@@ -17,30 +14,8 @@ interface Props {
 }
 
 export const InitPage = (props: Props) => {
-  const pathname = useLocation().pathname;
-  const params = useParams();
   const dispatch = useDispatch();
-  const [showHeader, setShowHeader] = useState<boolean>(true);
-  const [showNoHeader, setShowNoHeader] = useState<boolean>(false);
-  const [showFooter, setShowFooter] = useState<boolean>(true);
   const [init, setInit] = useState<boolean>(false);
-  useEffect(() => {
-    if (pathname) {
-      if (pathname === "/login") {
-        setShowNoHeader(true);
-        setShowHeader(false);
-        setShowFooter(false);
-      } else if (!params.hourId) {
-        setShowNoHeader(false);
-        setShowHeader(true);
-        setShowFooter(true);
-      } else {
-        setShowNoHeader(false);
-        setShowHeader(false);
-        setShowFooter(false);
-      }
-    }
-  }, [pathname, params]);
 
   useEffect(() => {
     if (props.loginData) {
@@ -84,11 +59,8 @@ export const InitPage = (props: Props) => {
   return (
     <>
       {init && (
-        <div>
-          {showNoHeader && <NoHeader></NoHeader>}
-          {showHeader && <Header></Header>}
+        <div style={{ minHeight: 900 }}>
           <Outlet />
-          {showFooter && <Footer></Footer>}
         </div>
       )}
     </>

@@ -1,10 +1,6 @@
-.loadingBox {
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  z-index: 99;
-  text-align: center;
+.loading-box {
+  width: 100vw;
   line-height: 100vh;
+  text-align: center;
+  background-color: #f4fafe;
 }

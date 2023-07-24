@@ -5,6 +5,11 @@ import { getToken } from "../utils";
 // 页面加载
 import { InitPage } from "../pages/init";
 import LoginPage from "../pages/login";
+import WithHeaderWithFooter from "../pages/layouts/with-header-with-footer";
+import WithHeaderWithoutFooter from "../pages/layouts/with-header-without-footer";
+import WithoutHeaderWithFooter from "../pages/layouts/without-header-with-footer";
+import WithoutHeaderWithoutFooter from "../pages/layouts/without-header-without-footer";
+
 //主页
 const IndexPage = lazy(() => import("../pages/index"));
 //课程相关
@@ -48,12 +53,6 @@ if (getToken()) {
   });
 }
 
-// 懒加载
-// const LoginPage = lazy(() => import("../pages/login"));
-// const IndexPage = lazy(() => import("../pages/index"));
-// const CoursePage = lazy(() => import("../pages/course"));
-// const LatestLearnPage = lazy(() => import("../pages/latest-learn"));
-
 const routes: RouteObject[] = [
   {
     path: "/",
@@ -61,23 +60,43 @@ const routes: RouteObject[] = [
     children: [
       {
         path: "/",
-        element: <PrivateRoute Component={<IndexPage />} />,
+        element: <WithHeaderWithFooter />,
+        children: [
+          {
+            path: "/",
+            element: <PrivateRoute Component={<IndexPage />} />,
+          },
+
+          {
+            path: "/course/:courseId",
+            element: <PrivateRoute Component={<CoursePage />} />,
+          },
+
+          {
+            path: "/latest-learn",
+            element: <PrivateRoute Component={<LatestLearnPage />} />,
+          },
+        ],
       },
       {
-        path: "/login",
-        element: <LoginPage />,
+        path: "/",
+        element: <WithHeaderWithoutFooter />,
+        children: [
+          {
+            path: "/login",
+            element: <LoginPage />,
+          },
+        ],
       },
       {
-        path: "/course/:courseId",
-        element: <PrivateRoute Component={<CoursePage />} />,
-      },
-      {
-        path: "/course/:courseId/hour/:hourId",
-        element: <PrivateRoute Component={<CoursePlayPage />} />,
-      },
-      {
-        path: "/latest-learn",
-        element: <PrivateRoute Component={<LatestLearnPage />} />,
+        path: "/",
+        element: <WithoutHeaderWithoutFooter />,
+        children: [
+          {
+            path: "/course/:courseId/hour/:hourId",
+            element: <PrivateRoute Component={<CoursePlayPage />} />,
+          },
+        ],
       },
     ],
   },
