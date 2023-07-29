@@ -30,10 +30,6 @@ const IndexPage = () => {
   const [learnCourseRecords, setLearnCourseRecords] = useState<any>({});
   const [learnCourseHourCount, setLearnCourseHourCount] = useState<any>({});
   const [stats, setStats] = useState<any>({});
-
-  const departments = useSelector(
-    (state: any) => state.loginUser.value.departments
-  );
   const currentDepId = useSelector(
     (state: any) => state.loginUser.value.currentDepId
   );
