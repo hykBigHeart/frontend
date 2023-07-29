@@ -8,12 +8,12 @@ import { HourCompenent } from "./compenents/hour";
 import { Empty } from "../../compenents";
 import iconRoute from "../../assets/images/commen/icon-route.png";
 
-interface tabModal {
+type tabModal = {
   key: number;
   label: string;
-}
+};
 
-interface attachModal {
+type attachModal = {
   id: number;
   course_id: number;
   rid: number;
@@ -21,7 +21,7 @@ interface attachModal {
   title: string;
   type: string;
   url?: string;
-}
+};
 
 const CoursePage = () => {
   const params = useParams();
