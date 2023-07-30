@@ -297,7 +297,9 @@ const CoursePage = () => {
                         marginRight: 10,
                       }}
                     />
-                    <span className={styles["title"]}>{item.title}</span>
+                    <span className={styles["title"]}>
+                      {item.title}（{item.type}）
+                    </span>
                   </div>
                   <div
                     className={styles["download"]}
