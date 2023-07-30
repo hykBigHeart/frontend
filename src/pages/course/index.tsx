@@ -298,7 +298,7 @@ const CoursePage = () => {
                       }}
                     />
                     <span className={styles["title"]}>
-                      {item.title}（{item.type}）
+                      {item.title}.{item.ext}
                     </span>
                   </div>
                   <div
