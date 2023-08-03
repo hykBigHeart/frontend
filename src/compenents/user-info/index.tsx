@@ -75,60 +75,62 @@ export const UserInfoModel: React.FC<PropInterface> = ({ open, onCancel }) => {
 
   return (
     <>
-      <Modal
-        title="个人信息"
-        centered
-        forceRender
-        open={open}
-        width={416}
-        onCancel={() => onCancel()}
-        maskClosable={false}
-        footer={null}
-      >
-        <div className="mt-24">
-          <Form
-            form={form}
-            name="user-info"
-            labelCol={{ span: 8 }}
-            wrapperCol={{ span: 16 }}
-            initialValues={{ remember: true }}
-            autoComplete="off"
-          >
-            <Form.Item
-              label="学员头像"
-              labelCol={{ style: { marginTop: 15, marginLeft: 52 } }}
+      {open ? (
+        <Modal
+          title="个人信息"
+          centered
+          forceRender
+          open={true}
+          width={416}
+          onCancel={() => onCancel()}
+          maskClosable={false}
+          footer={null}
+        >
+          <div className="mt-24">
+            <Form
+              form={form}
+              name="user-info"
+              labelCol={{ span: 8 }}
+              wrapperCol={{ span: 16 }}
+              initialValues={{ remember: true }}
+              autoComplete="off"
             >
-              <div className="d-flex">
-                {avatar && (
-                  <Image
-                    loading="lazy"
-                    width={60}
-                    height={60}
-                    style={{ borderRadius: "50%" }}
-                    src={avatar}
-                    preview={false}
-                  />
-                )}
-                <div className="d-flex ml-16">
-                  <Upload {...props} showUploadList={false}>
-                    <Button>更换头像</Button>
-                  </Upload>
+              <Form.Item
+                label="学员头像"
+                labelCol={{ style: { marginTop: 15, marginLeft: 52 } }}
+              >
+                <div className="d-flex">
+                  {avatar && (
+                    <Image
+                      loading="lazy"
+                      width={60}
+                      height={60}
+                      style={{ borderRadius: "50%" }}
+                      src={avatar}
+                      preview={false}
+                    />
+                  )}
+                  <div className="d-flex ml-16">
+                    <Upload {...props} showUploadList={false}>
+                      <Button>更换头像</Button>
+                    </Upload>
+                  </div>
                 </div>
-              </div>
-            </Form.Item>
-            {name && (
-              <Form.Item label="学员姓名">
-                <div>{name}</div>
               </Form.Item>
-            )}
-            {idCard && (
-              <Form.Item label="身份证号" style={{ marginBottom: 16 }}>
-                <div>{idCard}</div>
-              </Form.Item>
-            )}
-          </Form>
-        </div>
-      </Modal>
+              {name && (
+                <Form.Item label="学员姓名">
+                  <div>{name}</div>
+                </Form.Item>
+              )}
+              {idCard && (
+                <Form.Item label="身份证号" style={{ marginBottom: 16 }}>
+                  <div>{idCard}</div>
+                </Form.Item>
+              )}
+            </Form>
+          </div>
+        </Modal>
+      ) : null}
     </>
   );
 };
