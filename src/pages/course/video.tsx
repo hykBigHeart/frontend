@@ -8,20 +8,57 @@ import { message } from "antd";
 
 declare const window: any;
 
+type HourModel = {
+  chapter_id: number;
+  course_id: number;
+  duration: number;
+  id: number;
+  rid: number;
+  sort: number;
+  title: string;
+  type: string;
+};
+
+type CourseModel = {
+  charge: number;
+  class_hour: number;
+  created_at: string;
+  id: number;
+  is_required: number;
+  is_show: number;
+  short_desc: string;
+  thumb: string;
+  title: string;
+};
+
+type UserHourRecordModel = {
+  course_id: number;
+  created_at: string;
+  finished_at?: string;
+  finished_duration: number;
+  hour_id: number;
+  id: number;
+  is_finished: number;
+  real_duration: number;
+  total_duration: number;
+  updated_at: string;
+  user_id: number;
+};
+
 const CoursePalyPage = () => {
   const navigate = useNavigate();
   const params = useParams();
   const systemConfig = useSelector((state: any) => state.systemConfig.value);
   const user = useSelector((state: any) => state.loginUser.value.user);
-  const [playUrl, setPlayUrl] = useState<string>("");
+  const [playUrl, setPlayUrl] = useState("");
   const [playDuration, setPlayDuration] = useState(0);
-  const [playendedStatus, setPlayendedStatus] = useState<Boolean>(false);
+  const [playendedStatus, setPlayendedStatus] = useState(false);
   const [lastSeeValue, setLastSeeValue] = useState({});
-  const [course, setCourse] = useState<any>({});
-  const [hour, setHour] = useState<any>({});
-  const [loading, setLoading] = useState<Boolean>(false);
-  const [isLastpage, setIsLastpage] = useState<Boolean>(false);
-  const [totalHours, setTotalHours] = useState<any>([]);
+  const [course, setCourse] = useState<CourseModel | null>(null);
+  const [hour, setHour] = useState<HourModel | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [isLastpage, setIsLastpage] = useState(false);
+  const [totalHours, setTotalHours] = useState<HourModel[]>([]);
   const [playingTime, setPlayingTime] = useState(0);
   const [watchedSeconds, setWatchedSeconds] = useState(0);
   const myRef = useRef(0);
@@ -59,17 +96,17 @@ const CoursePalyPage = () => {
   }, [watchedSeconds]);
 
   useEffect(() => {
-    totalRef.current = hour.duration;
+    totalRef.current = hour?.duration || 0;
   }, [hour]);
 
   const getCourse = () => {
     Course.detail(Number(params.courseId)).then((res: any) => {
-      let totalHours: any = [];
+      let totalHours: HourModel[] = [];
       if (res.data.chapters.length === 0) {
         setTotalHours(res.data.hours[0]);
         totalHours = res.data.hours[0];
       } else if (res.data.chapters.length > 0) {
-        const arr: any = [];
+        const arr: HourModel[] = [];
         for (let key in res.data.hours) {
           res.data.hours[key].map((item: any) => {
             arr.push(item);
@@ -97,7 +134,7 @@ const CoursePalyPage = () => {
         setCourse(res.data.course);
         setHour(res.data.hour);
         document.title = res.data.hour.title;
-        let record = res.data.user_hour_record;
+        let record: UserHourRecordModel = res.data.user_hour_record;
         let params = null;
         if (record && record.finished_duration && record.is_finished === 0) {
           params = {
@@ -249,7 +286,7 @@ const CoursePalyPage = () => {
         </div>
       </div>
       <div className={styles["video-body"]}>
-        <div className={styles["video-title"]}>{hour.title}</div>
+        <div className={styles["video-title"]}>{hour?.title}</div>
         <div className={styles["video-box"]}>
           <div
             className="play-box"

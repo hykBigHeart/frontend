@@ -8,12 +8,24 @@ import { HourCompenent } from "./compenents/hour";
 import { Empty } from "../../compenents";
 import iconRoute from "../../assets/images/commen/icon-route.png";
 
-type tabModal = {
+type TabModel = {
   key: number;
   label: string;
 };
 
-type attachModal = {
+type CourseModel = {
+  charge: number;
+  class_hour: number;
+  created_at: string;
+  id: number;
+  is_required: number;
+  is_show: number;
+  short_desc: string;
+  thumb: string;
+  title: string;
+};
+
+type AttachModel = {
   id: number;
   course_id: number;
   rid: number;
@@ -23,19 +35,76 @@ type attachModal = {
   url?: string;
 };
 
+type HoursModel = {
+  [key: number]: HourModel[];
+};
+
+type HourModel = {
+  chapter_id: number;
+  course_id: number;
+  duration: number;
+  id: number;
+  rid: number;
+  sort: number;
+  title: string;
+  type: string;
+};
+
+type ChapterModel = {
+  course_id: number;
+  created_at: string;
+  id: number;
+  name: string;
+  sort: number;
+  updated_at: string;
+};
+
+type LearnHourRecordsModel = {
+  [key: number]: HourRecordsModel;
+};
+
+type HourRecordsModel = {
+  course_id: number;
+  created_at: string;
+  finished_at?: string;
+  finished_duration: number;
+  hour_id: number;
+  id: number;
+  is_finished: number;
+  real_duration: number;
+  total_duration: number;
+  updated_at: string;
+  user_id: number;
+};
+
+type LearnRecordModel = {
+  course_id: number;
+  created_at: string;
+  finished_at?: string;
+  finished_count: number;
+  hour_count: number;
+  id: number;
+  is_finished: number;
+  progress: number;
+  updated_at: string;
+  user_id: number;
+};
+
 const CoursePage = () => {
   const params = useParams();
   const navigate = useNavigate();
   const result = new URLSearchParams(useLocation().search);
   const [loading, setLoading] = useState<boolean>(true);
-  const [course, setCourse] = useState<any>({});
-  const [chapters, setChapters] = useState<any>([]);
-  const [hours, setHours] = useState<any>({});
-  const [learnRecord, setLearnRecord] = useState<any>({});
-  const [learnHourRecord, setLearnHourRecord] = useState<any>({});
+  const [course, setCourse] = useState<CourseModel | null>(null);
+  const [chapters, setChapters] = useState<ChapterModel[]>([]);
+  const [hours, setHours] = useState<HoursModel>({});
+  const [learnRecord, setLearnRecord] = useState<LearnRecordModel | null>(null);
+  const [learnHourRecord, setLearnHourRecord] = useState<LearnHourRecordsModel>(
+    {}
+  );
   const [tabKey, setTabKey] = useState(Number(result.get("tab") || 1));
-  const [attachments, setAttachments] = useState<attachModal[]>([]);
-  const [items, setItems] = useState<tabModal[]>([]);
+  const [attachments, setAttachments] = useState<AttachModel[]>([]);
+  const [items, setItems] = useState<TabModel[]>([]);
 
   useEffect(() => {
     getDetail();
@@ -55,8 +124,8 @@ const CoursePage = () => {
         if (res.data.learn_hour_records) {
           setLearnHourRecord(res.data.learn_hour_records);
         }
-        let arr = res.data.attachments;
-        let tabs = [
+        let arr: AttachModel[] = res.data.attachments;
+        let tabs: TabModel[] = [
           {
             key: 1,
             label: `课程目录`,
@@ -115,18 +184,18 @@ const CoursePage = () => {
                   height={90}
                   style={{ borderRadius: 10 }}
                   preview={false}
-                  src={course.thumb}
+                  src={course?.thumb}
                 />
                 <div className={styles["info"]}>
-                  <div className={styles["title"]}>{course.title}</div>
+                  <div className={styles["title"]}>{course?.title}</div>
                   <div className={styles["status"]}>
-                    {course.is_required === 1 && (
+                    {course?.is_required === 1 && (
                       <div className={styles["type"]}>必修课</div>
                     )}
-                    {course.is_required === 0 && (
+                    {course?.is_required === 0 && (
                       <div className={styles["active-type"]}>选修课</div>
                     )}
-                    {learnRecord.progress / 100 >= 100 && (
+                    {learnRecord && learnRecord.progress / 100 >= 100 && (
                       <div className={styles["success"]}>
                         <Image
                           width={24}
@@ -140,7 +209,8 @@ const CoursePage = () => {
                   </div>
                 </div>
               </div>
-              {JSON.stringify(learnRecord) === "{}" &&
+              {learnRecord &&
+                JSON.stringify(learnRecord) === "{}" &&
                 JSON.stringify(learnHourRecord) === "{}" && (
                   <Progress
                     type="circle"
@@ -152,7 +222,8 @@ const CoursePage = () => {
                     format={(percent) => `${percent}%`}
                   />
                 )}
-              {JSON.stringify(learnRecord) === "{}" &&
+              {learnRecord &&
+                JSON.stringify(learnRecord) === "{}" &&
                 JSON.stringify(learnHourRecord) !== "{}" && (
                   <Progress
                     type="circle"
@@ -164,7 +235,8 @@ const CoursePage = () => {
                     format={(percent) => `${percent}%`}
                   />
                 )}
-              {JSON.stringify(learnRecord) !== "{}" &&
+              {learnRecord &&
+                JSON.stringify(learnRecord) !== "{}" &&
                 JSON.stringify(learnHourRecord) !== "{}" && (
                   <Progress
                     type="circle"
@@ -177,7 +249,7 @@ const CoursePage = () => {
                   />
                 )}
             </div>
-            {course.short_desc && (
+            {course?.short_desc && (
               <div className={styles["desc"]}>{course.short_desc}</div>
             )}
           </div>

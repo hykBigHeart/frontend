@@ -7,12 +7,73 @@ import mediaIcon from "../../assets/images/commen/icon-medal.png";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+type LastLearnModel = {
+  [key: number]: LearnModel;
+};
+
+type LearnModel = {
+  course: CourseModel;
+  hour_record: HourRecordModel;
+  last_learn_hour: LastHourModel;
+  record: RecordModel;
+};
+
+type CourseModel = {
+  charge?: number;
+  class_hour: number;
+  created_at?: string;
+  id: number;
+  is_required: number;
+  is_show?: number;
+  short_desc: string;
+  thumb: string;
+  title: string;
+};
+
+type HourRecordModel = {
+  course_id: number;
+  created_at: string;
+  finished_at: string;
+  finished_duration: number;
+  hour_id: number;
+  id: number;
+  is_finished: number;
+  real_duration: number;
+  total_duration: number;
+  updated_at: string;
+  user_id: number;
+};
+
+type LastHourModel = {
+  chapter_id: number;
+  course_id: number;
+  duration: number;
+  id: number;
+  rid: number;
+  sort: number;
+  title: string;
+  type: string;
+};
+
+type RecordModel = {
+  course_id: number;
+  created_at: string;
+  finished_at?: string;
+  finished_count: number;
+  hour_count: number;
+  id: number;
+  is_finished: number;
+  progress: number;
+  updated_at: string;
+  user_id: number;
+};
+
 const LatestLearnPage = () => {
   document.title = "最近学习";
   const navigate = useNavigate();
   const systemConfig = useSelector((state: any) => state.systemConfig.value);
   const [loading, setLoading] = useState<boolean>(false);
-  const [courses, setCourses] = useState<any>([]);
+  const [courses, setCourses] = useState<LastLearnModel[]>([]);
 
   useEffect(() => {
     getCourses();

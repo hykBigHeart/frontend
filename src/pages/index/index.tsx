@@ -11,6 +11,54 @@ import studyTime from "../../assets/images/commen/icon-studytime.png";
 import iconRoute from "../../assets/images/commen/icon-route.png";
 import { studyTimeFormat } from "../../utils/index";
 
+type CourseModel = {
+  id: number;
+  class_hour: number;
+  charge: number;
+  is_show: number;
+  is_required: number;
+  title: string;
+  thumb: string;
+  short_desc: string;
+  created_at: string;
+};
+
+type StatsModel = {
+  learn_duration: number;
+  nun_required_course_count: number;
+  nun_required_finished_course_count: number;
+  nun_required_finished_hour_count: number;
+  nun_required_hour_count: number;
+  required_course_count: number;
+  required_finished_course_count: number;
+  required_finished_hour_count: number;
+  required_hour_count: number;
+  today_learn_duration: number;
+};
+
+type LearnCourseRecordsModel = {
+  [key: number]: CourseRecordsModel;
+};
+
+type CourseRecordsModel = {
+  course_id: number;
+  created_at: string;
+  finished_at: string | null;
+  finished_count: number;
+  hour_count: number;
+  id: number;
+  is_finished: number;
+  progress: number;
+  updated_at: string;
+  user_id: number;
+};
+
+type CategoryModel = {
+  key: number;
+  title: any;
+  children?: CategoryModel[];
+};
+
 const IndexPage = () => {
   const navigate = useNavigate();
   const result = new URLSearchParams(useLocation().search);
@@ -18,8 +66,8 @@ const IndexPage = () => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState<boolean>(false);
   const [tabKey, setTabKey] = useState(Number(result.get("tab") || 0));
-  const [coursesList, setCoursesList] = useState<any>([]);
-  const [categories, setCategories] = useState<any>([]);
+  const [coursesList, setCoursesList] = useState<CourseModel[]>([]);
+  const [categories, setCategories] = useState<CategoryModel[]>([]);
   const [categoryId, setCategoryId] = useState<number>(
     Number(result.get("cid") || 0)
   );
@@ -27,9 +75,10 @@ const IndexPage = () => {
     String(result.get("catName") || "所有分类")
   );
   const [selectKey, setSelectKey] = useState<any>([0]);
-  const [learnCourseRecords, setLearnCourseRecords] = useState<any>({});
+  const [learnCourseRecords, setLearnCourseRecords] =
+    useState<LearnCourseRecordsModel>({});
   const [learnCourseHourCount, setLearnCourseHourCount] = useState<any>({});
-  const [stats, setStats] = useState<any>({});
+  const [stats, setStats] = useState<StatsModel | null>(null);
   const currentDepId = useSelector(
     (state: any) => state.loginUser.value.currentDepId
   );
@@ -62,14 +111,14 @@ const IndexPage = () => {
   const getData = () => {
     setLoading(true);
     user.courses(currentDepId, categoryId).then((res: any) => {
-      const records = res.data.learn_course_records;
+      const records: LearnCourseRecordsModel = res.data.learn_course_records;
       setStats(res.data.stats);
       setLearnCourseRecords(records);
       setLearnCourseHourCount(res.data.user_course_hour_count);
       if (tabKey === 0) {
         setCoursesList(res.data.courses);
       } else if (tabKey === 1) {
-        const arr: any = [];
+        const arr: CourseModel[] = [];
         res.data.courses.map((item: any) => {
           if (item.is_required === 1) {
             arr.push(item);
@@ -77,7 +126,7 @@ const IndexPage = () => {
         });
         setCoursesList(arr);
       } else if (tabKey === 2) {
-        const arr: any = [];
+        const arr: CourseModel[] = [];
         res.data.courses.map((item: any) => {
           if (item.is_required === 0) {
             arr.push(item);
@@ -85,7 +134,7 @@ const IndexPage = () => {
         });
         setCoursesList(arr);
       } else if (tabKey === 3) {
-        const arr: any = [];
+        const arr: CourseModel[] = [];
         res.data.courses.map((item: any) => {
           if (records[item.id] && records[item.id].progress >= 10000) {
             arr.push(item);
@@ -93,7 +142,7 @@ const IndexPage = () => {
         });
         setCoursesList(arr);
       } else if (tabKey === 4) {
-        const arr: any = [];
+        const arr: CourseModel[] = [];
         res.data.courses.map((item: any) => {
           if (
             !records[item.id] ||
@@ -112,7 +161,7 @@ const IndexPage = () => {
     user.coursesCategories().then((res: any) => {
       const categories = res.data.categories;
       if (JSON.stringify(categories) !== "{}") {
-        const new_arr: any[] = checkArr(categories, 0);
+        const new_arr: CategoryModel[] = checkArr(categories, 0);
         new_arr.unshift({
           key: 0,
           title: "所有分类",
@@ -123,7 +172,7 @@ const IndexPage = () => {
   };
 
   const checkArr = (categories: any[], id: number) => {
-    const arr = [];
+    const arr: CategoryModel[] = [];
     for (let i = 0; i < categories[id].length; i++) {
       if (!categories[categories[id][i].id]) {
         arr.push({
@@ -133,7 +182,10 @@ const IndexPage = () => {
           key: categories[id][i].id,
         });
       } else {
-        const new_arr: any[] = checkArr(categories, categories[id][i].id);
+        const new_arr: CategoryModel[] = checkArr(
+          categories,
+          categories[id][i].id
+        );
         arr.push({
           title: (
             <span style={{ marginRight: 20 }}>{categories[id][i].name}</span>
@@ -240,17 +292,17 @@ const IndexPage = () => {
             <div className={styles["info"]}>
               <div className={styles["info-item"]}>
                 <span>必修课：已学完课程</span>
-                <strong> {stats.required_finished_course_count || 0} </strong>
-                <span>/ {stats.required_course_count || 0}</span>
+                <strong> {stats?.required_finished_course_count || 0} </strong>
+                <span>/ {stats?.required_course_count || 0}</span>
               </div>
-              {stats.nun_required_course_count > 0 && (
+              {stats && stats.nun_required_course_count > 0 && (
                 <div className={styles["info-item"]}>
                   <span>选修课：已学完课程</span>
                   <strong>
                     {" "}
-                    {stats.nun_required_finished_course_count || 0}{" "}
+                    {stats?.nun_required_finished_course_count || 0}{" "}
                   </strong>
-                  <span>/ {stats.nun_required_course_count || 0}</span>
+                  <span>/ {stats?.nun_required_course_count || 0}</span>
                 </div>
               )}
             </div>
@@ -260,70 +312,76 @@ const IndexPage = () => {
               <img className={styles["icon"]} src={studyTime} />
               <span>学习时长</span>
             </div>
-            <div className={styles["info"]}>
-              <div className={styles["info-item"]}>
-                今日：
-                {studyTimeFormat(stats.today_learn_duration)[0] !== 0 && (
-                  <>
-                    <strong>
-                      {" "}
-                      {studyTimeFormat(stats.today_learn_duration)[0] || 0}{" "}
-                    </strong>
-                    天
-                  </>
-                )}
-                {studyTimeFormat(stats.today_learn_duration)[1] !== 0 && (
-                  <>
-                    <strong>
-                      {" "}
-                      {studyTimeFormat(stats.today_learn_duration)[1] || 0}{" "}
-                    </strong>
-                    小时
-                  </>
-                )}
-                <strong>
-                  {" "}
-                  {studyTimeFormat(stats.today_learn_duration)[2] || 0}{" "}
-                </strong>
-                分钟
-                <strong>
-                  {" "}
-                  {studyTimeFormat(stats.today_learn_duration)[3] || 0}{" "}
-                </strong>
-                秒
+            {stats ? (
+              <div className={styles["info"]}>
+                <div className={styles["info-item"]}>
+                  今日：
+                  {studyTimeFormat(stats.today_learn_duration)[0] !== 0 && (
+                    <>
+                      <strong>
+                        {" "}
+                        {studyTimeFormat(stats.today_learn_duration)[0] ||
+                          0}{" "}
+                      </strong>
+                      天
+                    </>
+                  )}
+                  {studyTimeFormat(stats.today_learn_duration)[1] !== 0 && (
+                    <>
+                      <strong>
+                        {" "}
+                        {studyTimeFormat(stats.today_learn_duration)[1] ||
+                          0}{" "}
+                      </strong>
+                      小时
+                    </>
+                  )}
+                  <strong>
+                    {" "}
+                    {studyTimeFormat(stats.today_learn_duration)[2] || 0}{" "}
+                  </strong>
+                  分钟
+                  <strong>
+                    {" "}
+                    {studyTimeFormat(stats.today_learn_duration)[3] || 0}{" "}
+                  </strong>
+                  秒
+                </div>
+                <div className={styles["info-item"]}>
+                  累计：
+                  {studyTimeFormat(stats.learn_duration || 0)[0] !== 0 && (
+                    <>
+                      <strong>
+                        {" "}
+                        {studyTimeFormat(stats.learn_duration || 0)[0] ||
+                          0}{" "}
+                      </strong>
+                      天
+                    </>
+                  )}
+                  {studyTimeFormat(stats.learn_duration || 0)[1] !== 0 && (
+                    <>
+                      <strong>
+                        {" "}
+                        {studyTimeFormat(stats.learn_duration || 0)[1] ||
+                          0}{" "}
+                      </strong>
+                      小时
+                    </>
+                  )}
+                  <strong>
+                    {" "}
+                    {studyTimeFormat(stats.learn_duration || 0)[2] || 0}{" "}
+                  </strong>
+                  分钟
+                  <strong>
+                    {" "}
+                    {studyTimeFormat(stats.learn_duration || 0)[3] || 0}{" "}
+                  </strong>
+                  秒
+                </div>
               </div>
-              <div className={styles["info-item"]}>
-                累计：
-                {studyTimeFormat(stats.learn_duration || 0)[0] !== 0 && (
-                  <>
-                    <strong>
-                      {" "}
-                      {studyTimeFormat(stats.learn_duration || 0)[0] || 0}{" "}
-                    </strong>
-                    天
-                  </>
-                )}
-                {studyTimeFormat(stats.learn_duration || 0)[1] !== 0 && (
-                  <>
-                    <strong>
-                      {" "}
-                      {studyTimeFormat(stats.learn_duration || 0)[1] || 0}{" "}
-                    </strong>
-                    小时
-                  </>
-                )}
-                <strong>
-                  {" "}
-                  {studyTimeFormat(stats.learn_duration || 0)[2] || 0}{" "}
-                </strong>
-                分钟
-                <strong>
-                  {" "}
-                  {studyTimeFormat(stats.learn_duration || 0)[3] || 0}{" "}
-                </strong>
-                秒
-              </div>
-            </div>
+            ) : null}
           </div>
         </div>
         <div className={styles["tabs"]}>
