@@ -11,18 +11,6 @@ import studyTime from "../../assets/images/commen/icon-studytime.png";
 import iconRoute from "../../assets/images/commen/icon-route.png";
 import { studyTimeFormat } from "../../utils/index";
 
-type CourseModel = {
-  id: number;
-  class_hour: number;
-  charge: number;
-  is_show: number;
-  is_required: number;
-  title: string;
-  thumb: string;
-  short_desc: string;
-  created_at: string;
-};
-
 type StatsModel = {
   learn_duration: number;
   nun_required_course_count: number;
@@ -37,20 +25,7 @@ type StatsModel = {
 };
 
 type LearnCourseRecordsModel = {
-  [key: number]: CourseRecordsModel;
-};
-
-type CourseRecordsModel = {
-  course_id: number;
-  created_at: string;
-  finished_at: string | null;
-  finished_count: number;
-  hour_count: number;
-  id: number;
-  is_finished: number;
-  progress: number;
-  updated_at: string;
-  user_id: number;
+  [key: number]: CourseRecordModel;
 };
 
 type CategoryModel = {

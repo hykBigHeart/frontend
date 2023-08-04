@@ -13,18 +13,6 @@ type TabModel = {
   label: string;
 };
 
-type CourseModel = {
-  charge: number;
-  class_hour: number;
-  created_at: string;
-  id: number;
-  is_required: number;
-  is_show: number;
-  short_desc: string;
-  thumb: string;
-  title: string;
-};
-
 type AttachModel = {
   id: number;
   course_id: number;
@@ -39,17 +27,6 @@ type HoursModel = {
   [key: number]: HourModel[];
 };
 
-type HourModel = {
-  chapter_id: number;
-  course_id: number;
-  duration: number;
-  id: number;
-  rid: number;
-  sort: number;
-  title: string;
-  type: string;
-};
-
 type ChapterModel = {
   course_id: number;
   created_at: string;
@@ -60,34 +37,7 @@ type ChapterModel = {
 };
 
 type LearnHourRecordsModel = {
-  [key: number]: HourRecordsModel;
-};
-
-type HourRecordsModel = {
-  course_id: number;
-  created_at: string;
-  finished_at?: string;
-  finished_duration: number;
-  hour_id: number;
-  id: number;
-  is_finished: number;
-  real_duration: number;
-  total_duration: number;
-  updated_at: string;
-  user_id: number;
-};
-
-type LearnRecordModel = {
-  course_id: number;
-  created_at: string;
-  finished_at?: string;
-  finished_count: number;
-  hour_count: number;
-  id: number;
-  is_finished: number;
-  progress: number;
-  updated_at: string;
-  user_id: number;
+  [key: number]: HourRecordModel;
 };
 
 const CoursePage = () => {
@@ -98,7 +48,9 @@ const CoursePage = () => {
   const [course, setCourse] = useState<CourseModel | null>(null);
   const [chapters, setChapters] = useState<ChapterModel[]>([]);
   const [hours, setHours] = useState<HoursModel>({});
-  const [learnRecord, setLearnRecord] = useState<LearnRecordModel | null>(null);
+  const [learnRecord, setLearnRecord] = useState<CourseRecordModel | null>(
+    null
+  );
   const [learnHourRecord, setLearnHourRecord] = useState<LearnHourRecordsModel>(
     {}
   );

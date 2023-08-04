@@ -12,13 +12,13 @@ type LastLearnModel = {
 };
 
 type LearnModel = {
-  course: CourseModel;
+  course: LastCourseModel;
   hour_record: HourRecordModel;
   last_learn_hour: LastHourModel;
-  record: RecordModel;
+  record: CourseRecordModel;
 };
 
-type CourseModel = {
+type LastCourseModel = {
   charge?: number;
   class_hour: number;
   created_at?: string;
@@ -30,20 +30,6 @@ type CourseModel = {
   title: string;
 };
 
-type HourRecordModel = {
-  course_id: number;
-  created_at: string;
-  finished_at: string;
-  finished_duration: number;
-  hour_id: number;
-  id: number;
-  is_finished: number;
-  real_duration: number;
-  total_duration: number;
-  updated_at: string;
-  user_id: number;
-};
-
 type LastHourModel = {
   chapter_id: number;
   course_id: number;
@@ -53,19 +39,6 @@ type LastHourModel = {
   sort: number;
   title: string;
   type: string;
-};
-
-type RecordModel = {
-  course_id: number;
-  created_at: string;
-  finished_at?: string;
-  finished_count: number;
-  hour_count: number;
-  id: number;
-  is_finished: number;
-  progress: number;
-  updated_at: string;
-  user_id: number;
 };
 
 const LatestLearnPage = () => {
