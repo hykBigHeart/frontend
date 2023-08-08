@@ -161,8 +161,8 @@ const CoursePage = () => {
                   </div>
                 </div>
               </div>
-              {learnRecord &&
-                JSON.stringify(learnRecord) === "{}" &&
+              {(!learnRecord ||
+                (learnRecord && JSON.stringify(learnRecord) === "{}")) &&
                 JSON.stringify(learnHourRecord) === "{}" && (
                   <Progress
                     type="circle"
@@ -174,8 +174,8 @@ const CoursePage = () => {
                     format={(percent) => `${percent}%`}
                   />
                 )}
-              {learnRecord &&
-                JSON.stringify(learnRecord) === "{}" &&
+              {(!learnRecord ||
+                (learnRecord && JSON.stringify(learnRecord) === "{}")) &&
                 JSON.stringify(learnHourRecord) !== "{}" && (
                   <Progress
                     type="circle"
