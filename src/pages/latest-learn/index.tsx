@@ -7,12 +7,46 @@ import mediaIcon from "../../assets/images/commen/icon-medal.png";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 
+type LastLearnModel = {
+  [key: number]: LearnModel;
+};
+
+type LearnModel = {
+  course: LastCourseModel;
+  hour_record: HourRecordModel;
+  last_learn_hour: LastHourModel;
+  record: CourseRecordModel;
+};
+
+type LastCourseModel = {
+  charge?: number;
+  class_hour: number;
+  created_at?: string;
+  id: number;
+  is_required: number;
+  is_show?: number;
+  short_desc: string;
+  thumb: string;
+  title: string;
+};
+
+type LastHourModel = {
+  chapter_id: number;
+  course_id: number;
+  duration: number;
+  id: number;
+  rid: number;
+  sort: number;
+  title: string;
+  type: string;
+};
+
 const LatestLearnPage = () => {
   document.title = "最近学习";
   const navigate = useNavigate();
   const systemConfig = useSelector((state: any) => state.systemConfig.value);
   const [loading, setLoading] = useState<boolean>(false);
-  const [courses, setCourses] = useState<any>([]);
+  const [courses, setCourses] = useState<LastLearnModel[]>([]);
 
   useEffect(() => {
     getCourses();
