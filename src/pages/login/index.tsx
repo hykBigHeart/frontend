@@ -1,8 +1,8 @@
 import { Input, Button, message } from "antd";
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styles from "./index.module.scss";
 import banner from "../../assets/images/login/banner.png";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginAction } from "../../store/user/loginUserSlice";
 import { login, user } from "../../api/index";
@@ -15,10 +15,11 @@ const LoginPage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(false);
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
+  const systemConfig = useSelector((state: any) => state.systemConfig.value);
 
   const loginSubmit = (e: any) => {
     if (!email) {
-      message.error("请输入学员邮箱账号");
+      message.error("请输入邮箱或uid");
       return;
     }
     if (!password) {
@@ -42,16 +43,29 @@ const LoginPage: React.FC = () => {
       return;
     }
     setLoading(true);
-    login
-      .login(email, password)
-      .then((res: any) => {
-        const token = res.data.token;
-        setToken(token);
-        getUser();
-      })
-      .catch((e) => {
-        setLoading(false);
-      });
+    if (systemConfig["ldap-enabled"] === "1") {
+      login
+        .loginLdap(email, password)
+        .then((res: any) => {
+          const token = res.data.token;
+          setToken(token);
+          getUser();
+        })
+        .catch((e) => {
+          setLoading(false);
+        });
+    } else {
+      login
+        .login(email, password)
+        .then((res: any) => {
+          const token = res.data.token;
+          setToken(token);
+          getUser();
+        })
+        .catch((e) => {
+          setLoading(false);
+        });
+    }
   };
 
   const getUser = () => {
@@ -79,7 +93,7 @@ const LoginPage: React.FC = () => {
                   setEmail(e.target.value);
                 }}
                 style={{ width: 400, height: 54 }}
-                placeholder="请输入学员邮箱账号"
+                placeholder={"请输入邮箱或uid"}
                 onKeyUp={(e) => keyUp(e)}
               />
             </div>
