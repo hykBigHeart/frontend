@@ -19,7 +19,7 @@ const LoginPage: React.FC = () => {
 
   const loginSubmit = (e: any) => {
     if (!email) {
-      message.error("请输入邮箱或uid");
+      message.error("请输入邮箱或UID");
       return;
     }
     if (!password) {
@@ -93,7 +93,7 @@ const LoginPage: React.FC = () => {
                   setEmail(e.target.value);
                 }}
                 style={{ width: 400, height: 54 }}
-                placeholder={"请输入邮箱或uid"}
+                placeholder={"请输入邮箱或UID"}
                 onKeyUp={(e) => keyUp(e)}
               />
             </div>
