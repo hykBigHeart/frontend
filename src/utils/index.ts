@@ -111,3 +111,15 @@ export function isMobile() {
   );
   return flag;
 }
+
+export function getPlayId(): string {
+  return window.localStorage.getItem("playedu-play-id") || "";
+}
+
+export function savePlayId(id: string) {
+  window.localStorage.setItem("playedu-play-id", id);
+}
+
+export function clearPlayId() {
+  window.localStorage.removeItem("playedu-play-id");
+}

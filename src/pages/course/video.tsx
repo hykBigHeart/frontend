@@ -5,8 +5,10 @@ import { useSelector } from "react-redux";
 import { course as Course } from "../../api/index";
 import { ArrowLeftOutlined } from "@ant-design/icons";
 import { message } from "antd";
+import { getPlayId, savePlayId } from "../../utils";
 
 declare const window: any;
+var timer: any = null;
 
 const CoursePalyPage = () => {
   const navigate = useNavigate();
@@ -28,8 +30,10 @@ const CoursePalyPage = () => {
   const playRef = useRef(0);
   const watchRef = useRef(0);
   const totalRef = useRef(0);
+  const [checkPlayerStatus, setCheckPlayerStatus] = useState(false);
 
   useEffect(() => {
+    timer && clearInterval(timer);
     getCourse();
     getDetail();
     document.oncontextmenu = function (e) {
@@ -37,7 +41,9 @@ const CoursePalyPage = () => {
       e = e || window.event;
       return false;
     };
+
     return () => {
+      timer && clearInterval(timer);
       document.oncontextmenu = function (e) {
         /*恢复浏览器默认右键事件*/
         e = e || window.event;
@@ -123,6 +129,7 @@ const CoursePalyPage = () => {
       (res: any) => {
         setPlayUrl(res.data.url);
         initDPlayer(res.data.url, 0, data);
+        savePlayId(String(params.courseId) + "-" + String(params.hourId));
       }
     );
   };
@@ -185,6 +192,7 @@ const CoursePalyPage = () => {
       window.player && window.player.destroy();
     });
     setLoading(false);
+    checkPlayer();
   };
 
   const playTimeUpdate = (duration: number, isEnd: boolean) => {
@@ -199,6 +207,22 @@ const CoursePalyPage = () => {
         (res: any) => {}
       );
     }
+  };
+
+  const checkPlayer = () => {
+    timer = setInterval(() => {
+      let playId = getPlayId();
+      if (
+        playId &&
+        playId !== String(params.courseId) + "-" + String(params.hourId)
+      ) {
+        timer && clearInterval(timer);
+        window.player && window.player.destroy();
+        setCheckPlayerStatus(true);
+      } else {
+        setCheckPlayerStatus(false);
+      }
+    }, 5000);
   };
 
   const goNextVideo = () => {
@@ -256,6 +280,13 @@ const CoursePalyPage = () => {
             id="meedu-player-container"
             style={{ borderRadius: 8 }}
           ></div>
+          {checkPlayerStatus && (
+            <div className={styles["alert-message"]}>
+              <div className={styles["des-video"]}>
+                您已打开新视频，暂停本视频播放
+              </div>
+            </div>
+          )}
           {playendedStatus && (
             <div className={styles["alert-message"]}>
               {isLastpage && (
