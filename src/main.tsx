@@ -4,6 +4,7 @@ import store from "./store";
 import { BrowserRouter } from "react-router-dom";
 import { ConfigProvider } from "antd";
 import zhCN from "antd/locale/zh_CN";
+import "./assets/iconfont/iconfont.css";
 import App from "./App";
 import "./index.scss"; //全局样式
 import AutoScorllTop from "./AutoTop";
