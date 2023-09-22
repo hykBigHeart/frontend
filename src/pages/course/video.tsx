@@ -258,6 +258,7 @@ const CoursePalyPage = () => {
           <div
             className={styles["close-btn"]}
             onClick={() => {
+              timer && clearInterval(timer);
               window.player && window.player.destroy();
               document.oncontextmenu = function (e) {
                 /*恢复浏览器默认右键事件*/
