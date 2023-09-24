@@ -64,6 +64,7 @@
       margin: 0 auto;
       border-radius: 8px;
       position: relative;
+
       .alert-message {
         position: absolute;
         top: 0;
@@ -80,6 +81,12 @@
         font-size: 18px;
         color: white;
         z-index: 100;
+        .des-video {
+          font-size: 15px;
+          font-weight: 400;
+          color: #ffffff;
+          line-height: 15px;
+        }
         .alert-button {
           width: 200px;
           height: 54px;
