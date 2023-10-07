@@ -298,27 +298,17 @@ const IndexPage = () => {
                         {studyTimeFormat(stats.today_learn_duration)[0] ||
                           0}{" "}
                       </strong>
-                      天
-                    </>
-                  )}
-                  {studyTimeFormat(stats.today_learn_duration)[1] !== 0 && (
-                    <>
-                      <strong>
-                        {" "}
-                        {studyTimeFormat(stats.today_learn_duration)[1] ||
-                          0}{" "}
-                      </strong>
                       小时
                     </>
                   )}
                   <strong>
                     {" "}
-                    {studyTimeFormat(stats.today_learn_duration)[2] || 0}{" "}
+                    {studyTimeFormat(stats.today_learn_duration)[1] || 0}{" "}
                   </strong>
                   分钟
                   <strong>
                     {" "}
-                    {studyTimeFormat(stats.today_learn_duration)[3] || 0}{" "}
+                    {studyTimeFormat(stats.today_learn_duration)[2] || 0}{" "}
                   </strong>
                   秒
                 </div>
@@ -331,27 +321,17 @@ const IndexPage = () => {
                         {studyTimeFormat(stats.learn_duration || 0)[0] ||
                           0}{" "}
                       </strong>
-                      天
-                    </>
-                  )}
-                  {studyTimeFormat(stats.learn_duration || 0)[1] !== 0 && (
-                    <>
-                      <strong>
-                        {" "}
-                        {studyTimeFormat(stats.learn_duration || 0)[1] ||
-                          0}{" "}
-                      </strong>
                       小时
                     </>
                   )}
                   <strong>
                     {" "}
-                    {studyTimeFormat(stats.learn_duration || 0)[2] || 0}{" "}
+                    {studyTimeFormat(stats.learn_duration || 0)[1] || 0}{" "}
                   </strong>
                   分钟
                   <strong>
                     {" "}
-                    {studyTimeFormat(stats.learn_duration || 0)[3] || 0}{" "}
+                    {studyTimeFormat(stats.learn_duration || 0)[2] || 0}{" "}
                   </strong>
                   秒
                 </div>
