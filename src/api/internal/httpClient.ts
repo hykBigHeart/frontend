@@ -1,9 +1,16 @@
 import axios, { Axios, AxiosResponse } from "axios";
 import { message } from "antd";
-import { getToken, clearToken } from "../../utils/index";
+import {
+  getToken,
+  clearToken,
+  clearDepKey,
+  clearDepName,
+} from "../../utils/index";
 
 const GoLogin = () => {
   clearToken();
+  clearDepName();
+  clearDepKey();
   window.location.href = "/login";
 };
 
