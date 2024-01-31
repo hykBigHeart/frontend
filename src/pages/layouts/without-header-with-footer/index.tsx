@@ -5,12 +5,14 @@ import LoadingPage from "../../loading";
 
 const WithoutHeaderWithFooter = () => {
   return (
-    <>
+    <div className="layout-box">
       <Suspense fallback={<LoadingPage height="100vh" />}>
         <Outlet />
       </Suspense>
-      <Footer></Footer>
-    </>
+      <div className="footer-box">
+        <Footer></Footer>
+      </div>
+    </div>
   );
 };
 
