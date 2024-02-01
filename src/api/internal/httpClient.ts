@@ -14,8 +14,8 @@ const GoLogin = () => {
   window.location.href = "/login";
 };
 
-const GoError = () => {
-  window.location.href = "/error";
+const GoError = (status: number) => {
+  window.location.href = "/error?status=" + status;
 };
 
 export class HttpClient {
@@ -63,13 +63,13 @@ export class HttpClient {
           GoLogin();
         } else if (status === 404) {
           // 跳转到404页面
-          GoError();
+          GoError(404);
         } else if (status === 403) {
           // 跳转到无权限页面
-          GoError();
+          GoError(403);
         } else if (status === 500) {
           // 跳转到500异常页面
-          GoError();
+          GoError(500);
         }
         return Promise.reject(error.response);
       }

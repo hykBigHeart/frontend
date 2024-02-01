@@ -1,14 +1,17 @@
+import { useState } from "react";
 import { Button, Result } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import styles from "./index.module.scss";
 
 const ErrorPage = () => {
   const navigate = useNavigate();
+  const result = new URLSearchParams(useLocation().search);
+  const [status, setStatus] = useState(String(result.get("status") || "404"));
 
   return (
     <Result
       status="404"
-      title="404"
+      title={status}
       subTitle="您访问的页面不存在"
       className={styles["main"]}
       extra={
