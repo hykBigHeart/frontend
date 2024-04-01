@@ -166,7 +166,7 @@ const CoursePage = () => {
                 JSON.stringify(learnHourRecord) === "{}" && (
                   <Progress
                     type="circle"
-                    strokeColor="#FF4D4F"
+                    strokeColor="#2B74EA"
                     trailColor="#F6F6F6"
                     size={90}
                     strokeWidth={8}
@@ -179,7 +179,7 @@ const CoursePage = () => {
                 JSON.stringify(learnHourRecord) !== "{}" && (
                   <Progress
                     type="circle"
-                    strokeColor="#FF4D4F"
+                    strokeColor="#2B74EA"
                     trailColor="#F6F6F6"
                     size={90}
                     strokeWidth={8}
@@ -192,7 +192,7 @@ const CoursePage = () => {
                 JSON.stringify(learnHourRecord) !== "{}" && (
                   <Progress
                     type="circle"
-                    strokeColor="#FF4D4F"
+                    strokeColor="#2B74EA"
                     trailColor="#F6F6F6"
                     size={90}
                     strokeWidth={8}

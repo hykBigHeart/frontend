@@ -121,9 +121,9 @@ const LoginPage: React.FC = () => {
           </div>
         </div>
       </div>
-      <div className={styles["footer"]}>
+      {/* <div className={styles["footer"]}>
         <NoFooter></NoFooter>
-      </div>
+      </div> */}
     </div>
   );
 };

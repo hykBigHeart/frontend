@@ -50,7 +50,7 @@ export const CoursesModel: React.FC<PropInterface> = ({
             <Progress
               style={{ width: 270 }}
               percent={0}
-              strokeColor="#FF4D4F"
+              strokeColor="#2B74EA"
               trailColor="#F6F6F6"
               showInfo={false}
             />
@@ -60,7 +60,7 @@ export const CoursesModel: React.FC<PropInterface> = ({
         {progress > 0 && progress < 100 && (
           <Progress
             percent={progress}
-            strokeColor="#FF4D4F"
+            strokeColor="#2B74EA"
             trailColor="#F6F6F6"
           />
         )}

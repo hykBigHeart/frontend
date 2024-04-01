@@ -6,8 +6,8 @@ import styles from "./index.module.scss";
 import { useSelector } from "react-redux";
 import { CoursesModel } from "./compenents/courses-model";
 import { Empty } from "../../compenents";
-import myLesoon from "../../assets/images/commen/icon-mylesoon.png";
-import studyTime from "../../assets/images/commen/icon-studytime.png";
+import myLesoon from "../../assets/images/commen/bofang1.png";
+import studyTime from "../../assets/images/commen/daiban1.png";
 import iconRoute from "../../assets/images/commen/icon-route.png";
 import { studyTimeFormat } from "../../utils/index";
 

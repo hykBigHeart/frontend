@@ -10,17 +10,17 @@
   padding: 0 24px;
   cursor: pointer;
   &:hover {
-    background: rgba(255, 77, 79, 0.05);
+    background: rgba(79, 128, 255, 0.05);
     .left-item {
       i {
-        color: #ff4d4f;
+        color: #2B74EA;
       }
       .title {
-        color: #ff4d4f;
+        color: #2B74EA;
       }
     }
     .complete {
-      color: #ff4d4f;
+      color: #2B74EA;
     }
   }
 
@@ -60,7 +60,7 @@
     height: 24px;
     font-size: 14px;
     font-weight: 400;
-    color: #ff4d4f;
+    color: #2B74EA;
     line-height: 24px;
     cursor: pointer;
     &:hover {

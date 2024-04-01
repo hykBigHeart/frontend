@@ -119,7 +119,7 @@ const LatestLearnPage = () => {
                           {item.record.progress < 10000 && (
                             <Progress
                               percent={Math.floor(item.record.progress / 100)}
-                              strokeColor="#FF4D4F"
+                              strokeColor="#2B74EA"
                               trailColor="#F6F6F6"
                             />
                           )}
@@ -150,7 +150,7 @@ const LatestLearnPage = () => {
                         <div className={styles["progress"]}>
                           <Progress
                             percent={1}
-                            strokeColor="#FF4D4F"
+                            strokeColor="#2B74EA"
                             trailColor="#F6F6F6"
                           />
                         </div>
