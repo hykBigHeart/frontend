@@ -7,6 +7,7 @@ import mediaIcon from "../../assets/images/commen/icon-medal.png";
 import { HourCompenent } from "./compenents/hour";
 import { Empty } from "../../compenents";
 import iconRoute from "../../assets/images/commen/icon-route.png";
+import { PdfPreviewDialog } from "./compenents/pdf-preview-dialog";
 
 type TabModel = {
   key: number;
@@ -58,6 +59,10 @@ const CoursePage = () => {
   const [attachments, setAttachments] = useState<AttachModel[]>([]);
   const [items, setItems] = useState<TabModel[]>([]);
 
+  const [pdfPreviewTitle, setPdfPreviewTitle] = useState('');
+  const [pdfOrplaySrc, setpdfOrplaySrc] = useState('');
+  const [pdfPreviewVisible, setPdfPreviewVisible] = useState(false);
+
   useEffect(() => {
     getDetail();
   }, [params.courseId]);
@@ -69,6 +74,14 @@ const CoursePage = () => {
         document.title = res.data.course.title;
         setCourse(res.data.course);
         setChapters(res.data.chapters);
+        // 课时、附件需要一块展示
+        for (let i in res.data.hours) {
+          for (let e = 0; e < res.data.attachments.length; e++) {
+            if (res.data.attachments[e].chapter_id == i) {
+              res.data.hours[i].push(res.data.attachments[e])
+            }
+          }
+        }
         setHours(res.data.hours);
         if (res.data.learn_record) {
           setLearnRecord(res.data.learn_record);
@@ -102,6 +115,13 @@ const CoursePage = () => {
   const onChange = (key: number) => {
     setTabKey(key);
     navigate("/course/" + params.courseId + "?tab=" + key);
+  };
+
+  const previewPdf = (row: any) => {
+    console.log('row', row);
+    setPdfPreviewVisible(true)
+    setPdfPreviewTitle(row.title)
+    setpdfOrplaySrc("http://1.119.195.93:39000/playedu/pdf/wrxjgC1ocPcUW4BH4ecW5QO8bfb99Py4.pdf")
   };
 
   const downLoadFile = (cid: number, id: number) => {
@@ -309,6 +329,7 @@ const CoursePage = () => {
             </div>
           )}
           {tabKey === 2 && (
+            <>
             <div className={styles["attachments-cont"]}>
               {attachments.map((item: any, index: number) => (
                 <div key={index} className={styles["attachments-item"]}>
@@ -325,6 +346,8 @@ const CoursePage = () => {
                       {item.title}.{item.ext}
                     </span>
                   </div>
+                  <div className={styles["download"]} onClick={() => previewPdf(item)}>预览</div>
+                  <div className="form-column"></div>
                   <div
                     className={styles["download"]}
                     onClick={() => downLoadFile(item.course_id, item.id)}
@@ -334,6 +357,9 @@ const CoursePage = () => {
                 </div>
               ))}
             </div>
+
+            <PdfPreviewDialog title={pdfPreviewTitle} src={pdfOrplaySrc} open={pdfPreviewVisible}  onCancel={() => setPdfPreviewVisible(false)}></PdfPreviewDialog>
+            </>
           )}
         </>
       )}
