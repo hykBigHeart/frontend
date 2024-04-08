@@ -175,8 +175,8 @@ export const Header: React.FC = () => {
   return (
     <div className={styles["app-header"]}>
       <div className={styles["main-header"]}>
-        <div className="d-flex">
-          <Link to="/" className={styles["App-logo"]}>
+        <div className="d-flex" style={{height: '100%'}}>
+          <Link to="/" className={styles["App-logo"]} style={{height: '100%'}}>
             <img src={config.systemLogo || logo} />
           </Link>
           <div className={styles["navs"]}>
