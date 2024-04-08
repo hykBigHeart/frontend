@@ -12,6 +12,10 @@ import WithoutHeaderWithoutFooter from "../pages/layouts/without-header-without-
 
 //主页
 const IndexPage = lazy(() => import("../pages/index"));
+//  个人中心
+const LearningCenterPage = lazy(() => import("../pages/learning-center"));
+//  个人中心
+const PersonalCenterPage = lazy(() => import("../pages/personal-center"));
 //课程相关
 const CoursePage = lazy(() => import("../pages/course/index"));
 const CoursePlayPage = lazy(() => import("../pages/course/video"));
@@ -68,7 +72,14 @@ const routes: RouteObject[] = [
             path: "/",
             element: <PrivateRoute Component={<IndexPage />} />,
           },
-
+          {
+            path: "/learning-center",
+            element: <PrivateRoute Component={<LearningCenterPage />} />,
+          },
+          {
+            path: "/personal-center",
+            element: <PrivateRoute Component={<PersonalCenterPage />} />,
+          },
           {
             path: "/course/:courseId",
             element: <PrivateRoute Component={<CoursePage />} />,

@@ -10,7 +10,6 @@ import myLesoon from "../../assets/images/commen/bofang1.png";
 import studyTime from "../../assets/images/commen/daiban1.png";
 import iconRoute from "../../assets/images/commen/icon-route.png";
 import { studyTimeFormat } from "../../utils/index";
-import homePage from "../../assets/images/commen/home.png";
 
 type StatsModel = {
   learn_duration: number;
@@ -35,7 +34,7 @@ type CategoryModel = {
   children?: CategoryModel[];
 };
 
-const IndexPage = () => {
+const PersonalCenter = () => {
   const navigate = useNavigate();
   const result = new URLSearchParams(useLocation().search);
   const systemConfig = useSelector((state: any) => state.systemConfig.value);
@@ -258,8 +257,7 @@ const IndexPage = () => {
 
   return (
     <div className="main-body">
-      <img style={{marginTop: 50}} src={homePage} />
-      {/* <div className="content">
+      <div className="content">
         <div className={styles["top-cont"]}>
           <div className={styles["top-item"]}>
             <div className={styles["title"]}>
@@ -454,9 +452,9 @@ const IndexPage = () => {
           </div>
         )}
       </div>
-      <div className={styles["extra"]}>{systemConfig.pcIndexFooterMsg}</div> */}
+      <div className={styles["extra"]}>{systemConfig.pcIndexFooterMsg}</div>
     </div>
   );
 };
 
-export default IndexPage;
+export default PersonalCenter;
