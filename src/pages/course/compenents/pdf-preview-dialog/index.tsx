@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
-import { Modal } from "antd";
+import { Divider, Modal, Statistic } from "antd";
+import type { CountdownProps } from 'antd';
 import "./pdf-preview-dialog.scss"
 
 // Core viewer
@@ -22,15 +23,37 @@ interface PropInterface {
   onCancel: () => void;
 }
 
+const { Countdown } = Statistic;
+
 export const PdfPreviewDialog: React.FC<PropInterface> = ({ title, src, open, onCancel }) => {
   // Create new plugin instance
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
+  const [finished, setFinished] = useState(false);
+  
+  const customHeader = ()=> (
+    <>
+      <div className="custom-title">{title}</div>
+      { !finished ?
+        <div className="count-down-box">
+          您还需学习&emsp;
+          <Countdown value={Date.now() + 1000 *10} format="m 分 s 秒" valueStyle={{color: 'red'}} onFinish={onFinish} />
+        </div>
+        :
+        <div style={{display: 'flex', alignItems: 'center', height: 37.7}}>您已完成学时</div>
+      }
+    </>
+  )
+
+  const onFinish: CountdownProps['onFinish'] = () => {
+    console.log('finished!');
+    setFinished(true)
+  };
 
   return (
     <>
       {open ? (
         <Modal
-          title={title}
+          title={customHeader()}
           centered
           forceRender
           open={true}
@@ -41,8 +64,11 @@ export const PdfPreviewDialog: React.FC<PropInterface> = ({ title, src, open, on
             maxWidth: "100vw",
           }}
           styles={{header: {
-            textAlign: "center",
-            marginBottom: 0
+            textAlign: "left",
+            marginBottom: 0,
+            padding: 10,
+            backgroundColor: "rgb(41, 41, 41)",
+            borderRadius: 0
           }}}
           maskClosable={false}
           onCancel={() => onCancel()}
@@ -50,6 +76,7 @@ export const PdfPreviewDialog: React.FC<PropInterface> = ({ title, src, open, on
           <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.4.456/build/pdf.worker.min.js">
             <div style={{ height: '100vh' }}>
               <Viewer 
+              theme="dark"
               defaultScale={1}
               localization={zh_CN}
               plugins={[defaultLayoutPluginInstance]}

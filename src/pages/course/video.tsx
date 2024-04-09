@@ -4,11 +4,13 @@ import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { course as Course } from "../../api/index";
 import { ArrowLeftOutlined } from "@ant-design/icons";
-import { message } from "antd";
+import { message, Statistic } from "antd";
+import type { CountdownProps } from 'antd';
 import { getPlayId, savePlayId } from "../../utils";
 
 declare const window: any;
 var timer: any = null;
+const { Countdown } = Statistic;
 
 const CoursePalyPage = () => {
   const navigate = useNavigate();
@@ -31,7 +33,7 @@ const CoursePalyPage = () => {
   const watchRef = useRef(0);
   const totalRef = useRef(0);
   const [checkPlayerStatus, setCheckPlayerStatus] = useState(false);
-
+  const [finished, setFinished] = useState(false);
   useEffect(() => {
     timer && clearInterval(timer);
     getCourse();
@@ -250,6 +252,11 @@ const CoursePalyPage = () => {
       de.webkitCancelFullScreen();
     }
   };
+  
+  const onFinish: CountdownProps['onFinish'] = () => {
+    console.log('finished!');
+    setFinished(true)
+  };
 
   return (
     <div className={styles["video-mask"]}>
@@ -270,6 +277,16 @@ const CoursePalyPage = () => {
           >
             <ArrowLeftOutlined />
             <span className="ml-14">返回</span>
+          </div>
+          <div style={{color: 'white'}}>
+            {!finished ? 
+              <div className={styles["count-down-box"]}>
+                您还需学习&emsp;
+                <Countdown value={Date.now() + 1000 *10} format="m 分 s 秒" valueStyle={{color: 'red'}} onFinish={onFinish} />
+              </div>
+              : 
+              <div>您已完成学时</div>
+            }
           </div>
         </div>
       </div>

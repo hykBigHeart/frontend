@@ -1,6 +1,26 @@
-.pdf-dialog .ant-modal-content {
-  // height: 100vh;
-  padding-top: 15px;
+.pdf-dialog {
+  .ant-modal-content {
+   // height: 100vh;
+   padding: 0;
+   // padding-top: 15px;
+   border-radius: 0;
+   .ant-modal-close {color: white;}
+   .ant-modal-header {
+    .ant-modal-title {
+      color: white;
+      display: flex;
+      align-items: center;
+      .custom-title {
+        flex: 0 0 80%;
+      }
+      .count-down-box {
+        color: #ffffff;
+        display: flex;
+        align-items: center;
+      }
+    }
+   }
+ }
 }
 // 解决预览pdf时弹窗 溢出部分可以滚动
 .ant-modal-wrap {
@@ -10,4 +30,14 @@
 // 更多下面的功能按钮, 缩放比例下的, 搜索框下的
 #rpv-core__popover-body-inner-toolbar-more-actions, #rpv-core__popover-body-inner-zoom, #rpv-core__popover-body-inner-search {
   max-height: none !important;
+}
+
+// 去除pdf插件的外边框，使可以和modal弹窗融为一体
+.rpv-default-layout__container {
+  border: none !important;
+}
+
+// 隐藏切换主题和全屏pdf功能
+[aria-describedby="rpv-core__tooltip-body-theme-switch"], [aria-describedby="rpv-core__tooltip-body-full-screen-enter"] {
+  display: none;
 }

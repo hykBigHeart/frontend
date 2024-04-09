@@ -1,7 +1,8 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./hour.module.scss";
 import { durationFormat } from "../../../utils/index";
+import { PdfPreviewDialog } from "./pdf-preview-dialog";
 
 interface PropInterface {
   id: number;
@@ -21,12 +22,15 @@ export const HourCompenent: React.FC<PropInterface> = ({
   progress,
 }) => {
   const navigate = useNavigate();
+  const [pdfPreviewVisible, setPdfPreviewVisible] = useState(false);
+
   return (
     <>
       <div
         className={styles["item"]}
         onClick={() => {
-          navigate(`/course/${cid}/hour/${id}`);
+          if (!duration) setPdfPreviewVisible(true)
+          else navigate(`/course/${cid}/hour/${id}`);
         }}
       >
         <div className={styles["left-item"]}>
@@ -53,6 +57,8 @@ export const HourCompenent: React.FC<PropInterface> = ({
           {progress >= 100 && <div className={styles["complete"]}>已学完</div>}
         </div>
       </div>
+
+      <PdfPreviewDialog title={title} src={'http://1.119.195.93:39000/playedu/pdf/wrxjgC1ocPcUW4BH4ecW5QO8bfb99Py4.pdf'} open={pdfPreviewVisible}  onCancel={() => setPdfPreviewVisible(false)}></PdfPreviewDialog>
     </>
   );
 };
