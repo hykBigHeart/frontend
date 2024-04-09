@@ -74,14 +74,16 @@ const CoursePage = () => {
         document.title = res.data.course.title;
         setCourse(res.data.course);
         setChapters(res.data.chapters);
-        // 课时、附件需要一块展示
-        for (let i in res.data.hours) {
-          for (let e = 0; e < res.data.attachments.length; e++) {
-            if (res.data.attachments[e].chapter_id == i) {
-              res.data.hours[i].push(res.data.attachments[e])
+        if (JSON.stringify(res.data.hours) !== '{}') {
+          // 课时、附件需要一块展示
+          for (let i in res.data.hours) {
+            for (let e = 0; e < res.data.attachments.length; e++) {
+              if (res.data.attachments[e].chapter_id == i) {
+                res.data.hours[i].push(res.data.attachments[e])
+              }
             }
           }
-        }
+        } else res.data.hours[0] = res.data.attachments
         setHours(res.data.hours);
         if (res.data.learn_record) {
           setLearnRecord(res.data.learn_record);
@@ -96,7 +98,7 @@ const CoursePage = () => {
             label: `课程目录`,
           },
         ];
-        if (arr.length > 0) {
+        if (arr.length > 0 && false) {
           tabs.push({
             key: 2,
             label: `课程附件`,
