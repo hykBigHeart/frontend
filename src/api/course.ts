@@ -36,3 +36,8 @@ export function latestLearn() {
 export function downloadAttachment(courseId: number, id: number) {
   return client.get(`/api/v1/course/${courseId}/attach/${id}/download`, {});
 }
+
+// 获取pdf预览的在线地址
+export function pdfOnlineUrl(courseId: number, hourId: number) {
+  return client.get(`/api/v1/course/${courseId}/attach/${hourId}/play`, {});
+}

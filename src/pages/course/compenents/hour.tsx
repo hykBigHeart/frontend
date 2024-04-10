@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import styles from "./hour.module.scss";
+import { course as Course } from "../../../api/index";
 import { durationFormat } from "../../../utils/index";
 import { PdfPreviewDialog } from "./pdf-preview-dialog";
 
@@ -23,13 +24,23 @@ export const HourCompenent: React.FC<PropInterface> = ({
 }) => {
   const navigate = useNavigate();
   const [pdfPreviewVisible, setPdfPreviewVisible] = useState(false);
+  const [url, setUrl] = useState("");
+
+  const getPdfUrl = () => {
+    Course.pdfOnlineUrl(Number(cid), Number(id)).then(
+      (res: any) => {
+        setUrl(res.data.url)
+        setPdfPreviewVisible(true)
+      }
+    );
+  };
 
   return (
     <>
       <div
         className={styles["item"]}
         onClick={() => {
-          if (!duration) setPdfPreviewVisible(true)
+          if (!duration) getPdfUrl()
           else navigate(`/course/${cid}/hour/${id}`);
         }}
       >
@@ -58,7 +69,7 @@ export const HourCompenent: React.FC<PropInterface> = ({
         </div>
       </div>
 
-      <PdfPreviewDialog title={title} src={'http://1.119.195.93:39000/playedu/pdf/wrxjgC1ocPcUW4BH4ecW5QO8bfb99Py4.pdf'} open={pdfPreviewVisible}  onCancel={() => setPdfPreviewVisible(false)}></PdfPreviewDialog>
+      <PdfPreviewDialog title={title} src={url} open={pdfPreviewVisible}  onCancel={() => setPdfPreviewVisible(false)}></PdfPreviewDialog>
     </>
   );
 };
