@@ -10,6 +10,7 @@ interface PropInterface {
   thumb: string;
   isRequired: number;
   progress: number;
+  source: string
 }
 
 export const CoursesModel: React.FC<PropInterface> = ({
@@ -18,65 +19,69 @@ export const CoursesModel: React.FC<PropInterface> = ({
   thumb,
   isRequired,
   progress,
+  source
 }) => {
   const navigate = useNavigate();
   return (
     <div
       className={styles["item"]}
+      style={{height: source === 'personal' ? 186 : 240, padding: source === 'personal' ? 24 : 0}}
       onClick={() => {
         navigate(`/course/${id}`);
       }}
     >
-      <div className={styles["top-content"]}>
+      <div className={styles["top-content"]} style={{display: source === 'personal' ? 'flex' : 'block'}}>
         <Image
           loading="lazy"
-          width={120}
-          height={90}
-          style={{ borderRadius: 10 }}
+          width={source === 'personal' ? 120 : '100%'}
+          height={source === 'personal' ? 90 : 190}
+          style={{ borderRadius: source === 'personal' ? 10 : '10px 10px 0 0' }}
           src={thumb}
           preview={false}
         />
         <div className={styles["info"]}>
-          <div className={styles["title"]}>{title}</div>
-          {isRequired === 1 && <div className={styles["type"]}>必修课</div>}
-          {isRequired === 0 && (
+          <div className={source === 'personal' ? styles["title"] : styles["title"] + ' ' +  styles["learning-center-title"]}>{title}</div>
+          {source === 'personal' && isRequired === 1 && <div className={styles["type"]}>必修课</div>}
+          {source === 'personal' && isRequired === 0 && (
             <div className={styles["active-type"]}>选修课</div>
           )}
         </div>
       </div>
-      <div className={styles["status-content"]}>
-        {progress == 0 && (
-          <>
+      {source === 'personal' && (
+        <div className={styles["status-content"]}>
+          {progress == 0 && (
+            <>
+              <Progress
+                style={{ width: 270 }}
+                percent={0}
+                strokeColor="#2B74EA"
+                trailColor="#F6F6F6"
+                showInfo={false}
+              />
+              <span>未学习</span>
+            </>
+          )}
+          {progress > 0 && progress < 100 && (
             <Progress
-              style={{ width: 270 }}
-              percent={0}
+              percent={progress}
               strokeColor="#2B74EA"
               trailColor="#F6F6F6"
-              showInfo={false}
             />
-            <span>未学习</span>
-          </>
-        )}
-        {progress > 0 && progress < 100 && (
-          <Progress
-            percent={progress}
-            strokeColor="#2B74EA"
-            trailColor="#F6F6F6"
-          />
-        )}
-        {progress >= 100 && (
-          <div className={styles["success"]}>
-            <Image
-              loading="lazy"
-              width={24}
-              height={24}
-              src={mediaIcon}
-              preview={false}
-            />
-            <span className="ml-8">恭喜你学完此课程!</span>
-          </div>
-        )}
-      </div>
+          )}
+          {progress >= 100 && (
+            <div className={styles["success"]}>
+              <Image
+                loading="lazy"
+                width={24}
+                height={24}
+                src={mediaIcon}
+                preview={false}
+              />
+              <span className="ml-8">恭喜你学完此课程!</span>
+            </div>
+          )}
+        </div>
+      )}
     </div>
   );
 };

@@ -199,7 +199,7 @@ const PersonalCenter = () => {
   const onChange = (key: number) => {
     setTabKey(key);
     navigate(
-      "/?cid=" + categoryId + "&catName=" + categoryText + "&tab=" + key
+      "/personal-center?cid=" + categoryId + "&catName=" + categoryText + "&tab=" + key
     );
   };
 
@@ -210,7 +210,7 @@ const PersonalCenter = () => {
       setSelectKey(selectedKeys);
       hide();
       navigate(
-        "/?cid=" +
+        "/personal-center?cid=" +
           selectedKeys[0] +
           "&catName=" +
           info.node.title +
@@ -222,7 +222,7 @@ const PersonalCenter = () => {
       setSelectKey(selectedKeys);
       hide();
       navigate(
-        "/?cid=" +
+        "/personal-center?cid=" +
           selectedKeys[0] +
           "&catName=" +
           info.node.title.props.children +
@@ -415,6 +415,7 @@ const PersonalCenter = () => {
             {coursesList.map((item: any) => (
               <div key={item.id}>
                 {learnCourseRecords[item.id] && (
+                  // 已学完
                   <CoursesModel
                     id={item.id}
                     title={item.title}
@@ -423,6 +424,7 @@ const PersonalCenter = () => {
                     progress={Math.floor(
                       learnCourseRecords[item.id].progress / 100
                     )}
+                    source={'personal'}
                   ></CoursesModel>
                 )}
 
@@ -435,6 +437,7 @@ const PersonalCenter = () => {
                       thumb={item.thumb}
                       isRequired={item.is_required}
                       progress={1}
+                      source={'personal'}
                     ></CoursesModel>
                   )}
                 {!learnCourseRecords[item.id] &&
@@ -445,6 +448,7 @@ const PersonalCenter = () => {
                       thumb={item.thumb}
                       isRequired={item.is_required}
                       progress={0}
+                      source={'personal'}
                     ></CoursesModel>
                   )}
               </div>

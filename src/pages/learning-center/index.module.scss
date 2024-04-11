@@ -1,0 +1,11 @@
+.courses-list {
+  width: 1200px;
+  height: auto;
+  margin: 0 auto;
+  box-sizing: border-box;
+  padding-top: 34px;
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  position: relative;
+}
