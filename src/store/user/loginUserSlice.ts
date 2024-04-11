@@ -12,6 +12,7 @@ type UserStoreInterface = {
   departments: string[];
   currentDepId: number;
   isLogin: boolean;
+  searchValue: string
 };
 
 let defaultValue: UserStoreInterface = {
@@ -19,6 +20,7 @@ let defaultValue: UserStoreInterface = {
   departments: [],
   currentDepId: Number(getDepKey()) || 0,
   isLogin: false,
+  searchValue: ''
 };
 
 const loginUserSlice = createSlice({
@@ -48,11 +50,14 @@ const loginUserSlice = createSlice({
     saveCurrentDepId(stage, e) {
       stage.value.currentDepId = e.payload;
     },
+    setSearchValue(stage, e) {
+      stage.value.searchValue = e.payload;
+    },
   },
 });
 
 export default loginUserSlice.reducer;
-export const { loginAction, logoutAction, saveCurrentDepId } =
+export const { loginAction, logoutAction, saveCurrentDepId, setSearchValue } =
   loginUserSlice.actions;
 
 export type { UserStoreInterface };

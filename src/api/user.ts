@@ -29,3 +29,14 @@ export function avatar(file: any) {
     file: file,
   });
 }
+
+
+// 学习中心接口
+export function AllCourses(userId: number, title: string, page: number, size: number) {
+  return client.get("/api/v1/course/index", {
+    user_id: userId,
+    title,
+    page,
+    size
+  });
+}

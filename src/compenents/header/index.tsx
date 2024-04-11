@@ -1,12 +1,14 @@
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
-import { Modal, Button, Dropdown, Image } from "antd";
+import { Modal, Button, Dropdown, Image, Input, Space } from "antd";
 import type { MenuProps } from "antd";
+import type { SearchProps } from 'antd/es/input/Search';
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import {
   logoutAction,
   saveCurrentDepId,
+  setSearchValue
 } from "../../store/user/loginUserSlice";
 import {
   setDepKey,
@@ -19,12 +21,13 @@ import { UserInfoModel } from "../user-info";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import logo from "../../assets/logo.png";
 const { confirm } = Modal;
+const { Search } = Input;
 
 export const Header: React.FC = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const user = useSelector((state: any) => state.loginUser.value.user);
+  const userInfo = useSelector((state: any) => state.loginUser.value);
   const departments = useSelector(
     (state: any) => state.loginUser.value.departments
   );
@@ -35,6 +38,7 @@ export const Header: React.FC = () => {
   const [departmentsMenu, setDepartmentsMenu] = useState<any>([]);
   const [currentDepartment, setCurrentDepartment] = useState<string>("");
   const [currentNav, serCurrentNav] = useState(location.pathname);
+  const [searchVal, setSearchVal] = useState("");
 
   useEffect(() => {
     if (departments.length > 0) {
@@ -161,6 +165,11 @@ export const Header: React.FC = () => {
     });
   };
 
+  const onSearch: SearchProps['onSearch'] = (value, _e, info) => {
+    // console.log(info?.source, value)
+    dispatch(setSearchValue(value))
+  };
+
   const navs = [
     {
       key: "/",
@@ -205,6 +214,11 @@ export const Header: React.FC = () => {
               </div>
             ))}
           </div>
+          <div className="ml-90" style={{display: 'flex'}}>
+            {location.pathname === "/learning-center" && (
+              <Search value={searchVal} onChange={(e)=> setSearchVal(e.target.value)} placeholder="请输入课程关键字" allowClear onSearch={onSearch} style={{ width: 200 }} />
+            )}
+          </div>
         </div>
         <div className="d-flex">
           {departments.length === 1 && (
@@ -223,15 +237,15 @@ export const Header: React.FC = () => {
           <Button.Group className={styles["button-group"]}>
             <Dropdown menu={{ items, onClick }} placement="bottomRight">
               <div className="d-flex" style={{ cursor: "pointer" }}>
-                {user && user.name && (
+                {userInfo.user && userInfo.user.name && (
                   <>
                     <Image
                       loading="lazy"
                       style={{ width: 36, height: 36, borderRadius: "50%" }}
-                      src={user.avatar}
+                      src={userInfo.user.avatar}
                       preview={false}
                     />
-                    <span className="ml-8 c-admin">{user.name}</span>
+                    <span className="ml-8 c-admin">{userInfo.user.name}</span>
                   </>
                 )}
               </div>
