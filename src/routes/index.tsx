@@ -81,7 +81,7 @@ const routes: RouteObject[] = [
             element: <PrivateRoute Component={<PersonalCenterPage />} />,
           },
           {
-            path: "/course/:courseId",
+            path: "/course/:courseId/:source",
             element: <PrivateRoute Component={<CoursePage />} />,
           },
 

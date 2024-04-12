@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Row, Spin, Image, Progress } from "antd";
+import { Row, Spin, Image, Progress, Button } from "antd";
+import { useSelector } from "react-redux";
 import styles from "./index.module.scss";
 import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { course as Course } from "../../api/index";
@@ -45,6 +46,7 @@ const CoursePage = () => {
   const params = useParams();
   const navigate = useNavigate();
   const result = new URLSearchParams(useLocation().search);
+  const userInfo = useSelector((state: any) => state.loginUser.value);
   const [loading, setLoading] = useState<boolean>(true);
   const [course, setCourse] = useState<CourseModel | null>(null);
   const [chapters, setChapters] = useState<ChapterModel[]>([]);
@@ -65,7 +67,7 @@ const CoursePage = () => {
 
   useEffect(() => {
     getDetail();
-  }, [params.courseId]);
+  }, [params]);
 
   const getDetail = () => {
     setLoading(true);
@@ -162,7 +164,7 @@ const CoursePage = () => {
                 />
                 <div className={styles["info"]}>
                   <div className={styles["title"]}>{course?.title}</div>
-                  <div className={styles["status"]}>
+                  <div style={{display: params.source === 'personal' ? 'block' : 'none'}} className={styles["status"]}>
                     {course?.is_required === 1 && (
                       <div className={styles["type"]}>必修课</div>
                     )}
@@ -186,28 +188,46 @@ const CoursePage = () => {
               {(!learnRecord ||
                 (learnRecord && JSON.stringify(learnRecord) === "{}")) &&
                 JSON.stringify(learnHourRecord) === "{}" && (
-                  <Progress
-                    type="circle"
-                    strokeColor="#2B74EA"
-                    trailColor="#F6F6F6"
-                    size={90}
-                    strokeWidth={8}
-                    percent={0}
-                    format={(percent) => `${percent}%`}
-                  />
+                  <>
+                    {params.source === 'personal' ? 
+                      <Progress
+                        type="circle"
+                        strokeColor="#2B74EA"
+                        trailColor="#F6F6F6"
+                        size={90}
+                        strokeWidth={8}
+                        percent={0}
+                        format={(percent) => `${percent}%`}
+                      />
+                      :
+                      <Button type="primary" size="large" onClick={()=> {
+                        Course.recordLearning(Number(params.courseId), userInfo.user.id)
+                        navigate(`/course/${params.courseId}/${'personal'}`)
+                      } }>学习课程</Button>
+                    }
+                  </>
                 )}
               {(!learnRecord ||
                 (learnRecord && JSON.stringify(learnRecord) === "{}")) &&
                 JSON.stringify(learnHourRecord) !== "{}" && (
-                  <Progress
-                    type="circle"
-                    strokeColor="#2B74EA"
-                    trailColor="#F6F6F6"
-                    size={90}
-                    strokeWidth={8}
-                    percent={1}
-                    format={(percent) => `${percent}%`}
-                  />
+                  <>
+                    {params.source === 'personal' ? 
+                      <Progress
+                        type="circle"
+                        strokeColor="#2B74EA"
+                        trailColor="#F6F6F6"
+                        size={90}
+                        strokeWidth={8}
+                        percent={1}
+                        format={(percent) => `${percent}%`}
+                      />
+                      :
+                      <Button type="primary" size="large" onClick={()=> {
+                        Course.recordLearning(Number(params.courseId), userInfo.user.id)
+                        navigate(`/course/${params.courseId}/${'personal'}`)
+                      } }>学习课程</Button>
+                    }
+                  </>
                 )}
               {learnRecord &&
                 JSON.stringify(learnRecord) !== "{}" &&
@@ -274,6 +294,8 @@ const CoursePage = () => {
                             (learnHourRecord[item.id].finished_duration * 100) /
                             learnHourRecord[item.id].total_duration
                           }
+                          source={params.source as string}
+                          period={item.period}
                         ></HourCompenent>
                       )}
                       {!learnHourRecord[item.id] && (
@@ -284,6 +306,8 @@ const CoursePage = () => {
                           record={null}
                           duration={item.duration}
                           progress={0}
+                          source={params.source as string}
+                          period={item.period}
                         ></HourCompenent>
                       )}
                     </div>
@@ -310,6 +334,8 @@ const CoursePage = () => {
                                     100) /
                                   learnHourRecord[it.id].total_duration
                                 }
+                                source={params.source as string}
+                                period={it.period}
                               ></HourCompenent>
                             )}
                             {!learnHourRecord[it.id] && (
@@ -320,6 +346,8 @@ const CoursePage = () => {
                                 record={null}
                                 duration={it.duration}
                                 progress={0}
+                                source={params.source as string}
+                                period={it.period}
                               ></HourCompenent>
                             )}
                           </div>

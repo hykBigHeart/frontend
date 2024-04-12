@@ -27,7 +27,7 @@ export const CoursesModel: React.FC<PropInterface> = ({
       className={styles["item"]}
       style={{height: source === 'personal' ? 186 : 240, padding: source === 'personal' ? 24 : 0}}
       onClick={() => {
-        navigate(`/course/${id}`);
+        navigate(`/course/${id}/${source}`);
       }}
     >
       <div className={styles["top-content"]} style={{display: source === 'personal' ? 'flex' : 'block'}}>

@@ -41,3 +41,8 @@ export function downloadAttachment(courseId: number, id: number) {
 export function pdfOnlineUrl(courseId: number, hourId: number) {
   return client.get(`/api/v1/course/${courseId}/attach/${hourId}/play`, {});
 }
+
+// 学习中心的课件 点 学习课程 调用（记录学员学习）
+export function recordLearning(courseId: number, userId: number) {
+  return client.get(`/api/v1/course/${courseId}/study/${userId}`, {});
+}

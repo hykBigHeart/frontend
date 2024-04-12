@@ -12,6 +12,8 @@ interface PropInterface {
   duration: number;
   record: any;
   progress: number;
+  source: string;
+  period: number
 }
 
 export const HourCompenent: React.FC<PropInterface> = ({
@@ -21,6 +23,8 @@ export const HourCompenent: React.FC<PropInterface> = ({
   duration,
   record,
   progress,
+  source,
+  period
 }) => {
   const navigate = useNavigate();
   const [pdfPreviewVisible, setPdfPreviewVisible] = useState(false);
@@ -39,9 +43,12 @@ export const HourCompenent: React.FC<PropInterface> = ({
     <>
       <div
         className={styles["item"]}
+        style={{cursor: source === "personal" ? 'pointer' : 'auto', pointerEvents: source === "personal" ? 'unset' : 'none'}}
         onClick={() => {
-          if (!duration) getPdfUrl()
-          else navigate(`/course/${cid}/hour/${id}`);
+          if (source === 'personal') {
+            if (!duration) getPdfUrl()
+            else navigate(`/course/${cid}/hour/${id}`);
+          }
         }}
       >
         <div className={styles["left-item"]}>
@@ -51,7 +58,7 @@ export const HourCompenent: React.FC<PropInterface> = ({
           </div>
         </div>
         <div className="d-flex">
-          {progress >= 0 && progress < 100 && (
+          {source === "personal" && progress >= 0 && progress < 100 && (
             <>
               {progress === 0 && <div className={styles["link"]}>开始学习</div>}
               {progress !== 0 && (
@@ -65,7 +72,9 @@ export const HourCompenent: React.FC<PropInterface> = ({
               )}
             </>
           )}
-          {progress >= 100 && <div className={styles["complete"]}>已学完</div>}
+          {source === "personal" && progress >= 100 && <div className={styles["complete"]}>已学完</div>}
+
+          { source === "learning" && <div className={styles["link"]} style={{cursor: 'auto'}}>{ period + '分钟' }</div> }
         </div>
       </div>
 
