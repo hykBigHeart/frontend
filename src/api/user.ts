@@ -16,10 +16,13 @@ export function password(oldPassword: string, newPassword: string) {
 export function coursesCategories() {
   return client.get("/api/v1/category/all", {});
 }
-export function courses(depId: number, categoryId: number) {
+export function courses(depId: number,userId: number, categoryId: number) {
   return client.get("/api/v1/user/courses", {
-    dep_id: depId,
+    // dep_id: depId,
+    user_id: userId,
     category_id: categoryId,
+    page: 1,
+    size: 10
   });
 }
 

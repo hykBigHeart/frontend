@@ -18,6 +18,9 @@ const CoursePalyPage = () => {
   const systemConfig = useSelector((state: any) => state.systemConfig.value);
   const user = useSelector((state: any) => state.loginUser.value.user);
   const [playUrl, setPlayUrl] = useState("");
+  const [period, setPeriod] = useState(0);
+  const [mustLearningS, setMustLearningS] = useState(0);
+  const [finishedDuration, setFinishedDuration] = useState(0);
   const [playDuration, setPlayDuration] = useState(0);
   const [playendedStatus, setPlayendedStatus] = useState(false);
   const [lastSeeValue, setLastSeeValue] = useState({});
@@ -34,6 +37,8 @@ const CoursePalyPage = () => {
   const totalRef = useRef(0);
   const [checkPlayerStatus, setCheckPlayerStatus] = useState(false);
   const [finished, setFinished] = useState(false);
+  const intervalId = useRef<number>();
+
   useEffect(() => {
     timer && clearInterval(timer);
     getCourse();
@@ -69,6 +74,22 @@ const CoursePalyPage = () => {
   useEffect(() => {
     totalRef.current = hour?.duration || 0;
   }, [hour]);
+
+  useEffect(() => {
+    if (period) {
+      let s = 0
+      intervalId.current = setInterval(() => {
+        s++
+        setPlayingTime(s)
+        playTimeUpdate(s, false);
+        if (finishedDuration + s >= mustLearningS) {
+          console.log('学完了');
+          playTimeUpdate(s, true);
+          window.clearInterval(intervalId.current);
+        }
+      }, 1000);
+    }
+  }, [period]);
 
   const getCourse = () => {
     Course.detail(Number(params.courseId)).then((res: any) => {
@@ -116,6 +137,7 @@ const CoursePalyPage = () => {
           setLastSeeValue(params);
           setWatchedSeconds(record.finished_duration);
         } else if (record && record.is_finished === 1) {
+          setFinished(true)
           setWatchedSeconds(res.data.hour.duration);
         }
         getVideoUrl(params);
@@ -130,6 +152,10 @@ const CoursePalyPage = () => {
     Course.playUrl(Number(params.courseId), Number(params.hourId)).then(
       (res: any) => {
         setPlayUrl(res.data.url);
+        let convertMS = Date.now() + res.data.period * 60 * 1000 - (res.data.finished_duration * 1000)
+        setPeriod(convertMS)
+        setMustLearningS(res.data.period * 60)
+        setFinishedDuration(res.data.finished_duration)
         initDPlayer(res.data.url, 0, data);
         savePlayId(String(params.courseId) + "-" + String(params.hourId));
       }
@@ -143,7 +169,7 @@ const CoursePalyPage = () => {
       watchRef.current === 0;
     window.player = new window.DPlayer({
       container: document.getElementById("meedu-player-container"),
-      autoplay: false,
+      autoplay: true,
       video: {
         url: playUrl,
         pic: systemConfig.playerPoster,
@@ -174,8 +200,8 @@ const CoursePalyPage = () => {
         message.warning("首次学习禁止快进");
         window.player.seek(watchRef.current);
       } else {
-        setPlayingTime(currentTime);
-        playTimeUpdate(parseInt(window.player.video.currentTime), false);
+        // setPlayingTime(currentTime);
+        // playTimeUpdate(parseInt(window.player.video.currentTime), false);
       }
     });
     window.player.on("ended", () => {
@@ -203,7 +229,7 @@ const CoursePalyPage = () => {
       Course.record(
         Number(params.courseId),
         Number(params.hourId),
-        duration
+        finishedDuration + duration
       ).then((res: any) => {});
       Course.playPing(Number(params.courseId), Number(params.hourId)).then(
         (res: any) => {}
@@ -265,6 +291,7 @@ const CoursePalyPage = () => {
           <div
             className={styles["close-btn"]}
             onClick={() => {
+              window.clearInterval(intervalId.current);
               timer && clearInterval(timer);
               window.player && window.player.destroy();
               document.oncontextmenu = function (e) {
@@ -282,7 +309,7 @@ const CoursePalyPage = () => {
             {!finished ? 
               <div className={styles["count-down-box"]}>
                 您还需学习&emsp;
-                <Countdown value={Date.now() + 1000 *10} format="m 分 s 秒" valueStyle={{color: 'red'}} onFinish={onFinish} />
+                <Countdown value={period} format="m 分 s 秒" valueStyle={{color: 'red'}} onFinish={onFinish} />
               </div>
               : 
               <div>您已完成学时</div>

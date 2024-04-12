@@ -232,15 +232,24 @@ const CoursePage = () => {
               {learnRecord &&
                 JSON.stringify(learnRecord) !== "{}" &&
                 JSON.stringify(learnHourRecord) !== "{}" && (
-                  <Progress
-                    type="circle"
-                    strokeColor="#2B74EA"
-                    trailColor="#F6F6F6"
-                    size={90}
-                    strokeWidth={8}
-                    percent={Math.floor(learnRecord.progress / 100)}
-                    format={(percent) => `${percent}%`}
-                  />
+                  <>
+                    {params.source === 'personal' ? 
+                      <Progress
+                        type="circle"
+                        strokeColor="#2B74EA"
+                        trailColor="#F6F6F6"
+                        size={90}
+                        strokeWidth={8}
+                        percent={Math.floor(learnRecord.progress / 100)}
+                        format={(percent) => `${percent}%`}
+                      />
+                      :
+                      <Button type="primary" size="large" onClick={()=> {
+                        Course.recordLearning(Number(params.courseId), userInfo.user.id)
+                        navigate(`/course/${params.courseId}/${'personal'}`)
+                      } }>学习课程</Button>
+                    }
+                  </>
                 )}
             </div>
             {course?.short_desc && (
@@ -388,7 +397,7 @@ const CoursePage = () => {
               ))}
             </div>
 
-            <PdfPreviewDialog title={pdfPreviewTitle} src={pdfOrplaySrc} open={pdfPreviewVisible}  onCancel={() => setPdfPreviewVisible(false)}></PdfPreviewDialog>
+            <PdfPreviewDialog title={pdfPreviewTitle} period={0} src={pdfOrplaySrc} open={pdfPreviewVisible}  onCancel={() => setPdfPreviewVisible(false)}></PdfPreviewDialog>
             </>
           )}
         </>
