@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
-import { Row, Col, Spin, Tree, Popover, Space, Image } from "antd";
+import { Row, Col, Spin, Tree, Popover, Space, Image, Pagination } from "antd";
+import type { PaginationProps } from 'antd';
 import { useNavigate, useLocation } from "react-router-dom";
 import { user } from "../../api/index";
 import styles from "./index.module.scss";
@@ -57,6 +58,9 @@ const PersonalCenter = () => {
   const currentDepId = useSelector(
     (state: any) => state.loginUser.value.currentDepId
   );
+  const userInfo = useSelector((state: any) => state.loginUser.value);
+  const [page, setPage] = useState(1);
+  const [size, setSize] = useState(9)
 
   useEffect(() => {
     getParams();
@@ -73,7 +77,7 @@ const PersonalCenter = () => {
       return;
     }
     getData();
-  }, [tabKey, currentDepId, categoryId]);
+  }, [tabKey, currentDepId, categoryId, page, size]);
 
   useEffect(() => {
     document.title = systemConfig.systemName || "首页";
@@ -85,7 +89,7 @@ const PersonalCenter = () => {
 
   const getData = () => {
     setLoading(true);
-    user.courses(currentDepId, categoryId).then((res: any) => {
+    user.courses(currentDepId, userInfo.user.id, categoryId, page, size).then((res: any) => {
       const records: LearnCourseRecordsModel = res.data.learn_course_records;
       setStats(res.data.stats);
       setLearnCourseRecords(records);
@@ -234,6 +238,11 @@ const PersonalCenter = () => {
 
   const handleOpenChange = (newOpen: boolean) => {
     setOpen(newOpen);
+  };
+
+  const pagerOnChange: PaginationProps['onChange'] = (page, size) => {
+    setPage(page)
+    setSize(size)
   };
 
   const dropItem = (
@@ -411,49 +420,53 @@ const PersonalCenter = () => {
           </Row>
         )}
         {!loading && coursesList.length > 0 && (
-          <div className={styles["courses-list"]}>
-            {coursesList.map((item: any) => (
-              <div key={item.id}>
-                {learnCourseRecords[item.id] && (
-                  // 已学完
-                  <CoursesModel
-                    id={item.id}
-                    title={item.title}
-                    thumb={item.thumb}
-                    isRequired={item.is_required}
-                    progress={Math.floor(
-                      learnCourseRecords[item.id].progress / 100
-                    )}
-                    source={'personal'}
-                  ></CoursesModel>
-                )}
+          <>
+            <div className={styles["courses-list"]}>
+              {coursesList.map((item: any) => (
+                <div key={item.id}>
+                  {learnCourseRecords[item.id] && (
+                    // 已学完
+                    <CoursesModel
+                      id={item.id}
+                      title={item.title}
+                      thumb={item.thumb}
+                      isRequired={item.is_required}
+                      progress={Math.floor(
+                        learnCourseRecords[item.id].progress / 100
+                      )}
+                      source={'personal'}
+                    ></CoursesModel>
+                  )}
 
-                {!learnCourseRecords[item.id] &&
-                  learnCourseHourCount[item.id] &&
-                  learnCourseHourCount[item.id] > 0 && (
-                    <CoursesModel
-                      id={item.id}
-                      title={item.title}
-                      thumb={item.thumb}
-                      isRequired={item.is_required}
-                      progress={1}
-                      source={'personal'}
-                    ></CoursesModel>
-                  )}
-                {!learnCourseRecords[item.id] &&
-                  !learnCourseHourCount[item.id] && (
-                    <CoursesModel
-                      id={item.id}
-                      title={item.title}
-                      thumb={item.thumb}
-                      isRequired={item.is_required}
-                      progress={0}
-                      source={'personal'}
-                    ></CoursesModel>
-                  )}
-              </div>
-            ))}
-          </div>
+                  {!learnCourseRecords[item.id] &&
+                    learnCourseHourCount[item.id] &&
+                    learnCourseHourCount[item.id] > 0 && (
+                      <CoursesModel
+                        id={item.id}
+                        title={item.title}
+                        thumb={item.thumb}
+                        isRequired={item.is_required}
+                        progress={1}
+                        source={'personal'}
+                      ></CoursesModel>
+                    )}
+                  {!learnCourseRecords[item.id] &&
+                    !learnCourseHourCount[item.id] && (
+                      <CoursesModel
+                        id={item.id}
+                        title={item.title}
+                        thumb={item.thumb}
+                        isRequired={item.is_required}
+                        progress={0}
+                        source={'personal'}
+                      ></CoursesModel>
+                    )}
+                </div>
+              ))}
+            </div>
+
+            <Pagination current={page} pageSize={size} pageSizeOptions={[9, 18, 45, 90]} onChange={pagerOnChange} showSizeChanger={true} total={7} style={{marginTop: 10}} />
+          </>
         )}
       </div>
       <div className={styles["extra"]}>{systemConfig.pcIndexFooterMsg}</div>

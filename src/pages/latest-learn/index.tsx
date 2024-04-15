@@ -85,7 +85,7 @@ const LatestLearnPage = () => {
                 <div
                   className={styles["item"]}
                   onClick={() => {
-                    navigate(`/course/${item.course.id}`);
+                    navigate(`/course/${item.course.id}/personal`);
                   }}
                 >
                   <div style={{ width: 120 }}>

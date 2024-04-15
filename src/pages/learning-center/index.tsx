@@ -59,7 +59,7 @@ const LearningCenter = () => {
         ))}
       </div>
 
-      <Pagination current={page} pageSize={size} pageSizeOptions={[9, 18, 45, 90]} onChange={onChange} showSizeChanger={true} total={7} />
+      <Pagination current={page} pageSize={size} pageSizeOptions={[9, 18, 45, 90]} onChange={onChange} showSizeChanger={true} total={7} style={{marginTop: 10}} />
     </>
   );
 };
