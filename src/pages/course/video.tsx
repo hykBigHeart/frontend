@@ -152,7 +152,7 @@ const CoursePalyPage = () => {
     Course.playUrl(Number(params.courseId), Number(params.hourId)).then(
       (res: any) => {
         setPlayUrl(res.data.url);
-        let convertMS = Date.now() + res.data.period * 60 * 1000 - (res.data.finished_duration * 1000)
+        let convertMS = Date.now() + res.data.period * 60 * 1000 - res.data.finished_duration * 1000
         setPeriod(convertMS)
         setMustLearningS(res.data.period * 60)
         setFinishedDuration(res.data.finished_duration)

@@ -39,7 +39,19 @@ export function downloadAttachment(courseId: number, id: number) {
 
 // 获取pdf预览的在线地址
 export function pdfOnlineUrl(courseId: number, hourId: number) {
-  return client.get(`/api/v1/course/${courseId}/attach/${hourId}/play`, {});
+  return client.get(`/api/v1/course/${courseId}/attachment/${hourId}/play`, {});
+}
+
+// 记录学员观看pdf时长
+export function pdfRecord(courseId: number, hourId: number, duration: number) {
+  return client.post(`/api/v1/course/${courseId}/attachment/${hourId}/record`, {
+    duration,
+  });
+}
+
+//pdf观看ping
+export function pdfPlayPing(courseId: number, hourId: number) {
+  return client.post(`/api/v1/course/${courseId}/attachment/${hourId}/ping`, {});
 }
 
 // 学习中心的课件 点 学习课程 调用（记录学员学习）

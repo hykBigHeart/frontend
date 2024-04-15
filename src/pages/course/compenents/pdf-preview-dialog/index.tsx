@@ -1,6 +1,8 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef, RefObject } from "react";
+import { useNavigate } from "react-router-dom";
 import { Divider, Modal, Statistic } from "antd";
 import type { CountdownProps } from 'antd';
+import { course as Course } from "../../../../api/index";
 import "./pdf-preview-dialog.scss"
 
 // Core viewer
@@ -19,24 +21,68 @@ import zh_CN from '@react-pdf-viewer/locales/lib/zh_CN.json';
 interface PropInterface {
   title: string;
   src: string;
+  courseId: number;
+  itemId: number;
+  period: number;
+  finishedDuration: number;
+  minimumLearningTime: RefObject<number>;
+  progress: number;
   open: boolean;
   onCancel: () => void;
 }
 
 const { Countdown } = Statistic;
 
-export const PdfPreviewDialog: React.FC<PropInterface> = ({ title, src, open, onCancel }) => {
+export const PdfPreviewDialog: React.FC<PropInterface> = ({ title, src, courseId, itemId, period, finishedDuration, minimumLearningTime, progress, open, onCancel }) => {
+  const navigate = useNavigate();
+
   // Create new plugin instance
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
   const [finished, setFinished] = useState(false);
+  const intervalId = useRef<number>();
+  const [playDuration, setPlayDuration] = useState(0);
+  const myRef = useRef(0);
+
+  useEffect(() => {
+    myRef.current = playDuration
+  }, [playDuration])
+
+  useEffect(() => {
+    if (period) {
+      let s = 0
+      intervalId.current = setInterval(() => {
+        s++
+        playTimeUpdate(s, false);
+        if (finishedDuration + s >= period * 60) {
+          console.log('学完了');
+          playTimeUpdate(s, true);
+          window.clearInterval(intervalId.current);
+        }
+      }, 1000);
+    }
+  }, [period]);
+
+  const playTimeUpdate = (duration: number, isEnd: boolean) => {
+    if (duration - myRef.current >= 10 || isEnd === true) {
+      setPlayDuration(duration);
+      Course.pdfRecord(
+        Number(courseId),
+        Number(itemId),
+        finishedDuration + duration
+      ).then((res: any) => {});
+      Course.pdfPlayPing(Number(courseId), Number(itemId)).then(
+        (res: any) => {}
+      );
+    }
+  };
   
   const customHeader = ()=> (
     <>
       <div className="custom-title">{title}</div>
-      { !finished ?
+      { !finished && progress < 100 ?
         <div className="count-down-box">
           您还需学习&emsp;
-          <Countdown value={Date.now() + 1000 *10} format="m 分 s 秒" valueStyle={{color: 'red'}} onFinish={onFinish} />
+          <Countdown value={minimumLearningTime.current as number} format="m 分 s 秒" valueStyle={{color: 'red'}} onFinish={onFinish} />
         </div>
         :
         <div style={{display: 'flex', alignItems: 'center', height: 37.7}}>您已完成学时</div>
@@ -71,7 +117,7 @@ export const PdfPreviewDialog: React.FC<PropInterface> = ({ title, src, open, on
             borderRadius: 0
           }}}
           maskClosable={false}
-          onCancel={() => onCancel()}
+          onCancel={() => {onCancel(); window.clearInterval(intervalId.current); navigate(`/course/${courseId}/${'personal'}`, {replace: true}) }}
         >
           <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.4.456/build/pdf.worker.min.js">
             <div style={{ height: '100vh' }}>
