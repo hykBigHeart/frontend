@@ -9,7 +9,7 @@ import { CoursesModel } from "./compenents/courses-model";
 import { Empty } from "../../compenents";
 import myLesoon from "../../assets/images/commen/bofang1.png";
 import studyTime from "../../assets/images/commen/daiban1.png";
-import iconRoute from "../../assets/images/commen/icon-route.png";
+import iconRoute from "../../assets/images/commen/icon-route1.png";
 import { studyTimeFormat } from "../../utils/index";
 
 type StatsModel = {
@@ -61,6 +61,7 @@ const PersonalCenter = () => {
   const userInfo = useSelector((state: any) => state.loginUser.value);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(9)
+  const [total, setTotal] = useState(0)
 
   useEffect(() => {
     getParams();
@@ -94,6 +95,7 @@ const PersonalCenter = () => {
       setStats(res.data.stats);
       setLearnCourseRecords(records);
       setLearnCourseHourCount(res.data.user_course_hour_count);
+      setTotal(res.data.total)
       if (tabKey === 0) {
         setCoursesList(res.data.courses);
       } else if (tabKey === 1) {
@@ -465,7 +467,7 @@ const PersonalCenter = () => {
               ))}
             </div>
 
-            <Pagination current={page} pageSize={size} pageSizeOptions={[9, 18, 45, 90]} onChange={pagerOnChange} showSizeChanger={true} total={7} style={{marginTop: 10}} />
+            <Pagination current={page} pageSize={size} pageSizeOptions={[9, 18, 45, 90]} onChange={pagerOnChange} showSizeChanger={true} total={total} style={{marginTop: 10}} />
           </>
         )}
       </div>

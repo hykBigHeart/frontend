@@ -7,7 +7,7 @@ import { course as Course } from "../../api/index";
 import mediaIcon from "../../assets/images/commen/icon-medal.png";
 import { HourCompenent } from "./compenents/hour";
 import { Empty } from "../../compenents";
-import iconRoute from "../../assets/images/commen/icon-route.png";
+import iconRoute from "../../assets/images/commen/icon-route1.png";
 import { PdfPreviewDialog } from "./compenents/pdf-preview-dialog";
 
 type TabModel = {
@@ -76,12 +76,16 @@ const CoursePage = () => {
         document.title = res.data.course.title;
         setCourse(res.data.course);
         setChapters(res.data.chapters);
-        if (JSON.stringify(res.data.hours) !== '{}') {
+        if (res.data.chapters.length) {
           // 课时、附件需要一块展示
-          for (let i in res.data.hours) {
+          // debugger
+          for (let i in res.data.chapters) {
             for (let e = 0; e < res.data.attachments.length; e++) {
-              if (res.data.attachments[e].chapter_id == i) {
-                res.data.hours[i].push(res.data.attachments[e])
+              if (res.data.attachments[e].chapter_id == res.data.chapters[i].id) {
+                if (!res.data.hours[res.data.chapters[i].id]) {
+                  res.data.hours[res.data.chapters[i].id] = []
+                  res.data.hours[res.data.chapters[i].id].push(res.data.attachments[e])
+                } else res.data.hours[res.data.chapters[i].id].push(res.data.attachments[e])
               }
             }
           }

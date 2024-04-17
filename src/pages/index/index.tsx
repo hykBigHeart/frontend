@@ -8,7 +8,7 @@ import { CoursesModel } from "./compenents/courses-model";
 import { Empty } from "../../compenents";
 import myLesoon from "../../assets/images/commen/bofang1.png";
 import studyTime from "../../assets/images/commen/daiban1.png";
-import iconRoute from "../../assets/images/commen/icon-route.png";
+import iconRoute from "../../assets/images/commen/icon-route1.png";
 import { studyTimeFormat } from "../../utils/index";
 import homePage from "../../assets/images/commen/home.png";
 
@@ -257,8 +257,8 @@ const IndexPage = () => {
   );
 
   return (
-    <div className="main-body">
-      <img style={{marginTop: 50}} src={homePage} />
+    <div className="main-body" style={{display: 'flex', alignItems: 'center'}}>
+      <img style={{marginTop: 50, width: '63%'}} src={homePage} />
       {/* <div className="content">
         <div className={styles["top-cont"]}>
           <div className={styles["top-item"]}>

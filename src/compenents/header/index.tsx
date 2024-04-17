@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import styles from "./index.module.scss";
-import { Modal, Button, Dropdown, Image, Input, Space } from "antd";
+import { Modal, Button, Dropdown, Image, Input, Space, Flex } from "antd";
 import type { MenuProps } from "antd";
 import type { SearchProps } from 'antd/es/input/Search';
 import { useDispatch, useSelector } from "react-redux";
@@ -193,8 +193,9 @@ export const Header: React.FC = () => {
     <div className={styles["app-header"]}>
       <div className={styles["main-header"]}>
         <div className="d-flex" style={{height: '100%'}}>
-          <Link to="/" className={styles["App-logo"]} style={{height: '100%'}}>
-            <img src={config.systemLogo || logo} />
+          <Link to="/" className={styles["App-logo"]} style={{height: '100%', display: "flex", alignItems: 'center'}}>
+            {/* <img src={config.systemLogo || logo} /> */}
+            <img src={ logo } />
           </Link>
           <div className={styles["navs"]}>
             {navs.map((item: any) => (

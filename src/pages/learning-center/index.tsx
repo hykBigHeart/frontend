@@ -18,6 +18,7 @@ const LearningCenter = () => {
   const [coursesList, setCoursesList] = useState<CourseModel[]>([]);
   const [page, setPage] = useState(1);
   const [size, setSize] = useState(9)
+  const [total, setTotal] = useState(0)
 
   useEffect(() => {
     getData();
@@ -27,6 +28,7 @@ const LearningCenter = () => {
     setLoading(true);
     user.AllCourses(userInfo.user.id, userInfo.searchValue, page, size).then((res: any) => {
       setCoursesList(res.data.data);
+      setTotal(res.data.total)
       setLoading(false);
     });
   };
@@ -59,7 +61,7 @@ const LearningCenter = () => {
         ))}
       </div>
 
-      <Pagination current={page} pageSize={size} pageSizeOptions={[9, 18, 45, 90]} onChange={onChange} showSizeChanger={true} total={7} style={{marginTop: 10}} />
+      <Pagination current={page} pageSize={size} pageSizeOptions={[9, 18, 45, 90]} onChange={onChange} showSizeChanger={true} total={total} style={{marginTop: 10}} />
     </>
   );
 };

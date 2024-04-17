@@ -39,8 +39,8 @@ export const CoursesModel: React.FC<PropInterface> = ({
           src={thumb}
           preview={false}
         />
-        <div className={styles["info"]}>
-          <div className={source === 'personal' ? styles["title"] : styles["title"] + ' ' +  styles["learning-center-title"]}>{title}</div>
+        <div className={styles["info"]} style={{width: source === 'personal' ? 192 : '100%' }}>
+          <div className={source === 'personal' ? styles["title"] : styles["title"] + ' ' +  styles["learning-center-title"]} title={title}>{title}</div>
           {source === 'personal' && isRequired === 1 && <div className={styles["type"]}>必修课</div>}
           {source === 'personal' && isRequired === 0 && (
             <div className={styles["active-type"]}>选修课</div>

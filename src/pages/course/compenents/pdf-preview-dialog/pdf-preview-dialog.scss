@@ -37,7 +37,11 @@
   border: none !important;
 }
 
-// 隐藏切换主题和全屏pdf功能
-[aria-describedby="rpv-core__tooltip-body-theme-switch"], [aria-describedby="rpv-core__tooltip-body-full-screen-enter"] {
+// 隐藏切换主题、全屏pdf、打开、下载、打印功能
+[aria-describedby="rpv-core__tooltip-body-theme-switch"], 
+[aria-describedby="rpv-core__tooltip-body-full-screen-enter"], 
+[aria-describedby="rpv-core__tooltip-body-open"],
+[aria-describedby="rpv-core__tooltip-body-get-file"],
+[aria-describedby="rpv-core__tooltip-body-print"] {
   display: none;
 }
