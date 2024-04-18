@@ -3,7 +3,7 @@ import styles from "./video.module.scss";
 import { useParams, useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { course as Course } from "../../api/index";
-import { ArrowLeftOutlined } from "@ant-design/icons";
+import { ArrowLeftOutlined, CloseOutlined } from "@ant-design/icons";
 import { message, Statistic } from "antd";
 import type { CountdownProps } from 'antd';
 import { getPlayId, savePlayId } from "../../utils";
@@ -290,6 +290,33 @@ const CoursePalyPage = () => {
         <div className={styles["box"]}>
           <div
             className={styles["close-btn"]}
+            // onClick={() => {
+            //   window.clearInterval(intervalId.current);
+            //   timer && clearInterval(timer);
+            //   window.player && window.player.destroy();
+            //   document.oncontextmenu = function (e) {
+            //     /*恢复浏览器默认右键事件*/
+            //     e = e || window.event;
+            //     return true;
+            //   };
+            //   navigate(-1);
+            // }}
+          >
+            {/* <ArrowLeftOutlined />
+            <span className="ml-14">返回</span> */}
+            {hour?.title}
+          </div>
+          <div style={{color: 'white', marginLeft: '50%', fontWeight: 600}}>
+            {!finished ? 
+              <div className={styles["count-down-box"]}>
+                您还需学习&emsp;
+                <Countdown value={period} format="m 分 s 秒" valueStyle={{color: 'red'}} onFinish={onFinish} />
+              </div>
+              : 
+              <div>您已完成学时</div>
+            }
+          </div>
+          <CloseOutlined style={{color: 'white', cursor: 'pointer'}}
             onClick={() => {
               window.clearInterval(intervalId.current);
               timer && clearInterval(timer);
@@ -301,20 +328,7 @@ const CoursePalyPage = () => {
               };
               navigate(-1);
             }}
-          >
-            <ArrowLeftOutlined />
-            <span className="ml-14">返回</span>
-          </div>
-          <div style={{color: 'white'}}>
-            {!finished ? 
-              <div className={styles["count-down-box"]}>
-                您还需学习&emsp;
-                <Countdown value={period} format="m 分 s 秒" valueStyle={{color: 'red'}} onFinish={onFinish} />
-              </div>
-              : 
-              <div>您已完成学时</div>
-            }
-          </div>
+          />
         </div>
       </div>
       <div className={styles["video-body"]}>

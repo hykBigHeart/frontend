@@ -78,7 +78,6 @@ const CoursePage = () => {
         setChapters(res.data.chapters);
         if (res.data.chapters.length) {
           // 课时、附件需要一块展示
-          // debugger
           for (let i in res.data.chapters) {
             for (let e = 0; e < res.data.attachments.length; e++) {
               if (res.data.attachments[e].chapter_id == res.data.chapters[i].id) {
@@ -89,7 +88,7 @@ const CoursePage = () => {
               }
             }
           }
-        } else res.data.hours[0] = res.data.attachments
+        } else res.data.hours[0] = res.data.hours[0].concat(res.data.attachments)
         setHours(res.data.hours);
         if (res.data.learn_record) {
           setLearnRecord(res.data.learn_record);
