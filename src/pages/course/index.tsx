@@ -88,7 +88,7 @@ const CoursePage = () => {
               }
             }
           }
-        } else res.data.hours[0] = res.data.hours[0].concat(res.data.attachments)
+        } else res.data.hours[0] = res.data.hours[0] === undefined ? (res.data.hours[0] = [], res.data.hours[0].concat(res.data.attachments)) : res.data.hours[0].concat(res.data.attachments)
         setHours(res.data.hours);
         if (res.data.learn_record) {
           setLearnRecord(res.data.learn_record);

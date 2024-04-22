@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
-import { Pagination, Spin } from 'antd';
+import { Pagination, Spin, Empty } from 'antd';
 import type { PaginationProps } from 'antd';
 import { user } from "../../api/index";
 import styles from "./index.module.scss";
@@ -60,7 +60,9 @@ const LearningCenter = () => {
           </div>
         ))}
       </div>
-
+      {!coursesList.length && (
+        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+      ) }
       <Pagination current={page} pageSize={size} pageSizeOptions={[9, 18, 45, 90]} onChange={onChange} showSizeChanger={true} total={total} style={{marginTop: 10}} />
     </>
   );

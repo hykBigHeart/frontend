@@ -376,7 +376,7 @@ const PersonalCenter = () => {
               )}
             </div>
           ))}
-          <Popover
+          {/* <Popover
             content={dropItem}
             placement="bottomRight"
             open={open}
@@ -390,7 +390,7 @@ const PersonalCenter = () => {
                 style={{ fontSize: 16 }}
               />
             </Space>
-          </Popover>
+          </Popover> */}
         </div>
         {loading && (
           <Row
