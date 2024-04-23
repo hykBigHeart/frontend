@@ -11,6 +11,7 @@ type LearnCourseRecordsModel = {
 };
 
 const LearningCenter = () => {
+  document.title = "学习中心";
   const userInfo = useSelector((state: any) => state.loginUser.value);
 
   const [loading, setLoading] = useState<boolean>(false);
@@ -60,10 +61,17 @@ const LearningCenter = () => {
           </div>
         ))}
       </div>
-      {!coursesList.length && (
-        <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} />
+      {!coursesList.length && !loading && (
+        <div style={{height:`calc(100vh - 100px)`, display: 'flex', justifyContent: 'center', boxSizing: 'border-box', paddingTop: 180}} >
+          <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>
+        </div>
       ) }
-      <Pagination current={page} pageSize={size} pageSizeOptions={[9, 18, 45, 90]} onChange={onChange} showSizeChanger={true} total={total} style={{marginTop: 10}} />
+      
+      {coursesList.length ? 
+        <Pagination current={page} pageSize={size} pageSizeOptions={[9, 18, 45, 90]} onChange={onChange} showSizeChanger={true} total={total} style={{marginTop: 10}} />
+        : 
+        ''
+      }
     </>
   );
 };

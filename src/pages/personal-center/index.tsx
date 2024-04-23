@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { Row, Col, Spin, Tree, Popover, Space, Image, Pagination } from "antd";
+import { Row, Col, Spin, Tree, Popover, Space, Image, Pagination, Empty } from "antd";
 import type { PaginationProps } from 'antd';
 import { useNavigate, useLocation } from "react-router-dom";
 import { user } from "../../api/index";
 import styles from "./index.module.scss";
 import { useSelector } from "react-redux";
 import { CoursesModel } from "./compenents/courses-model";
-import { Empty } from "../../compenents";
+// import { Empty } from "../../compenents";
 import myLesoon from "../../assets/images/commen/bofang1.png";
 import studyTime from "../../assets/images/commen/daiban1.png";
 import iconRoute from "../../assets/images/commen/icon-route1.png";
@@ -36,6 +36,7 @@ type CategoryModel = {
 };
 
 const PersonalCenter = () => {
+  document.title = "个人中心";
   const navigate = useNavigate();
   const result = new URLSearchParams(useLocation().search);
   const systemConfig = useSelector((state: any) => state.systemConfig.value);
@@ -63,6 +64,14 @@ const PersonalCenter = () => {
   const [size, setSize] = useState(9)
   const [total, setTotal] = useState(0)
 
+  /*
+    is_required 必修1，选修0
+    is_finished 学完 1，未完0
+    全部 这两个参数都不传 
+   */ 
+  let isRequired: number | null = null
+  let isFinished: number | null = null
+
   useEffect(() => {
     getParams();
   }, []);
@@ -77,6 +86,28 @@ const PersonalCenter = () => {
     if (currentDepId === 0) {
       return;
     }
+    switch (tabKey) {
+      case 0:
+        isRequired = null
+        isFinished = null
+        break;
+      case 1:
+        isRequired = 1
+        isFinished = null
+        break;
+      case 2:
+        isRequired = 0
+        isFinished = null
+        break;
+      case 3:
+        isRequired = null
+        isFinished = 1
+        break;
+      case 4:
+        isRequired = null
+        isFinished = 0
+        break;
+    }
     getData();
   }, [tabKey, currentDepId, categoryId, page, size]);
 
@@ -90,12 +121,16 @@ const PersonalCenter = () => {
 
   const getData = () => {
     setLoading(true);
-    user.courses(currentDepId, userInfo.user.id, categoryId, page, size).then((res: any) => {
+    user.courses(currentDepId, userInfo.user.id, categoryId, isRequired, isFinished, page, size).then((res: any) => {
       const records: LearnCourseRecordsModel = res.data.learn_course_records;
       setStats(res.data.stats);
       setLearnCourseRecords(records);
       setLearnCourseHourCount(res.data.user_course_hour_count);
       setTotal(res.data.total)
+      setCoursesList(res.data.courses);
+      setLoading(false);
+      // 之前下面前端筛选逻辑，不能这样做，先干掉
+      return
       if (tabKey === 0) {
         setCoursesList(res.data.courses);
       } else if (tabKey === 1) {
@@ -416,8 +451,9 @@ const PersonalCenter = () => {
               minHeight: 301,
             }}
           >
-            <Col span={24}>
-              <Empty />
+            <Col span={24} style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
+              {/* <Empty /> */}
+              <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>
             </Col>
           </Row>
         )}

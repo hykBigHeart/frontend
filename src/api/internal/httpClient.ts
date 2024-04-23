@@ -52,6 +52,11 @@ export class HttpClient {
           return Promise.resolve(response);
         } else {
           message.error(msg);
+          if (code === -1 && window.location.pathname !== '/login') {
+            setTimeout(() => {
+              window.location.href = "/login";
+            }, 500);
+          }
         }
         return Promise.reject(response);
       },
