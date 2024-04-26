@@ -56,6 +56,10 @@ export class HttpClient {
             setTimeout(() => {
               window.location.href = "/login";
             }, 500);
+          } else if (code === -2) {
+            setTimeout(() => {
+              window.location.href = window.location.href.replace(/\/hour\/\d+$/, '/personal')
+            }, 3000);
           }
         }
         return Promise.reject(response);

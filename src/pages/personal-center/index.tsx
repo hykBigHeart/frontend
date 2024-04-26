@@ -69,8 +69,8 @@ const PersonalCenter = () => {
     is_finished 学完 1，未完0
     全部 这两个参数都不传 
    */ 
-  let isRequired: number | null = null
-  let isFinished: number | null = null
+  const [isRequired, setIsRequired] = useState<number | null>(null)
+  const [isFinished, setIsFinished] = useState<number | null>(null)
 
   useEffect(() => {
     getParams();
@@ -88,28 +88,37 @@ const PersonalCenter = () => {
     }
     switch (tabKey) {
       case 0:
-        isRequired = null
-        isFinished = null
+        setIsRequired(null)
+        setIsFinished(null)
+        setPage(1)
         break;
       case 1:
-        isRequired = 1
-        isFinished = null
+        setIsRequired(1)
+        setIsFinished(null)
+        setPage(1)
         break;
       case 2:
-        isRequired = 0
-        isFinished = null
+        setIsRequired(0)
+        setIsFinished(null)
+        setPage(1)
         break;
       case 3:
-        isRequired = null
-        isFinished = 1
+        setIsRequired(null)
+        setIsFinished(1)
+        setPage(1)
         break;
       case 4:
-        isRequired = null
-        isFinished = 0
+        setIsRequired(null)
+        setIsFinished(0)
+        setPage(1)
         break;
     }
-    getData();
-  }, [tabKey, currentDepId, categoryId, page, size]);
+    // getData();
+  }, [tabKey, currentDepId, categoryId]);
+
+  useEffect(() => {
+    getData()
+  }, [page, size, isRequired, isFinished])
 
   useEffect(() => {
     document.title = systemConfig.systemName || "首页";
@@ -316,7 +325,8 @@ const PersonalCenter = () => {
                 <strong> {stats?.required_finished_course_count || 0} </strong>
                 <span>/ {stats?.required_course_count || 0}</span>
               </div>
-              {stats && stats.nun_required_course_count > 0 && (
+              {/* && stats.nun_required_course_count > 0 */}
+              {stats && (
                 <div className={styles["info-item"]}>
                   <span>选修课：已学完课程</span>
                   <strong>

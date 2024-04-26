@@ -58,3 +58,13 @@ export function pdfPlayPing(courseId: number, hourId: number) {
 export function recordLearning(courseId: number, userId: number) {
   return client.get(`/api/v1/course/${courseId}/study/${userId}`, {});
 }
+
+// 删除视频进度
+export function removeHourRecordLearning(courseId: number) {
+  return client.destroy(`/api/v1/course/${courseId}/hour/removeLearningStatus`);
+}
+
+// 删除pdf进度
+export function removePdfRecordLearning(courseId: number) {
+  return client.destroy(`/api/v1/course/${courseId}/hour/removeLearningStatus`);
+}

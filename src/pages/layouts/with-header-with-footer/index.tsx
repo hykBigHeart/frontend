@@ -11,7 +11,7 @@ const WithHeaderWithFooter = () => {
         <Outlet />
       </Suspense>
       <div className="footer-box">
-        {/* <Footer></Footer> */}
+        <Footer></Footer>
       </div>
     </div>
   );

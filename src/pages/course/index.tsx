@@ -167,7 +167,7 @@ const CoursePage = () => {
                 />
                 <div className={styles["info"]}>
                   <div className={styles["title"]}>{course?.title}</div>
-                  <div style={{display: params.source === 'personal' ? 'block' : 'none'}} className={styles["status"]}>
+                  <div style={{display: params.source === 'personal' ? 'flex' : 'none'}} className={styles["status"]}>
                     {course?.is_required === 1 && (
                       <div className={styles["type"]}>必修课</div>
                     )}
