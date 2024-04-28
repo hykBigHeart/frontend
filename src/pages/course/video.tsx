@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import styles from "./video.module.scss";
-import { useParams, useNavigate } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 import { course as Course } from "../../api/index";
 import { ArrowLeftOutlined, CloseOutlined } from "@ant-design/icons";
@@ -14,6 +14,7 @@ const { Countdown } = Statistic;
 
 const CoursePalyPage = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const params = useParams();
   const systemConfig = useSelector((state: any) => state.systemConfig.value);
   const user = useSelector((state: any) => state.loginUser.value.user);
@@ -56,6 +57,9 @@ const CoursePalyPage = () => {
         e = e || window.event;
         return true;
       };
+
+      window.clearInterval(intervalId.current);
+      Course.removeHourRecordLearning(Number(params.courseId))
     };
   }, [params.courseId, params.hourId]);
 
@@ -327,6 +331,7 @@ const CoursePalyPage = () => {
                 return true;
               };
               navigate(-1);
+              Course.removeHourRecordLearning(Number(params.courseId))
             }}
           />
         </div>

@@ -13,7 +13,8 @@ export const NoHeader: React.FC = () => {
   return (
     <div className={styles["app-header"]}>
       <div className={styles["main-header"]}>
-        <img src={config.systemLogo || logo} className={styles["App-logo"]} />
+      {/* config.systemLogo ||  */}
+        <img src={logo} className={styles["App-logo"]} />
       </div>
     </div>
   );

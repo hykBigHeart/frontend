@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef, RefObject } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Divider, Modal, Statistic } from "antd";
 import type { CountdownProps } from 'antd';
 import { course as Course } from "../../../../api/index";
@@ -35,6 +35,7 @@ const { Countdown } = Statistic;
 
 export const PdfPreviewDialog: React.FC<PropInterface> = ({ title, src, courseId, itemId, period, finishedDuration, minimumLearningTime, progress, open, onCancel }) => {
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Create new plugin instance
   const defaultLayoutPluginInstance = defaultLayoutPlugin();
@@ -46,6 +47,15 @@ export const PdfPreviewDialog: React.FC<PropInterface> = ({ title, src, courseId
   useEffect(() => {
     myRef.current = playDuration
   }, [playDuration])
+
+  // 从学习pdf页返回路由的话会触发，清除定时器操作
+  useEffect(()=> {
+    return () => {
+      // console.log('pdf组件销毁需清除定时器');
+      window.clearInterval(intervalId.current);
+      Course.removePdfRecordLearning(courseId)
+    }
+  }, [location.pathname])
 
   useEffect(() => {
     if (period) {
@@ -117,7 +127,7 @@ export const PdfPreviewDialog: React.FC<PropInterface> = ({ title, src, courseId
             borderRadius: 0
           }}}
           maskClosable={false}
-          onCancel={() => {onCancel(); window.clearInterval(intervalId.current); navigate(`/course/${courseId}/${'personal'}`, {replace: true}) }}
+          onCancel={() => {onCancel(); window.clearInterval(intervalId.current); navigate(`/course/${courseId}/${'personal'}`, {replace: true}); Course.removePdfRecordLearning(courseId) }}
         >
           <Worker workerUrl="https://unpkg.com/pdfjs-dist@2.4.456/build/pdf.worker.min.js">
             <div style={{ height: '100vh' }}>
