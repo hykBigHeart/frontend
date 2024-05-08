@@ -183,10 +183,10 @@ export const Header: React.FC = () => {
       key: "/personal-center",
       label: "个人中心",
     },
-    {
-      key: "/latest-learn",
-      label: "最近学习",
-    },
+    // {
+    //   key: "/latest-learn",
+    //   label: "最近学习",
+    // },
   ];
 
   return (

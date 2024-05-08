@@ -62,7 +62,7 @@ const LearningCenter = () => {
         ))}
       </div>
       {!coursesList.length && !loading && (
-        <div style={{height:`calc(100vh - 100px)`, display: 'flex', justifyContent: 'center', boxSizing: 'border-box', paddingTop: 180}} >
+        <div style={{height:`calc(100vh - 100%)`, display: 'flex', justifyContent: 'center', boxSizing: 'border-box', paddingTop: 180}} >
           <Empty image={Empty.PRESENTED_IMAGE_SIMPLE}/>
         </div>
       ) }

@@ -39,6 +39,7 @@ export const HourCompenent: React.FC<PropInterface> = ({
         minimumLearningTime.current = Date.now() + period * 60 * 1000 - res.data.finished_duration * 1000
         setFinishedDuration(res.data.finished_duration)
         setPdfPreviewVisible(true)
+        document.title = title
       }
     );
   };

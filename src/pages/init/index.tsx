@@ -60,7 +60,8 @@ export const InitPage = (props: Props) => {
   return (
     <>
       {init && (
-        <div style={{ minHeight: 900 }}>
+        // <div style={{ minHeight: 900 }}>
+        <div>
           <Outlet />
         </div>
       )}
