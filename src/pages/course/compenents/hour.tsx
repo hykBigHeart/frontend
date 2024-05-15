@@ -57,7 +57,8 @@ export const HourCompenent: React.FC<PropInterface> = ({
         }}
       >
         <div className={styles["left-item"]}>
-          <i className={duration ? "iconfont icon-icon-video" : 'iconfont icon-icon-file'}></i>
+          {/* <i className={duration ? "iconfont icon-icon-video" : 'iconfont icon-icon-file'}></i> */}
+          <i className={duration ? "iconfont icon-icon-video" : 'iconfont icon-file-pdf'}></i>
           <div className={styles["title"]}>
             {title}{duration ? `(${durationFormat(Number(duration))})` : ''}
           </div>

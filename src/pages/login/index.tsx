@@ -2,6 +2,7 @@ import { Input, Button, message } from "antd";
 import React, { useState } from "react";
 import styles from "./index.module.scss";
 import banner from "../../assets/images/login/banner.png";
+import icon from "../../assets/images/login/icon.png";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginAction } from "../../store/user/loginUserSlice";
@@ -78,53 +79,109 @@ const LoginPage: React.FC = () => {
   };
 
   return (
+
     <div className={styles["login-content"]}>
-      <div className={styles["top-content"]}>
-        <div className={styles["title"]}>学员登录</div>
-        <div className={styles["login-box"]}>
-          <div className={styles["left-box"]}>
-            <img className={styles["icon"]} src={banner} alt="" />
+      <div className={styles["banner-box"]}>
+        <img className={styles["banner"]} src={banner} alt="" />
+      </div>
+      <div className={styles["login-box"]}>
+        <div className={styles["left-box"]}>
+          <img className={styles["icon"]} src={icon} alt="" />
+        </div>
+        <div className={styles["right-box"]}>
+          {/* <div className={styles["title"]}>后台登录</div> */}
+          <div className={styles["title1"]}>海金格培训系统</div>
+          <div className={styles["left-blue"]}>学员登录</div>
+          <div className="login-box d-flex mt-30">
+            <Input
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+              }}
+              style={{ width: 400, height: 54 }}
+              placeholder="请输入账号"
+              allowClear
+              onKeyUp={(e) => keyUp(e)}
+            />
           </div>
-          <div className={styles["right-box"]}>
-            <div className="login-box d-flex">
-              <Input
-                value={email}
-                onChange={(e) => {
-                  setEmail(e.target.value);
-                }}
-                style={{ width: 400, height: 54 }}
-                placeholder={"请输入邮箱或UID"}
-                onKeyUp={(e) => keyUp(e)}
-              />
-            </div>
-            <div className="login-box d-flex mt-50">
-              <Input.Password
-                value={password}
-                onChange={(e) => {
-                  setPassword(e.target.value);
-                }}
-                style={{ width: 400, height: 54 }}
-                placeholder="请输入密码"
-                onKeyUp={(e) => keyUp(e)}
-              />
-            </div>
-            <div className="login-box d-flex mt-50">
-              <Button
-                style={{ width: 400, height: 54 }}
-                type="primary"
-                onClick={loginSubmit}
-                loading={loading}
-              >
-                立即登录
-              </Button>
-            </div>
+          <div className="login-box d-flex mt-30">
+            <Input.Password
+              value={password}
+              onChange={(e) => {
+                setPassword(e.target.value);
+              }}
+              allowClear
+              style={{ width: 400, height: 54 }}
+              placeholder="请输入密码"
+              onKeyUp={(e) => keyUp(e)}
+            />
+          </div>
+          <div className="login-box d-flex mt-50">
+            <Button
+              style={{ width: 400, height: 54 }}
+              type="primary"
+              onClick={loginSubmit}
+              loading={loading}
+            >
+              立即登录
+            </Button>
           </div>
         </div>
       </div>
-      {/* <div className={styles["footer"]}>
-        <NoFooter></NoFooter>
-      </div> */}
+      <div className={styles["footer-box"]}>
+        {/* <Footer type="none"></Footer> */}
+      </div>
     </div>
+
+    // 之前登录结构
+    // <div className={styles["login-content"]}>
+    //   <div className={styles["top-content"]}>
+    //     <div className={styles["title"]}>学员登录</div>
+    //     <div className={styles["login-box"]}>
+    //       <div className={styles["left-box"]}>
+    //         <img className={styles["icon"]} src={banner} alt="" />
+    //       </div>
+    //       <div className={styles["right-box"]}>
+    //         <div className="login-box d-flex">
+    //           <Input
+    //             value={email}
+    //             onChange={(e) => {
+    //               setEmail(e.target.value);
+    //             }}
+    //             style={{ width: 400, height: 54 }}
+    //             placeholder={"请输入邮箱或UID"}
+    //             onKeyUp={(e) => keyUp(e)}
+    //           />
+    //         </div>
+    //         <div className="login-box d-flex mt-50">
+    //           <Input.Password
+    //             value={password}
+    //             onChange={(e) => {
+    //               setPassword(e.target.value);
+    //             }}
+    //             style={{ width: 400, height: 54 }}
+    //             placeholder="请输入密码"
+    //             onKeyUp={(e) => keyUp(e)}
+    //           />
+    //         </div>
+    //         <div className="login-box d-flex mt-50">
+    //           <Button
+    //             style={{ width: 400, height: 54 }}
+    //             type="primary"
+    //             onClick={loginSubmit}
+    //             loading={loading}
+    //           >
+    //             立即登录
+    //           </Button>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   </div>
+    //   {/* <div className={styles["footer"]}>
+    //     <NoFooter></NoFooter>
+    //   </div> */}
+    // </div>
+
   );
 };
 

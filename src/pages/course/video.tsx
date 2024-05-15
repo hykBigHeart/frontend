@@ -310,7 +310,8 @@ const CoursePalyPage = () => {
             <span className="ml-14">返回</span> */}
             {hour?.title}
           </div>
-          <div style={{color: 'white', marginLeft: '50%', fontWeight: 600}}>
+          {/* marginLeft: '50%', */}
+          <div style={{color: 'white', fontWeight: 600}}>
             {!finished ? 
               <div className={styles["count-down-box"]}>
                 您还需学习&emsp;

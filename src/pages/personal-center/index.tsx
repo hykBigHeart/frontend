@@ -64,6 +64,11 @@ const PersonalCenter = () => {
   const [size, setSize] = useState(9)
   const [total, setTotal] = useState(0)
 
+  const [requiredFinishedCourseCount, setRequiredFinishedCourseCount] = useState(0);
+  const [requiredCourseCount, setRequiredCourseCount] = useState(0);
+  const [nunRequiredFinishedCourseCount, setNunRequiredFinishedCourseCount] = useState(0);
+  const [nunRequiredCourseCount, setNunRequiredCourseCount] = useState(0);
+
   /*
     is_required 必修1，选修0
     is_finished 学完 1，未完0
@@ -132,6 +137,12 @@ const PersonalCenter = () => {
     setLoading(true);
     user.courses(currentDepId, userInfo.user.id, categoryId, isRequired, isFinished, page, size).then((res: any) => {
       const records: LearnCourseRecordsModel = res.data.learn_course_records;
+      if (tabKey === 0) {
+        setRequiredFinishedCourseCount(res.data.stats.required_finished_course_count)
+        setRequiredCourseCount(res.data.stats.required_course_count)
+        setNunRequiredFinishedCourseCount(res.data.stats.nun_required_finished_course_count)
+        setNunRequiredCourseCount(res.data.stats.nun_required_course_count)
+      }
       setStats(res.data.stats);
       setLearnCourseRecords(records);
       setLearnCourseHourCount(res.data.user_course_hour_count);
@@ -322,8 +333,8 @@ const PersonalCenter = () => {
             <div className={styles["info"]}>
               <div className={styles["info-item"]}>
                 <span>必修课：已学完课程</span>
-                <strong> {stats?.required_finished_course_count || 0} </strong>
-                <span>/ {stats?.required_course_count || 0}</span>
+                <strong> {requiredFinishedCourseCount || 0} </strong>
+                <span>/ {requiredCourseCount || 0}</span>
               </div>
               {/* && stats.nun_required_course_count > 0 */}
               {stats && (
@@ -331,9 +342,9 @@ const PersonalCenter = () => {
                   <span>选修课：已学完课程</span>
                   <strong>
                     {" "}
-                    {stats?.nun_required_finished_course_count || 0}{" "}
+                    {nunRequiredFinishedCourseCount || 0}{" "}
                   </strong>
-                  <span>/ {stats?.nun_required_course_count || 0}</span>
+                  <span>/ {nunRequiredCourseCount || 0}</span>
                 </div>
               )}
             </div>

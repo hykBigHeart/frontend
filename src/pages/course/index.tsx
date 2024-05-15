@@ -376,8 +376,9 @@ const CoursePage = () => {
               {attachments.map((item: any, index: number) => (
                 <div key={index} className={styles["attachments-item"]}>
                   <div className={styles["left-cont"]}>
+                    {/* icon-icon-file */}
                     <i
-                      className="iconfont icon-icon-file"
+                      className="iconfont icon-file-pdf"
                       style={{
                         fontSize: 16,
                         color: "rgba(0,0,0,0.3)",

@@ -6,7 +6,7 @@ import LoadingPage from "../../loading";
 const WithHeaderWithoutFooter = () => {
   return (
     <>
-      <NoHeader></NoHeader>
+      {/* <NoHeader></NoHeader> */}
       <Suspense fallback={<LoadingPage height="100vh" />}>
         <Outlet />
       </Suspense>
