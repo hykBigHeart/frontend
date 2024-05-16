@@ -377,14 +377,17 @@ const CoursePage = () => {
                 <div key={index} className={styles["attachments-item"]}>
                   <div className={styles["left-cont"]}>
                     {/* icon-icon-file */}
-                    <i
+                    {/* <i
                       className="iconfont icon-file-pdf"
                       style={{
                         fontSize: 16,
                         color: "rgba(0,0,0,0.3)",
                         marginRight: 10,
                       }}
-                    />
+                    /> */}
+                    <svg className="icon" aria-hidden="true">
+                      <use xlinkHref="#icon-wenjianleixing-biaozhuntu-PDFwendang"></use>
+                    </svg>
                     <span className={styles["title"]}>
                       {item.title}.{item.ext}
                     </span>

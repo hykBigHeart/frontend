@@ -58,7 +58,10 @@ export const HourCompenent: React.FC<PropInterface> = ({
       >
         <div className={styles["left-item"]}>
           {/* <i className={duration ? "iconfont icon-icon-video" : 'iconfont icon-icon-file'}></i> */}
-          <i className={duration ? "iconfont icon-icon-video" : 'iconfont icon-file-pdf'}></i>
+          {/* <i className={duration ? "iconfont icon-icon-video" : 'iconfont icon-file-pdf'}></i> */}
+          <svg className="icon" aria-hidden="true">
+            <use xlinkHref={`#${duration ? 'icon-VIDEO' : 'icon-wenjianleixing-biaozhuntu-PDFwendang'}`}></use>
+          </svg>
           <div className={styles["title"]}>
             {title}{duration ? `(${durationFormat(Number(duration))})` : ''}
           </div>
