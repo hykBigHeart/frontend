@@ -21,7 +21,8 @@ const CoursePalyPage = () => {
   const [playUrl, setPlayUrl] = useState("");
   const [period, setPeriod] = useState(0);
   const [mustLearningS, setMustLearningS] = useState(0);
-  const [finishedDuration, setFinishedDuration] = useState(0);
+  // const [finishedDuration, setFinishedDuration] = useState(0);
+  let finishedDuration = 0
   const [playDuration, setPlayDuration] = useState(0);
   const [playendedStatus, setPlayendedStatus] = useState(false);
   const [lastSeeValue, setLastSeeValue] = useState({});
@@ -39,6 +40,8 @@ const CoursePalyPage = () => {
   const [checkPlayerStatus, setCheckPlayerStatus] = useState(false);
   const [finished, setFinished] = useState(false);
   const intervalId = useRef<number>();
+  // 学习完成了
+  const completed = useRef(false)
 
   useEffect(() => {
     timer && clearInterval(timer);
@@ -81,17 +84,17 @@ const CoursePalyPage = () => {
 
   useEffect(() => {
     if (period) {
-      let s = 0
-      intervalId.current = setInterval(() => {
-        s++
-        setPlayingTime(s)
-        playTimeUpdate(s, false);
-        if (finishedDuration + s >= mustLearningS) {
-          console.log('学完了');
-          playTimeUpdate(s, true);
-          window.clearInterval(intervalId.current);
-        }
-      }, 1000);
+      // let s = 0
+      // intervalId.current = setInterval(() => {
+        // s++
+        // setPlayingTime(s)
+        // playTimeUpdate(s, false);
+        // if (finishedDuration + s >= mustLearningS) {
+          // console.log('学完了');
+          // playTimeUpdate(s, true);
+          // window.clearInterval(intervalId.current);
+        // }
+      // }, 1000);
     }
   }, [period]);
 
@@ -142,6 +145,7 @@ const CoursePalyPage = () => {
           setWatchedSeconds(record.finished_duration);
         } else if (record && record.is_finished === 1) {
           setFinished(true)
+          completed.current = true
           setWatchedSeconds(res.data.hour.duration);
         }
         getVideoUrl(params);
@@ -159,7 +163,10 @@ const CoursePalyPage = () => {
         let convertMS = Date.now() + res.data.period * 60 * 1000 - res.data.finished_duration * 1000
         setPeriod(convertMS)
         setMustLearningS(res.data.period * 60)
-        setFinishedDuration(res.data.finished_duration)
+        // setFinishedDuration(res.data.finished_duration)
+        finishedDuration = res.data.finished_duration
+        console.log('res.data..finished_duration', res.data.finished_duration);
+        
         initDPlayer(res.data.url, 0, data);
         savePlayId(String(params.courseId) + "-" + String(params.hourId));
       }
@@ -204,8 +211,8 @@ const CoursePalyPage = () => {
         message.warning("首次学习禁止快进");
         window.player.seek(watchRef.current);
       } else {
-        // setPlayingTime(currentTime);
-        // playTimeUpdate(parseInt(window.player.video.currentTime), false);
+        setPlayingTime(currentTime);
+        playTimeUpdate(parseInt(window.player.video.currentTime), false);
       }
     });
     window.player.on("ended", () => {
@@ -230,14 +237,19 @@ const CoursePalyPage = () => {
   const playTimeUpdate = (duration: number, isEnd: boolean) => {
     if (duration - myRef.current >= 10 || isEnd === true) {
       setPlayDuration(duration);
-      Course.record(
-        Number(params.courseId),
-        Number(params.hourId),
-        finishedDuration + duration
-      ).then((res: any) => {});
-      Course.playPing(Number(params.courseId), Number(params.hourId)).then(
-        (res: any) => {}
-      );
+      // console.log('finishedDuration', finishedDuration);
+      // console.log('completed', completed);
+      // 还有个问题学习的时候拖动进度条学习时间，会直接调接口 duration
+      if (!completed.current) {
+        Course.record(
+          Number(params.courseId),
+          Number(params.hourId),
+          finishedDuration + duration
+        ).then((res: any) => {});
+        Course.playPing(Number(params.courseId), Number(params.hourId)).then(
+          (res: any) => {}
+        );
+      }
     }
   };
 
@@ -286,6 +298,11 @@ const CoursePalyPage = () => {
   const onFinish: CountdownProps['onFinish'] = () => {
     console.log('finished!');
     setFinished(true)
+    setTimeout(() => {
+      completed.current = true
+      // console.log('这他妈是true', completed);
+    }, 1000);
+    
   };
 
   return (

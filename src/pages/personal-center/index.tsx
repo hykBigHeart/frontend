@@ -64,11 +64,15 @@ const PersonalCenter = () => {
   const [size, setSize] = useState(9)
   const [total, setTotal] = useState(0)
 
+  // 存放tab为全部时的 课程进度的数据
   const [requiredFinishedCourseCount, setRequiredFinishedCourseCount] = useState(0);
   const [requiredCourseCount, setRequiredCourseCount] = useState(0);
   const [nunRequiredFinishedCourseCount, setNunRequiredFinishedCourseCount] = useState(0);
   const [nunRequiredCourseCount, setNunRequiredCourseCount] = useState(0);
 
+  // 学习时长数据
+  const [todayLearnDuration, setTodayLearnDuration] = useState(0)
+  const [learnDuration, setLearnDuration] = useState(0)
   /*
     is_required 必修1，选修0
     is_finished 学完 1，未完0
@@ -142,6 +146,9 @@ const PersonalCenter = () => {
         setRequiredCourseCount(res.data.stats.required_course_count)
         setNunRequiredFinishedCourseCount(res.data.stats.nun_required_finished_course_count)
         setNunRequiredCourseCount(res.data.stats.nun_required_course_count)
+
+        setTodayLearnDuration(res.data.stats.today_learn_duration)
+        setLearnDuration(res.data.stats.learn_duration)
       }
       setStats(res.data.stats);
       setLearnCourseRecords(records);
@@ -358,11 +365,11 @@ const PersonalCenter = () => {
               <div className={styles["info"]}>
                 <div className={styles["info-item"]}>
                   今日：
-                  {studyTimeFormat(stats.today_learn_duration)[0] !== 0 && (
+                  {studyTimeFormat(todayLearnDuration)[0] !== 0 && (
                     <>
                       <strong>
                         {" "}
-                        {studyTimeFormat(stats.today_learn_duration)[0] ||
+                        {studyTimeFormat(todayLearnDuration)[0] ||
                           0}{" "}
                       </strong>
                       小时
@@ -370,22 +377,22 @@ const PersonalCenter = () => {
                   )}
                   <strong>
                     {" "}
-                    {studyTimeFormat(stats.today_learn_duration)[1] || 0}{" "}
+                    {studyTimeFormat(todayLearnDuration)[1] || 0}{" "}
                   </strong>
                   分钟
                   <strong>
                     {" "}
-                    {studyTimeFormat(stats.today_learn_duration)[2] || 0}{" "}
+                    {studyTimeFormat(todayLearnDuration)[2] || 0}{" "}
                   </strong>
                   秒
                 </div>
                 <div className={styles["info-item"]}>
                   累计：
-                  {studyTimeFormat(stats.learn_duration || 0)[0] !== 0 && (
+                  {studyTimeFormat(learnDuration || 0)[0] !== 0 && (
                     <>
                       <strong>
                         {" "}
-                        {studyTimeFormat(stats.learn_duration || 0)[0] ||
+                        {studyTimeFormat(learnDuration || 0)[0] ||
                           0}{" "}
                       </strong>
                       小时
@@ -393,12 +400,12 @@ const PersonalCenter = () => {
                   )}
                   <strong>
                     {" "}
-                    {studyTimeFormat(stats.learn_duration || 0)[1] || 0}{" "}
+                    {studyTimeFormat(learnDuration || 0)[1] || 0}{" "}
                   </strong>
                   分钟
                   <strong>
                     {" "}
-                    {studyTimeFormat(stats.learn_duration || 0)[2] || 0}{" "}
+                    {studyTimeFormat(learnDuration || 0)[2] || 0}{" "}
                   </strong>
                   秒
                 </div>
@@ -528,7 +535,7 @@ const PersonalCenter = () => {
           </>
         )}
       </div>
-      <div className={styles["extra"]}>{systemConfig.pcIndexFooterMsg}</div>
+      {/* <div className={styles["extra"]}>{systemConfig.pcIndexFooterMsg}</div> */}
     </div>
   );
 };

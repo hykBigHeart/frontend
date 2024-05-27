@@ -1,8 +1,11 @@
 import React from "react";
 import { Layout } from "antd";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 export const Footer: React.FC = () => {
+  const config = useSelector((state: any) => state.systemConfig.value);
+  
   return (
     <Layout.Footer
       style={{
@@ -20,7 +23,7 @@ export const Footer: React.FC = () => {
           style={{ fontSize: 14, color: "#6F6F6F" }}
           // className="iconfont icon-waterprint"
         >
-          Copyright © {new Date().getFullYear()} 北京海金格医药科技股份有限公司 All Rights Reserved
+          Copyright © {new Date().getFullYear()} { config.pcIndexFooterMsg ? config.pcIndexFooterMsg : '北京海金格医药科技股份有限公司'} All Rights Reserved
         </i>
       {/* </Link> */}
     </Layout.Footer>
