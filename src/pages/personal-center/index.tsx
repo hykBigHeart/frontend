@@ -80,6 +80,7 @@ const PersonalCenter = () => {
    */ 
   const [isRequired, setIsRequired] = useState<number | null>(null)
   const [isFinished, setIsFinished] = useState<number | null>(null)
+  const [refresh, setRefresh] = useState(true);
 
   useEffect(() => {
     getParams();
@@ -127,7 +128,7 @@ const PersonalCenter = () => {
 
   useEffect(() => {
     getData()
-  }, [page, size, isRequired, isFinished])
+  }, [page, size, isRequired, isFinished, refresh])
 
   useEffect(() => {
     document.title = systemConfig.systemName || "首页";
@@ -501,6 +502,8 @@ const PersonalCenter = () => {
                         learnCourseRecords[item.id].progress / 100
                       )}
                       source={'personal'}
+                      needDeleteBtn={isRequired === 0 && isFinished === null}
+                      onCancel={()=> { setRefresh(!refresh) }}
                     ></CoursesModel>
                   )}
 
@@ -514,6 +517,8 @@ const PersonalCenter = () => {
                         isRequired={item.is_required}
                         progress={1}
                         source={'personal'}
+                        needDeleteBtn={isRequired === 0 && isFinished === null}
+                        onCancel={()=> { setRefresh(!refresh) }}
                       ></CoursesModel>
                     )}
                   {!learnCourseRecords[item.id] &&
@@ -525,6 +530,8 @@ const PersonalCenter = () => {
                         isRequired={item.is_required}
                         progress={0}
                         source={'personal'}
+                        needDeleteBtn={isRequired === 0 && isFinished === null}
+                        onCancel={()=> { setRefresh(!refresh) }}
                       ></CoursesModel>
                     )}
                 </div>

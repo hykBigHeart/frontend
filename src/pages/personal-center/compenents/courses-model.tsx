@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from "react";
-import { Image, Progress } from "antd";
+import { Image, Progress, Popconfirm, message } from "antd";
+import type { PopconfirmProps } from 'antd';
 import { useNavigate } from "react-router-dom";
+import { CloseOutlined } from '@ant-design/icons';
+import { course } from "../../../api/index";
 import styles from "./courses-model.module.scss";
 import mediaIcon from "../../../assets/images/commen/icon-medal.png";
 
@@ -10,7 +13,9 @@ interface PropInterface {
   thumb: string;
   isRequired: number;
   progress: number;
-  source: string
+  source: string;
+  needDeleteBtn: boolean;
+  onCancel: () => void
 }
 
 export const CoursesModel: React.FC<PropInterface> = ({
@@ -19,9 +24,25 @@ export const CoursesModel: React.FC<PropInterface> = ({
   thumb,
   isRequired,
   progress,
-  source
+  source,
+  needDeleteBtn,
+  onCancel
 }) => {
   const navigate = useNavigate();
+
+  const confirm: PopconfirmProps['onConfirm'] = (e) => {
+    course.deleteElectiveCoursesApi(id).then((res: any)=> {
+      message.success('删除成功');
+      onCancel()
+    })
+
+    e?.stopPropagation()
+  };
+  
+  const cancel: PopconfirmProps['onCancel'] = (e) => {
+    e?.stopPropagation()
+  };
+
   return (
     <div
       className={styles["item"]}
@@ -82,6 +103,14 @@ export const CoursesModel: React.FC<PropInterface> = ({
           )}
         </div>
       )}
+
+      {
+        needDeleteBtn ? 
+          <Popconfirm title="删除提示" description="确定要删除这个课程吗?" onConfirm={confirm} onCancel={cancel} okText="确认" cancelText="取消" onPopupClick={(e)=> { e.stopPropagation() }} >
+            <CloseOutlined className={styles['delete-btn']} style={{ position: 'absolute', top: 10, right: 10 }} onClick={(e)=> { e.stopPropagation() }} />
+          </Popconfirm>
+        : ''
+      }
     </div>
   );
 };
