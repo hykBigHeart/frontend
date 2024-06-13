@@ -21,8 +21,8 @@ const CoursePalyPage = () => {
   const [playUrl, setPlayUrl] = useState("");
   const [period, setPeriod] = useState(0);
   const [mustLearningS, setMustLearningS] = useState(0);
-  // const [finishedDuration, setFinishedDuration] = useState(0);
-  let finishedDuration = 0
+  const [finishedDuration, setFinishedDuration] = useState(0);
+  // let finishedDuration = 0
   const [playDuration, setPlayDuration] = useState(0);
   const [playendedStatus, setPlayendedStatus] = useState(false);
   const [lastSeeValue, setLastSeeValue] = useState({});
@@ -84,17 +84,17 @@ const CoursePalyPage = () => {
 
   useEffect(() => {
     if (period) {
-      // let s = 0
-      // intervalId.current = setInterval(() => {
-        // s++
+      let s = 0
+      intervalId.current = setInterval(() => {
+        s++
         // setPlayingTime(s)
-        // playTimeUpdate(s, false);
-        // if (finishedDuration + s >= mustLearningS) {
-          // console.log('学完了');
-          // playTimeUpdate(s, true);
-          // window.clearInterval(intervalId.current);
-        // }
-      // }, 1000);
+        playTimeUpdate(s, false);
+        if (finishedDuration + s >= mustLearningS) {
+          console.log('学完了');
+          playTimeUpdate(s, true);
+          window.clearInterval(intervalId.current);
+        }
+      }, 1000);
     }
   }, [period]);
 
@@ -163,10 +163,8 @@ const CoursePalyPage = () => {
         let convertMS = Date.now() + res.data.period * 60 * 1000 - res.data.finished_duration * 1000
         setPeriod(convertMS)
         setMustLearningS(res.data.period * 60)
-        // setFinishedDuration(res.data.finished_duration)
-        finishedDuration = res.data.finished_duration
-        console.log('res.data..finished_duration', res.data.finished_duration);
-        
+        setFinishedDuration(res.data.finished_duration)
+        // finishedDuration = res.data.finished_duration
         initDPlayer(res.data.url, 0, data);
         savePlayId(String(params.courseId) + "-" + String(params.hourId));
       }
@@ -212,7 +210,7 @@ const CoursePalyPage = () => {
         window.player.seek(watchRef.current);
       } else {
         setPlayingTime(currentTime);
-        playTimeUpdate(parseInt(window.player.video.currentTime), false);
+        // playTimeUpdate(parseInt(window.player.video.currentTime), false);
       }
     });
     window.player.on("ended", () => {
@@ -235,6 +233,8 @@ const CoursePalyPage = () => {
   };
 
   const playTimeUpdate = (duration: number, isEnd: boolean) => {
+    // console.log('duration', duration);
+    // console.log('myRef.current', myRef.current);
     if (duration - myRef.current >= 10 || isEnd === true) {
       setPlayDuration(duration);
       // console.log('finishedDuration', finishedDuration);
@@ -383,13 +383,25 @@ const CoursePalyPage = () => {
                 <div
                   className={styles["alert-button"]}
                   onClick={() => {
+                    // window.player && window.player.destroy();
+                    // setLastSeeValue({});
+                    // setPlayendedStatus(false);
+                    // goNextVideo();
+
+                    window.clearInterval(intervalId.current);
+                    timer && clearInterval(timer);
                     window.player && window.player.destroy();
-                    setLastSeeValue({});
-                    setPlayendedStatus(false);
-                    goNextVideo();
+                    document.oncontextmenu = function (e) {
+                      /*恢复浏览器默认右键事件*/
+                      e = e || window.event;
+                      return true;
+                    };
+                    navigate(-1);
+                    Course.removeHourRecordLearning(Number(params.courseId))
                   }}
                 >
-                  播放下一节
+                  {/* 播放下一节 */}
+                  完成
                 </div>
               )}
             </div>

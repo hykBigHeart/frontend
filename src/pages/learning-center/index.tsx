@@ -1,8 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useSelector } from "react-redux";
-import { Pagination, Spin, Empty } from 'antd';
+import { Pagination, Spin, Empty, Tag } from 'antd';
 import type { PaginationProps } from 'antd';
-import { user } from "../../api/index";
+import { user, course } from "../../api/index";
 import styles from "./index.module.scss";
 import { CoursesModel } from "../personal-center/compenents/courses-model";
 
@@ -21,17 +21,39 @@ const LearningCenter = () => {
   const [size, setSize] = useState(9)
   const [total, setTotal] = useState(0)
 
+  // Label related
+  const [isWhole, setIsWhole] = useState(false);
+  // const tagsData = ['Movies', 'Books', 'Music', 'Sports', 'Movies1', 'Books1', 'Music1', 'Sports1','Movies2', 'Books2', 'Music2', 'Sports2','Movies3', 'Books3', 'Music3', 'Sports3','Movies4',];
+  const [tagsData, setTagsData] = useState([])
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const tagsContainerRef = useRef<HTMLDivElement>(null);
+  const [showToggle, setShowToggle] = useState(false);
+
   useEffect(() => {
     getData();
-  }, [userInfo.searchValue, page, size]);
+  }, [userInfo.searchValue, page, size, selectedTags]);
 
   const getData = () => {
     setLoading(true);
-    user.AllCourses(userInfo.user.id, userInfo.searchValue, page, size).then((res: any) => {
+    user.AllCourses(userInfo.user.id, userInfo.searchValue, page, size, selectedTags.join()).then((res: any) => {
       setCoursesList(res.data.data);
       setTotal(res.data.total)
       setLoading(false);
+
+      //  超出两行 显示“展开、收起”按钮
+      const container = tagsContainerRef.current;
+      if (container) {
+        const tagHeight = container.firstElementChild?.clientHeight || 0;
+        const containerHeight = container.scrollHeight;
+        const lines = Math.floor(containerHeight / tagHeight);
+        setShowToggle(lines > 2)
+      }
     });
+
+    course.getAllLabels().then((res: any)=> {
+      setTagsData(res.data.labels[0])
+    })
   };
 
   const onChange: PaginationProps['onChange'] = (page, size) => {
@@ -39,6 +61,21 @@ const LearningCenter = () => {
     setSize(size)
   };
 
+  const handleChange = (tag: any, checked: boolean) => {
+    setIsWhole(false)
+    //  多选标签
+    // const nextSelectedTags = checked
+    //   ? [...selectedTags, tag]
+    //   : selectedTags.filter((t) => t !== tag);
+
+    // 单选标签
+    const nextSelectedTags = checked ? [tag.id] : []
+    setSelectedTags(nextSelectedTags);
+  };
+
+  const handleToggle = () => {
+    setIsExpanded(!isExpanded);
+  };
 
   return (
     <>
@@ -47,6 +84,26 @@ const LearningCenter = () => {
           <Spin size="large" />
         </div>
       )}
+
+      <div className={styles["label-list"]}>
+        <div className={styles["left"]}>
+          <Tag.CheckableTag key={'全部'} checked={isWhole} onChange={(checked: any) => { setIsWhole(checked); setSelectedTags([]) }} >全部</Tag.CheckableTag>
+        </div>
+        <div ref={tagsContainerRef} className={ styles["right"] + ' ' + (isExpanded ? styles["expanded"] : '' )}>
+          {tagsData.map<React.ReactNode>((tag: any) => (
+            <Tag.CheckableTag
+              key={tag.id}
+              checked={selectedTags.includes(tag.id)}
+              onChange={(checked: any) => handleChange(tag, checked)}
+            >
+              {tag.name}
+            </Tag.CheckableTag>
+          ))}
+
+          { showToggle && ( <div className={styles.showMore} onClick={handleToggle}>{isExpanded ? '收起∧' : '展开∨'}</div> ) }
+        </div>
+      </div>
+
       <div className={styles["courses-list"]}>
         {coursesList.map((item: any) => (
           <div key={item.id}>
@@ -57,6 +114,8 @@ const LearningCenter = () => {
               isRequired={item.is_required}
               progress={0}
               source={"learning"}
+              needDeleteBtn={false}
+              onCancel={()=> {}}
             ></CoursesModel>
           </div>
         ))}

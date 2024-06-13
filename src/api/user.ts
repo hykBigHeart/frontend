@@ -37,11 +37,12 @@ export function avatar(file: any) {
 
 
 // 学习中心接口
-export function AllCourses(userId: number, title: string, page: number, size: number) {
+export function AllCourses(userId: number, title: string, page: number, size: number, labelId: string) {
   return client.get("/api/v1/course/index", {
     user_id: userId,
     title,
     page,
-    size
+    size,
+    label_id: labelId
   });
 }

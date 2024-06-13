@@ -1,10 +1,44 @@
+.label-list {
+  padding-top: 5%;
+  width: 1200px;
+  display: flex;
+  height: auto;
+  margin: 0 auto;
+  .left {
+    flex: 1;
+    display: flex;
+  }
+  .right {
+    flex: 9;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px 80px;
+    max-height: 60px; // 设置初始显示的高度，调整为两行高度
+    overflow: hidden;
+    position: relative;
+
+    .showMore {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      cursor: pointer;
+      color: blue;
+      font-size: 14px;
+    }
+
+  }
+  
+  .expanded {
+    max-height: none !important; // 取消高度限制
+  }
+}
+
 .courses-list {
   width: 1200px;
   height: auto;
   margin: 0 auto;
   box-sizing: border-box;
   // padding-top: 34px;
-  padding-top: 5%;
   display: grid;
   gap: 24px;
   grid-template-columns: repeat(3, minmax(0, 1fr));
