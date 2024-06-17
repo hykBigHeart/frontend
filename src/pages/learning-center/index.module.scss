@@ -5,17 +5,29 @@
   height: auto;
   margin: 0 auto;
   .left {
-    flex: 1;
+    // flex: 1;
     display: flex;
+
+    .label-text {
+      font-size: 16px;
+      display: inline-block;
+      padding: 2px;
+    }
   }
   .right {
     flex: 9;
     display: flex;
     flex-wrap: wrap;
-    gap: 10px 80px;
-    max-height: 60px; // 设置初始显示的高度，调整为两行高度
+    gap: 10px 45px;
+    max-height: 65px; // 设置初始显示的高度，调整为两行高度
     overflow: hidden;
     position: relative;
+
+    .label-text {
+      font-size: 16px;
+      display: inline-block;
+      padding: 2px;
+    }
 
     .showMore {
       position: absolute;

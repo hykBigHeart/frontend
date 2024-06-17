@@ -22,7 +22,8 @@ const LearningCenter = () => {
   const [total, setTotal] = useState(0)
 
   // Label related
-  const [isWhole, setIsWhole] = useState(false);
+  const [isWhole, setIsWhole] = useState(true);
+  const [isRecently, setIsRecently] = useState(false);
   // const tagsData = ['Movies', 'Books', 'Music', 'Sports', 'Movies1', 'Books1', 'Music1', 'Sports1','Movies2', 'Books2', 'Music2', 'Sports2','Movies3', 'Books3', 'Music3', 'Sports3','Movies4',];
   const [tagsData, setTagsData] = useState([])
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -31,12 +32,13 @@ const LearningCenter = () => {
   const [showToggle, setShowToggle] = useState(false);
 
   useEffect(() => {
+    if (userInfo.searchValue) setPage(1)
     getData();
   }, [userInfo.searchValue, page, size, selectedTags]);
 
   const getData = () => {
     setLoading(true);
-    user.AllCourses(userInfo.user.id, userInfo.searchValue, page, size, selectedTags.join()).then((res: any) => {
+    user.AllCourses(userInfo.user.id, userInfo.searchValue, page, size, selectedTags.join(), isRecently).then((res: any) => {
       setCoursesList(res.data.data);
       setTotal(res.data.total)
       setLoading(false);
@@ -63,13 +65,15 @@ const LearningCenter = () => {
 
   const handleChange = (tag: any, checked: boolean) => {
     setIsWhole(false)
+    setIsRecently(false)
+    setPage(1)
     //  多选标签
     // const nextSelectedTags = checked
     //   ? [...selectedTags, tag]
     //   : selectedTags.filter((t) => t !== tag);
 
     // 单选标签
-    const nextSelectedTags = checked ? [tag.id] : []
+    const nextSelectedTags = checked ? [tag.id] : [tag.id]
     setSelectedTags(nextSelectedTags);
   };
 
@@ -87,16 +91,19 @@ const LearningCenter = () => {
 
       <div className={styles["label-list"]}>
         <div className={styles["left"]}>
-          <Tag.CheckableTag key={'全部'} checked={isWhole} onChange={(checked: any) => { setIsWhole(checked); setSelectedTags([]) }} >全部</Tag.CheckableTag>
+          {/* <Tag.CheckableTag key={'全部'} checked={isWhole} onChange={(checked: any) => { setIsWhole(true); setSelectedTags([]); setIsRecently(false) }} ><span className={styles["label-text"]}>全部</span></Tag.CheckableTag>
+          <Tag.CheckableTag key={'最近课程'} checked={isRecently} onChange={(checked: any) => { setIsRecently(true); setSelectedTags([]); setIsWhole(false) }} ><span className={styles["label-text"]}>最新课程</span></Tag.CheckableTag> */}
         </div>
-        <div ref={tagsContainerRef} className={ styles["right"] + ' ' + (isExpanded ? styles["expanded"] : '' )}>
+        <div ref={tagsContainerRef} className={ styles["right"] + ' ' + (isExpanded ? styles["expanded"] : '' )}>    
+          <Tag.CheckableTag key={'全部'} checked={isWhole} onChange={(checked: any) => { setIsWhole(true); setSelectedTags([]); setIsRecently(false); setPage(1) }} ><span className={styles["label-text"]}>全部</span></Tag.CheckableTag>
+          <Tag.CheckableTag key={'最近课程'} checked={isRecently} onChange={(checked: any) => { setIsRecently(true); setSelectedTags([]); setIsWhole(false); setPage(1) }} ><span className={styles["label-text"]}>最新课程</span></Tag.CheckableTag>
           {tagsData.map<React.ReactNode>((tag: any) => (
             <Tag.CheckableTag
               key={tag.id}
               checked={selectedTags.includes(tag.id)}
               onChange={(checked: any) => handleChange(tag, checked)}
             >
-              {tag.name}
+              <span className={styles["label-text"]}>{tag.name}</span>
             </Tag.CheckableTag>
           ))}
 
